@@ -56,62 +56,33 @@ class ApiController extends Controller
             write_debug(array($data, $e->getMessage()), '写日志失败');
         }
     }
-
-    /**
-     * 分页功能
-     * @time 2014-12-26
-     *
-     * @param $model 表名
-     * @param $map 条件
-     * @param $order 排序
-     * @param $field 字段
-     * @param $limit 限制
-     * @param $group group
-     * @param $having having
-     * @author 郭文龙 <2824682114@qq.com>
-     */
-    public function page($model, $map = [], $order = '', $field = true, $limit = 10, $group = '', $having = '')
-    {
-        if (is_string($model)) {
-            $model = M($model);
-        }
-        /* 默认查询未删除数据 */
-        if (!isset($map['is_del'])) {
-            $map['is_del'] = 0;
-        }
-        /* 除了后台，默认查询未禁用数据 */
-        if ((MODULE_NAME != 'Backend') && !isset($map['is_hid'])) {
-            $map['is_hid'] = 0;
-        }
-        $page = intval(I('get.p'));
-        $data['count'] = $count = $model->where($map)
-            ->group($group)
-            ->having($having)
-            ->count(); // 查询满足要求的总记录数
-        $data['pages'] = ceil($count / $limit);
-        /* 如果当前页无数据，自动显示最后一页数据 */
-        // if(!IS_AJAX){
-        // $page = min($page,$data['pages']);
-        // }
-
-        $Page = new \Think\Page($count, $limit); // 实例化分页类 传入总记录数和每页显示的记录数
-        $Page->setConfig('header', '条数据'); // 共有多少条数据
-        $Page->setConfig('prev', "<"); // 上一页
-        $Page->setConfig('next', '>'); // 下一页
-        $Page->setConfig('first', '首页'); // 第一页
-        $Page->setConfig('last', '尾页'); // 最后一页
-        $data['page'] = $Page->show(); // 分页显示输出
-        /* 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取 */
-        $data['list'] = $model->where($map)
-            ->field($field)
-            ->order($order)
-            ->group($group)
-            ->having($having)
-            ->page("$page,$limit")
-            ->select();
-        $this->assign($data);
-        return $data;
-    }
+	/*
+	 * 分页功能
+	 * @time 2014-12-26
+	 */
+	function page($model,$map=array(),$order='',$field=array(),$limit='',$page='',$group = ''){
+		if(is_string($model)) $model  = M($model);
+		if(!$limit)           $limit  = $_REQUEST['r']?$_REQUEST['r']:10;
+		if(!$page) 			  $page   = intval($_REQUEST['p']);
+        if(!$page)            $page=1;
+		/* 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取 */
+		$list = $model->where($map)->field($field)->order($order)->group($group)->page("$page,$limit")->select();
+		session('sql',$model->getLastSql());
+		$data['count']=$count= $model->where($map)->count();   /* 查询满足要求的总记录数 */
+		$data['page_count'] = ceil($count/$limit);         	   /* 计算总页码数 */
+		session('page_info',array(/* 缓存分页信息 */
+            'page_count'=>$data['page_count'],
+            'page'=>$page,
+            'page_size'=>$limit
+        ));
+		$Page       = new \Think\Page($count,$limit);  		   /* 实例化分页类 传入总记录数和每页显示的记录数 */
+		$Page->rollPage = 7;
+		$data['page']       = $Page->show();  				   /* 分页显示输出 */
+		
+		$this->assign($data); 								   /* 赋值分页输出 */
+		return $list;
+	}
+  
 
     /**
      * 接口封装输出

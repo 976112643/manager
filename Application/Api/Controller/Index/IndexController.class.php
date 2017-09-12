@@ -9,23 +9,22 @@ use Api\Controller\Base\BaseController;
  */
 class IndexController extends BaseController
 {
-    /** 广告表*/
+    /** 内容表*/
     protected $table = 'content';
 
     public function index()
     {
 
         /** 读取缓存*/
-        $cache = 'content_'.I('p',1);
+        $cache = 'content_page_'.I('p',1).I('r',10);
         if (F($cache)) {
             $res = F($cache);
         } else {
-
-            $field = 'id,depth,url,article_title,article_headimg,article_author,article_content,article_publish_time,article_img';
+            $field = 'id,article_title,article_headimg,article_author,article_content,article_publish_time,article_img';
             $res = $this->page($this->table, null, 'id asc', $field);
             F($cache, $res);
         }
-        $this->set_success("请求成功",$res);
+		SUCCESS($res);
     }
 }
 

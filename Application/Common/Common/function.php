@@ -2292,3 +2292,42 @@ function byte_format($size, $dec = 2)
     }
     return round($size, $dec) . " " . $a[$pos];
 }
+
+/**
+ * 请求成功返回
+ * @param null $info
+ * @param string $msg
+ * @param int $status
+ */
+function SUCCESS($info=null,$msg='请求成功',$status=1){
+    // 返回JSON数据格式到客户端 包含状态信息
+    header ( 'Content-Type:application/json; charset=utf-8' );
+    $result=array('status'=>$status,'info'=>$info,'msg'=>$msg);
+    if( session('page_info')){//判断存在页码信息缓存时,在结果中追加页码信息
+        $result=array_merge($result,session('page_info'));
+        session('page_info',null);//销毁页码信息
+    }
+    removeNullKey($result);//移除无效字段
+    exit ( json_encode ( $result,JSON_NUMERIC_CHECK) );
+}
+/**
+ * 请求失败返回
+ * @param null $info
+ * @param string $msg
+ * @param int $status
+ */
+function ERROR($info=null,$msg='请求失败',$status=0){
+    // 返回JSON数据格式到客户端 包含状态信息
+    header ( 'Content-Type:application/json; charset=utf-8' );
+    $result=array('status'=>$status,'info'=>$info,'msg'=>$msg);
+    removeNullKey($result);
+    exit ( json_encode ( $result) );
+}
+//删除数组空值
+function removeNullKey(&$data=array()){
+    foreach($data as $key=>$val){
+        if($val===null){
+            unset($data[$key]);
+        }
+    }
+}

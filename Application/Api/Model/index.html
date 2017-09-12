@@ -1,0 +1,35 @@
+<?php
+/**
+ * 亲子表连接 会员表的视图
+ */
+namespace Api\Model;
+use Think\Model\ViewModel;
+/**
+ * 订单表连接 会员表的视图
+ */
+class MemberrelationViewModel extends ViewModel{
+		/**
+		 * 参数定义
+		 */
+		public $viewFields = array(
+		'member_relation'=> array(
+			'*',
+		    '_as' =>'a',
+			'_type' => 'left' ,
+		),
+		'member'=> array(
+			'nickname' => 'student_nickname',
+			'mobile' => 'student_mobile',
+			'_on' => 'a.student_id = member.id' ,
+		    '_type' => 'left',
+		),
+	);
+}
+
+
+
+
+
+
+
+?>

@@ -1,0 +1,144 @@
+<extend name="Public/body" />
+<block name="body">
+    <div class="box box-body com_body">
+        <table class="table  table-bordered">
+            <tbody>
+                <tr role="row">
+                    <th colspan='12'>用户基础信息</th>
+                </tr>
+                <tr role="row">
+                    <td rowspan="5" colspan="4" class="text-center" >
+                        <img width="100" src="<?=show_member_head_img('',$info['head_img'])?>" class="center-block">
+                    </td>
+                    <td colspan="4" >
+                        昵称：<?=$info['nickname']?>
+                    </td>
+                    <td colspan="2" >
+                        手机号：<?=$info['mobile']?>
+                    </td>
+                    <td colspan="2">
+                        性别：<img src="__ROOT__/Public/Static/img/sex_<?=$info['gender']?>.png" style="height:20px">
+                    </td>
+                </tr>
+                <tr role="row">
+                    <td colspan="3">
+                        年龄：<?=$info['age']?>
+                    </td>
+                    <td colspan="3" >
+                        生日：<?=$info['birthday']?>
+                    </td>
+                    <td colspan="3" >
+                        星座：<?=$info['constellation']?>
+                    </td>
+                </tr>
+                <tr role="row">
+                    <td colspan="3">
+                        技能：<?=$info['skill']?>
+                    </td>
+                    <td colspan="3" >
+                        爱好：<?=$info['hobbies']?>
+                    </td>
+                    <td colspan="3" >
+                        当前头衔：<?=$info['name'] ? $info['name']: '无'?>
+                    </td>
+                </tr>
+                <tr role="row">
+                    <td colspan="6">积分：<?=$info['integral']?></td>
+                    <td colspan="6">余额：<?=$info['balance']?></td>
+                </tr>
+                <tr role="row">
+                    <td colspan="6">最后一次登录信息：<?=$info['login_remark']?></td>
+                    <td colspan="6">注册信息：<?=$info['register_remark']?></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr role="row">
+                    <th colspan='12'>用户头衔</th>
+                </tr>
+                <tr>
+                    <td colspan="2">获取的头衔:</td>
+                    <td colspan="10">
+                        <?php
+                            foreach ($info['title_list'] as $key => $value) {
+                                if( $value['is_onilne'] ){
+                                    if($value['type'] == '3'){
+                                        echo '<span class="tag_border style="border-color:#FFBA00;color:#FFBA00">'.$value['name'].'</span>';
+                                    }else{
+                                        echo '<span class="tag_border">'.$value['name'].'</span>';
+                                    }
+                                    
+                                }
+                            }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">未获取的头衔:</td>
+                    <td colspan="10">
+                        <?php
+                            foreach ($info['title_list'] as $key => $value) {
+                                if( $value['is_onilne'] =='0'){
+                                    if($value['type'] == '3'){
+                                        echo '<span class="tag_border" style="border-color:#FFBA00;color:#FFBA00">'.$value['name'].'</span>';
+                                    }else{
+                                        echo '<span class="tag_border">'.$value['name'].'</span>';
+                                    }
+                                }
+                            }
+                        ?>
+                    </td>
+                </tr>
+            </tbody>
+    </table>
+    <br />
+    <?php
+        if($info['photo_list']){
+    ?>
+    <table class="table table-bordered">
+        <tbody>
+            <tr role="row">
+                <th colspan='12'>用户相册</th>
+            </tr>
+            <tr>
+                <td colspan="12" style="padding:0">
+                    <div class="img_table_box">
+                        <ul class="js_show_image">
+                            <?php
+                                if($info['photo_list']){
+                                    foreach ($info['photo_list'] as $key => $value) {
+                            ?>
+                            <li class="col-xs-3">
+                                <a href="<?=$value['image']?>">
+                                <img style="height:100px;" src="<?=$value['image']?>" class="center-block">
+                                </a>
+                            </li>
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <?php
+        }
+    ?>
+    <table class="table js_table table-bordered">
+        <tbody>
+            <tr role="row">
+                <th colspan='6' class="text-center"><a href="<?=U('send_order_list',array('id'=>$info['id']))?>">用户发布订单数量（<?=$info['send_order_num']?>）</a></th>
+                <th colspan='6' class="text-center"><a href="<?=U('receive_order_list',array('id'=>$info['id']))?>">用户接受订单数量（<?=$info['receive_order_num']?>）</a></th>
+            </tr>
+        </tbody>
+    </table>
+        <!-- form start -->
+        
+    </div>
+</block>
+<block name="img_win">
+<div class="img_win js_img_win">
+    <div></div>
+</div>
+</block>

@@ -1,0 +1,96 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="structure">
+	<?php
+			$path=trim($parent['path'],'-');
+			$structure=explode("-",$path);
+			$menu = get_no_del('menu');
+			echo '<a href="'.U('index').'">菜单管理</a> &gt; ';
+			foreach($structure as $val){
+				if($val){
+					echo '<a href="'.U('index',array("pid"=>$menu[$val]['id'],"level"=>$menu[$val]['level']+1)).'">'.$menu[$val]['title'].'</a> &gt; ';
+				}
+			}
+			echo $menu[$parent['id']]['title'];
+		?>
+</div>
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="80" class="clearfix">
+				<div class="pull-right">
+					<?php
+							if(I('get.level', 0, 'int') > 0) {
+						?>
+					<a
+						href="<?=U('index', array('pid'=> $parent['pid'],'level'=>$parent['level']))?>"
+						class="btn btn-default btn-sm">返回上一级</a>
+					<?php
+							}
+						?>
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="20" align="center"><input type="checkbox"
+				class="js_check_all" data-target="ids"></th>
+			<th width="100">标题</th>
+			<?php
+					if(I('level')>1){
+						echo '<th>链接</th>';
+					}
+				?>
+			<th>备注</th>
+			<th class="text-center" width="50">排序</th>
+			<th class="text-center" width="50">状态</th>
+			<th width="38" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td class="text-center"><input type="checkbox" class="ids"
+				data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+			<td>
+				<?=$row['show_title'];?>
+			</td>
+			<?php
+				if(I('level')>1){
+					echo '<td>' . $row['url'] . '</td>';
+				}
+				?>
+			<td>
+				<?=str_replace("\n",'</br>',$row['description'])?>
+			</td>
+			<td class="text-center">
+				<?=$row['sort']?>
+			</td>
+			<td class="text-center"><img
+				src="__IMG__/status_<?=$row['is_hid']?>.png" alt=""></td>
+			<td class="text-center">
+				<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

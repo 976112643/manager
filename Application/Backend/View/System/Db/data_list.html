@@ -1,0 +1,63 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="80">
+				<form action="" class="form-inline" method="get">
+					<?php
+						 	foreach($columns as $k_c=> $v_c) {
+								$checked = '';
+								if(in_array($v_c['column_name'], $field)) {
+									$checked = ' checked="checked"';
+								}
+						 ?>
+					<label><input class="checkbox-inline" name="field[]"
+						type="checkbox" value="<?=$v_c['column_name']?>"<?=$checked?>
+						/><?=$v_c['column_name']?></label>
+					<?php
+							}
+						?>
+					<label><input type="search" class="form-control input-sm"
+						placeholder="关键字" name="keyword" value="<?=I('get.keyword', '')?>"
+						size="35" /></label> <label><input type="submit"
+						class="btn btn-info btn-sm" value='搜索' /></label>
+				</form>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<?php
+				foreach($columns as $k=>$v){
+			?>
+			<th>
+				<?=$v['column_name']?>
+			</th>
+			<?php
+				}
+			?>
+		</tr>
+		<?php
+				foreach($list as $key=>$row){
+			?>
+		<tr>
+			<?php
+					foreach($columns as $key=>$value) {
+				?>
+			<td class="text-left">
+				<?=$row[$value['column_name']]?>
+			</td>
+			<?php
+					}
+				?>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

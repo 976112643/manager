@@ -1,0 +1,74 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> <label
+			class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 类型
+			</div>
+			<div>
+				<select name="type" class="form-control width_auto" datatype="*"
+					nullmsg="填写类型">
+					<option value="">请选择</option>
+					<?php
+	foreach($all_type as $key => $value){
+		$check = ($key == $info['type']) ? 'selected = "selected"' : '';
+		echo '<option value="' . $key . '" ' . $check . ' >' . $value['value'] .'｜' . $value['remark'] . '</option>';
+	}
+?>
+					<?=$info['category_id']?>
+				</select> <span class="Validform_checktip">选择类型</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 标题
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写标题" name="title" value="<?=$info['title']?>" /> <span
+					class="Validform_checktip">标题</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 内容
+			</div>
+			<div>
+				<include file="Common@Plugins/editor" />
+				<!-- 百度编辑器 S -->
+				<?php $time=time(); ?>
+				<script id="<?='editor_'.$time?>" type="text/plain" name="content"><?=$info['content']?></script>
+				<script type="text/javascript">
+					    var config_2={
+					        initialFrameWidth:"100%",
+					        initialFrameHeight:300,
+					        pasteplain:true,
+					        toolbars: [[
+					               'fullscreen','bold', 'italic', 'underline', 'removeformat','indent','forecolor','justifyleft', 'justifycenter', 'justifyright', 'justifyjustify','link','insertcode', 'unlink','insertimage','attachment','preview'
+					        ]]
+					    };
+					    //toolbars配置编辑器具体有哪些功能
+              //合并配置文件，config为默认配置，config_2为自定义的配置，更多相关编辑器功能配置与含义见项目目录下的/Public/Plugins/ueditor/ueditor.config.js文件
+					    var new_config=array_merge({},[config,config_2]);
+					    var editor_<?=$time?>=UE.getEditor('editor_<?=$time?>',new_config);
+					</script>
+				<!-- 百度编辑器 E -->
+			</div>
+		</label>
+		<div class="form-btn clearfix">
+			<?php
+	if($info['type'] != 10){
+?>
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<?php
+	}
+?>
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

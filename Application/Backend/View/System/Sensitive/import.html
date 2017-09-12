@@ -1,0 +1,24 @@
+<form action="<?=U('')?>" method="post" class="js_form">
+		<div class="form-group">
+			<div class="control-label">请上传文件</div>
+				<div>
+					<?php
+						$config=array(
+							'table'		=>'file',
+							'name'		=>'save_path',
+							'val_key'	=>"save_path"
+						);
+						echo W("Common/File/index",array($config,$info['id']));
+					?>
+				</div>
+			</div>
+		</div>
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+</form>

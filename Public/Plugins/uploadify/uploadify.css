@@ -1,0 +1,193 @@
+/*
+Uploadify
+Copyright (c) 2012 Reactive Apps, Ronnie Garcia
+Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
+*/
+.uploadify, .upload-area {
+	position: relative;
+	margin-bottom: 1em;
+}
+
+.html5_file .uploadify-button, .html5_file .cnsr-button, .html5_img .cnsr-button
+	{
+	border: 1px solid #ccc;
+	cursor: pointer;
+	height: 28px;
+	background: no-repeat 0 center;
+	opacity: 0.9;
+	filter: Alpha(opacit = 90);
+}
+
+.html5_file .uploadify-button, .html5_file .cnsr-button {
+	background-image: url(img/fileupload.png);
+}
+
+.html5_file .cnsr-button, .html5_img .cnsr-button {
+	position: relative;
+	overflow: hidden;
+	font-weight: normal;
+}
+
+.uploadify-button span {
+	color: #666;
+}
+
+.uploadify:hover .uploadify-button, .html5_file:hover .cnsr-button {
+	background-color: #eee;
+	border-color: #999;
+	opacity: 1;
+	filter: Alpha(opacit = 100);
+}
+
+.uploadify-button.disabled, .cnsr-button.disabled {
+	background-color: #D0D0D0;
+	color: #808080;
+}
+
+.uploadify-queue {
+	margin-bottom: 1em;
+	z-index: 2;
+	width: 100%;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.uploadify-queue-item {
+	background-color: #F5F5F5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font: 11px Verdana, Geneva, sans-serif;
+	margin-top: 5px;
+	max-width: 350px;
+	padding: 10px;
+}
+
+.upload-img-box .uploadify-queue, .upload-img-box .uploadify-queue-item
+	{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.uploadify-error {
+	background-color: #FDE5DD !important;
+}
+
+.uploadify-queue-item .cancel a {
+	background: url('img/uploadify-cancel.png') 0 0 no-repeat;
+	float: right;
+	height: 16px;
+	text-indent: -9999px;
+	width: 16px;
+}
+
+.uploadify-queue-item.completed {
+	background-color: #E5E5E5;
+}
+
+.uploadify-progress {
+	background-color: #E5E5E5;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.uploadify-progress-bar {
+	background-color: #0099FF;
+	height: 3px;
+	width: 1px;
+}
+
+.html5_file.upload-area {
+	width: 87px;
+	height: 28px;
+	text-align: center;
+	border: none;
+}
+
+.upload-area .file_btn {
+	position: absolute;
+	top: -100px;
+	left: 0;
+	line-height: normal;
+}
+
+.html5_file .file_info, .html5_img .file_info {
+	background: #eee;
+}
+
+.html5_file .file_info .cancel, .html5_img .file_info .cancel {
+	float: right;
+}
+
+.html5_file .progress, .html5_img .progress {
+	margin: 0;
+}
+
+.html5_file .progress-bar, .html5_img .progress-bar {
+	height: 5px;
+}
+
+.html5_img .cnsr-queue {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #fff;
+}
+
+.html5_file .preview, .html5_img .preview {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 11;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #fff;
+	display: none;
+}
+
+.upload-file-box .file_list, .upload-img-box .file_list {
+	padding: 5px;
+	background: #eee;
+	position: relative;
+	margin: 3px 0;
+}
+
+.upload-pre-item {
+	position: relative;
+	border: 1px solid #d2d2d2;
+	margin-right: 15px;
+	margin-bottom: 15px;
+	background: #fff;
+	width: 142px;
+	text-align: center;
+}
+
+.html5_img.upload-pre-item .cnsr-button {
+	border: none;
+}
+
+.html5_img.upload-area, .html5_img .cnsr-button {
+	width: 142px;
+	height: 142px;
+}
+
+.html5_img .cnsr-button, .html5_img .uploadify-button {
+	background: url(img/upload_image.jpg) no-repeat;
+}
+
+.upload-file-box .file_list .delThis {
+	top: 0;
+	right: 0;
+	background-color: #C00;
+	height: 30px;
+}
+
+/* 单图上传 */
+.html5_img .upload-img-box {
+	position: absolute;
+	top: 0;
+	left: 0;
+}

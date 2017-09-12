@@ -1,0 +1,271 @@
+/*!
+ * ui-dialog.css
+ * Date: 2014-07-03
+ * https://github.com/aui/artDialog
+ * (c) 2009-2014 TangBin, http://www.planeArt.cn
+ *
+ * This is licensed under the GNU LGPL, version 2.1 or later.
+ * For details, see: http://www.gnu.org/licenses/lgpl-2.1.html
+ */
+.ui-dialog {
+	*zoom: 1;
+	_float: left;
+	position: relative;
+	outline: 0;
+	opacity: 0;
+}
+
+.ui-popup-show .ui-dialog {
+	opacity: 1;
+}
+
+.ui-dialog-grid {
+	width: auto;
+	margin: 0;
+	border: 0 none;
+	border-collapse: collapse;
+	border-spacing: 0;
+	background: transparent;
+}
+
+.ui-dialog-header, .ui-dialog-body, .ui-dialog-footer {
+	padding: 0;
+	border: 0 none;
+	text-align: left;
+	background: transparent;
+}
+
+.ui-dialog-header {
+	white-space: nowrap;
+	border-bottom: 1px solid #E5E5E5;
+}
+
+.ui-dialog-close {
+	position: relative;
+	_position: absolute;
+	float: right;
+	top: 8px;
+	right: 13px;
+	_height: 26px;
+	margin: 0;
+	padding: 0 4px;
+	font-size: 21px;
+	font-weight: bold;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #FFF;
+	opacity: .2;
+	filter: alpha(opacity = 20);
+	cursor: pointer;
+	background: transparent;
+	_background: #FFF;
+	border: 0;
+	-webkit-appearance: none;
+}
+
+.ui-dialog-close:hover {
+	color: #000000;
+	text-decoration: none;
+	cursor: pointer;
+	outline: 0;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+}
+
+.ui-dialog-title {
+	margin: 0;
+	padding: 10px 15px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: bold;
+	cursor: default;
+}
+
+.ui-dialog-body {
+	padding: 15px;
+	text-align: center;
+}
+
+.ui-dialog-content {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	*zoom: 1;
+	*display: inline;
+	text-align: left;
+}
+
+.ui-dialog-footer {
+	padding: 0 10px 10px;
+}
+
+.ui-dialog-statusbar {
+	float: left;
+	margin-right: 20px;
+	padding: 6px 0;
+	line-height: 1.428571429;
+	font-size: 14px;
+	color: #888;
+	white-space: nowrap;
+}
+
+.ui-dialog-statusbar label:hover {
+	color: #333;
+}
+
+.ui-dialog-statusbar input, .ui-dialog-statusbar .label {
+	vertical-align: middle;
+}
+
+.ui-dialog-button {
+	text-align: center;
+	white-space: nowrap;
+}
+
+.ui-dialog-footer button+button {
+	margin-bottom: 0;
+	margin-left: 5px;
+}
+
+.ui-dialog-footer button {
+	width: auto;
+	overflow: visible;
+	display: inline-block;
+	padding: 3px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	cursor: pointer;
+	background-image: none;
+	border: none;
+	border-radius: 3px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.ui-dialog-footer button:hover {
+	color: #333333;
+	text-decoration: none;
+}
+
+.ui-dialog-footer button[disabled] {
+	pointer-events: none;
+	cursor: not-allowed;
+	opacity: 0.65;
+	filter: alpha(opacity = 65);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.ui-popup-top-left .ui-dialog, .ui-popup-top .ui-dialog,
+	.ui-popup-top-right .ui-dialog {
+	top: -8px;
+}
+
+.ui-popup-bottom-left .ui-dialog, .ui-popup-bottom .ui-dialog,
+	.ui-popup-bottom-right .ui-dialog {
+	top: 8px;
+}
+
+.ui-popup-left-top .ui-dialog, .ui-popup-left .ui-dialog,
+	.ui-popup-left-bottom .ui-dialog {
+	left: -8px;
+}
+
+.ui-popup-right-top .ui-dialog, .ui-popup-right .ui-dialog,
+	.ui-popup-right-bottom .ui-dialog {
+	left: 8px;
+}
+
+.ui-dialog-loading {
+	vertical-align: middle;
+	position: relative;
+	display: block;
+	*zoom: 1;
+	*display: inline;
+	overflow: hidden;
+	width: 32px;
+	height: 32px;
+	top: 50%;
+	margin: -16px auto 0 auto;
+	font-size: 0;
+	text-indent: -999em;
+	color: #666;
+	width: 100% \9;
+	text-indent: 0\9;
+	line-height: 32px\9;
+	text-align: center\9;
+	font-size: 12px\9;
+}
+
+.ui-dialog-loading::after {
+	position: absolute;
+	content: '';
+	width: 3px;
+	height: 3px;
+	margin: 14.5px 0 0 14.5px;
+	border-radius: 100%;
+	box-shadow: 0 -10px 0 1px #ccc, 10px 0px #ccc, 0 10px #ccc, -10px 0 #ccc,
+		-7px -7px 0 0.5px #ccc, 7px -7px 0 1.5px #ccc, 7px 7px #ccc, -7px 7px
+		#ccc;
+	-webkit-transform: rotate(360deg);
+	-webkit-animation: ui-dialog-loading 1.5s infinite linear;
+	transform: rotate(360deg);
+	animation: ui-dialog-loading 1.5s infinite linear;
+	display: none\9;
+}
+
+.ui-popup-modal {
+	background: #fff;
+	color: #333;
+	border: transparent solid 1px;
+	font-family: "微软雅黑";
+	font-size: 18px;
+}
+
+.ui-popup-modal .modal {
+	display: block;
+	position: static;
+}
+
+.ui-popup-modal .modal-header {
+	border-bottom: 1px solid #d8d8d8;
+}
+
+.ui-popup-modal.success {
+	background-color: #00A65A;
+	border-color: #008D4C;
+}
+
+.ui-popup-modal.tips {
+	background-color: #00C0EF;
+	border-color: #00ACD6;
+}
+
+.ui-popup-modal.warn {
+	background-color: #F39C12;
+	border-color: #E08E0B;
+}
+
+.ui-popup-modal.error {
+	background-color: #DD4B39;
+	border-color: #D73925;
+}
+
+.ui-popup-modal.success, .ui-popup-modal.tips, .ui-popup-modal.warn,
+	.ui-popup-modal.error {
+	border-radius: 3px;
+	color: #fff;
+}
+
+.ui-popup-modal.success .ui-dialog-body, .ui-popup-modal.tips .ui-dialog-body,
+	.ui-popup-modal.warn .ui-dialog-body, .ui-popup-modal.error .ui-dialog-body
+	{
+	padding: 20px 40px;
+}

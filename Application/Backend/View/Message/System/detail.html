@@ -1,0 +1,21 @@
+<extend name="Public/body" />
+<block name="body">
+	<div class="box box-body">
+		<table class="table js_table table-bordered">
+			<tr>
+				<td width="50">标题</td>
+				<td><?=$info['title']?></td>
+			</tr>
+			<tr>
+				<td>内容</td>
+				<td><?=$info['content']?></td>
+			</tr>
+			<tr class="text-center">
+				<td colspan="2">
+					<a href="<?=U('message_list')?>" class="pull-left btn btn-default">取消并返回</a>
+				</td>
+			</tr>
+		</table>
+		
+	</div>
+</block>

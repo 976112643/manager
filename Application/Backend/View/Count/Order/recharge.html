@@ -1,0 +1,231 @@
+<extend name="Public/body" />
+<block name="body">
+
+	<div class="row" style="margin-bottom: 20px;">
+		<include file="Count/Public/search_shop" />
+	</div>
+    <style type="text/css">
+        table{
+
+        }
+        table td{
+            padding:10px 25px;
+            color: #999;
+        }
+        .fs-month-select {
+            width:200px;
+            position:absolute;
+            z-index:999;
+            height:190px;
+            background:#fff;
+            border:1px solid #dadada;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing:border-box;
+            font-size:13px;
+            color:#919191;
+            -webkit-box-shadow:1px 1px 2px #ccc;
+            -moz-box-shadow:1px 1px 2px #ccc;
+            -ms-box-shadow:1px 1px 2px #ccc;
+            -o-box-shadow:1px 1px 2px #ccc;
+            box-shadow:1px 1px 2px #ccc;
+            display:none
+        }
+        .fs-month-select li {
+            cursor:pointer;
+            -webkit-transition:background-color .5s,color .5s;
+            -moz-transition:background-color .5s,color .5s;
+            -ms-transition:background-color .5s,color .5s;
+            -o-transition:background-color .5s,color .5s;
+            transition:background-color .5s,color .5s
+        }
+        .fs-month-select .year {
+            float:left;
+            width:88px;
+            height:100%;
+            overflow-y:auto
+        }
+        .fs-month-select .year li {
+            height:30px;
+            line-height:30px;
+            padding-left:15px
+        }
+        .fs-month-select .year .cur,.fs-month-select .year li:hover {
+            background:#ececec;
+            color:#333
+        }
+        .fs-month-select .month {
+            position:absolute;
+            right:0;
+            width:130px;
+            height:100%;
+            overflow-y:auto;
+            background:#f5f5f5
+        }
+        .fs-month-select .month li {
+            height:30px;
+            line-height:30px;
+            text-align:center
+            display:inline-block;
+        }
+        .fs-month-select .month .cur,.fs-month-select .month li:hover {
+            background:#c9c9c9;
+            color:#fff
+        }
+        .ui-month-select {
+            width:234px;
+            height:230px;
+            border:1px solid #d5d5d5;
+            -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,.15);
+            box-shadow:0 0 10px 0 rgba(0,0,0,.15);
+            border-radius:4px
+        }
+        .ui-month-select .year {
+            width:80px;
+            padding:0 5px
+        }
+        .ui-month-select .year ul{
+            padding:0px;
+        }
+        .ui-month-select .year li {
+            width:100%;
+            text-align:center;
+            padding-left:0;
+            margin:3px 0;
+            list-style:none;
+            -webkit-transition:initial;
+            transition:initial
+        }
+        .ui-month-select .month .cur,.ui-month-select .month li:hover,.ui-month-select .year .cur,.ui-month-select .year li:hover {
+            border-radius:4px;
+            background-color:#659DED;
+            color:#fff
+        }
+        .ui-month-select .month {
+            padding:0 5px
+        }
+        .ui-month-select .month ul{
+            padding:0px;
+            margin:0px;
+        }
+        .ui-month-select .month li {
+            width:40px;
+            margin:3px;
+            padding:0px;
+            display:inline-block;
+            list-style:none;
+            -webkit-transition:initial;
+            transition:initial;
+            text-align:center;
+        }
+    </style>
+	<!-- 月度报表 S -->
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+				<div class="chart">
+					<div id="echarts1" style="height:400px;"></div>
+				</div>	
+            </div>
+		</div>
+	</div>
+	<!-- 月度报表 E -->
+
+
+<?php
+
+	$_time=I('time')?I('time'):date('Y-m-d',time());
+?>
+</block>
+
+<block name="script">
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+$(function (){
+	config={ dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: true };
+	$('input[name=time]').click(function (){
+		WdatePicker(config);
+	});
+
+});
+var myChart1 = echarts.init(document.getElementById('echarts1'));
+
+var option1 = {
+
+    tooltip : {
+		trigger: 'axis'
+	},
+	toolbox: {
+        show:true,
+    	feature: {
+    		dataZoom: {
+	    		show: true,
+	            yAxisIndex: 'none'
+	        },
+    		dataView: {
+                readOnly: true,
+                show: true
+            },
+	        magicType: {
+                type: ["line", "bar"],
+                show: true
+            },
+	        restore: {show: true},
+            saveAsImage: {show: true},
+        }
+    },
+    calculable: true,
+    xAxis: [
+        {
+            type: "category",
+            data: <?=$date_list?>,
+            boundaryGap: false,
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: "value",
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    series: [
+    	{
+            name: "已支付订单",
+            type: "line",
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        type: "default"
+                    }
+                }
+            },
+            data: <?=$user_list['member']?>,
+            smooth: true
+        },
+    
+       
+    ],
+    title: {
+        text: "订单数量报表（订单总数：<?=$num_order?>笔）",
+        subtext: "截止日期（包括当天）：<?=$_time?>"
+    },
+    grid: {
+        x: 50,
+        x2: 30,
+        y2: 30,
+        y: 60,
+        borderWidth: 0
+    }
+};
+myChart1.setOption(option1);
+
+
+</script>
+</block>

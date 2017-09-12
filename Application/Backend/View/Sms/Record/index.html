@@ -1,0 +1,99 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="20" class="clearfix">
+				<form action="<?=U('index');?>"
+					class="form-inline pull-left clearfix" method="get">
+					<input type="search" class="form-control input-sm" placeholder="手机"
+						name="keywords" value="<?=$keywords?>"> <select
+						name="template" class="form-control input-sm">
+						<option value="">选择模版</option>
+						<?=$template?>
+					</select> <input id="start_date" type="start_date"
+						style="min-width: auto; width: 110px !important"
+						onclick="WdatePicker({skin:'backend',dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'stop_date\')}'})"
+						class="form-control input-sm wdate" placeholder="开始时间"
+						name="start_date" value="<?=$start_date?>"> <input
+						id="stop_date" type="stop_date"
+						style="min-width: auto; width: 110px !important"
+						onclick="WdatePicker({skin:'backend',dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'start_date\')}'})"
+						class="form-control input-sm wdate" placeholder="结束时间"
+						name="stop_date" value="<?=$stop_date?>"> <input
+						type="submit" class="btn btn-default btn-sm" value="搜索" />
+				</form>
+				<div class="pull-right">
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="20"><input type="checkbox" class="js_check_all"
+				data-target="ids" value=""></th>
+			<th width="100">手机</th>
+			<th width="160" class="text-center">模版</th>
+			<th width="60" class="text-center">状态</th>
+			<th>结果</th>
+			<th width="100" class="text-center">时间</th>
+			<th width="50" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td width="20"><input type="checkbox" class="ids"
+				data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+			<td>
+				<?=$row['mobile']?>
+			</td>
+			<td class="text-center">
+				<?=$row['template_text']?>
+			</td>
+			<td class="text-center"><img
+				src="__IMG__/status_<?=$row['state']?0:1?>.png" alt=""></td>
+			<td>
+				<?php
+						$result=json_decode($row['result'],true);
+						foreach($result as $key => $value){
+							if(is_array($value)){
+								echo $key . ': </br>';
+								foreach($value as $k => $v){
+									echo '&nbsp;&nbsp;' . $k . ': ' . $v . '</br>';
+								}
+							}
+							else{
+								echo $key . ': ' . $value . '</br>';
+							}
+						}
+					?>
+			</td>
+			<td class="text-center">
+				<?=$row['add_time']?>
+			</td>
+			<td class="text-center">
+				<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

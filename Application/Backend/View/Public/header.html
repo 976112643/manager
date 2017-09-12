@@ -1,0 +1,30 @@
+<header class="main-header">
+	<a href="<?=U('/Backend')?>" class="logo"> <span class="logo-mini"><b>Manager</b></span>
+		<span class="logo-lg"> <i>Manager</i>
+	</span>
+	</a>
+
+	<nav class="navbar navbar-static-top">
+		<a href="#" class="sidebar-toggle topbar-toggle js_collapse"
+			data-toggle="collapse" data-target=".nav_box" role="button"><img
+			src="__IMG__/main_menu.png" alt=""></a>
+		<div class="nav_box">
+			<?php
+				foreach($menu_1 as $row){
+			?>
+			<a href="<?=U($row['url'])?>" class="<?=$row['class']?>"> <?=$row['title']?>
+			</a>
+			<?php
+				}
+			?>
+		</div>
+
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+				<li><a href="<?=U('Backend/Base/Public/logout')?>"
+					class="ajax-get">退出登录</a></li>
+			</ul>
+		</div>
+	</nav>
+</header>
+<div class="message_bg js_message_bg"></div>

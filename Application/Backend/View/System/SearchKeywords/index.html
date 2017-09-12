@@ -1,0 +1,54 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="5" class="text-right">
+				<?=get_top_btn($menu_info['id'],I('pid'))?>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th><input type="checkbox" class="js_check_all"
+				data-target="ids" value=""></th>
+			<th width="200">类型</th>
+			<th>关键字</th>
+			<th width="100">次数</th>
+			<th width="38" class="text-center">操作</th>
+		</tr>
+		<?php	
+				$keywords_type =array(
+					'1' =>'产品',
+					'2' =>'秀吧',
+					'3' =>'店铺',
+				);
+				foreach($list as $row){
+			?>
+		<tr>
+			<td width="25"><input type="checkbox" data-child="ids"
+				class="ids" name="ids[]" value="<?=$row['id']?>"></td>
+			<td>
+				<?=$keywords_type[$row['type']]?>
+			</td>
+			<td>
+				<?=$row['keywords']?>
+			</td>
+			<td>
+				<?=$row['count']?>
+			</td>
+			<td class="text-center">
+				<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

@@ -1,0 +1,22 @@
+<extend name="Public/body" />
+<block name="body">
+	<div class="row" style="margin-bottom: 20px;">
+		<include file="search_time" />
+	</div>
+	<?=$buy_echar?>
+	<?=$captial_echar?>
+	<?=$recommend_echar?>
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function (){
+	config={ dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: true };
+	$('input[name=time]').click(function (){
+		WdatePicker(config);
+	});
+
+});
+</script>
+
+</block>
+

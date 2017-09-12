@@ -1,0 +1,73 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="20" class="clearfix">
+				<form action="<?=U('index');?>"
+					class="form-inline pull-left clearfix" method="get">
+					<input type="search" class="form-control input-sm"
+						placeholder="内容关键字" name="keywords" value="<?=$keywords?>">
+					<!-- <select name="type" class="form-control input-sm">
+						
+						<option value=''>请选择反馈类型</option>
+						<?php
+							foreach($type as $v){
+						?>
+						<option value="<?=$v['id']?>"<?php if(I('type') == $v['id']){ echo "selected='selected'"; }?> ><?=$v['title']?></option>
+						<?php
+							}
+						?>
+					</select> -->
+					<input type="submit" class="btn btn-default btn-sm" value="搜索" />
+				</form>
+				<div class="pull-right">
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="20"><input type="checkbox" class="js_check_all"
+				data-target="ids" value=""></th>
+			<th width="10%">反馈类型</th>
+			<th width="80%">反馈详情</th>
+			<th width="160" class="text-center">发送人 | 发送时间</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td><input type="checkbox" class="ids" data-child="ids"
+				name="ids[]" value="<?=$row['id']?>"></td>
+			<td>
+				<?=$row['type_text']?>
+			</td>
+			<td>
+				
+				内容：<?=$row['content']?><br/>
+				联系方式：<?=$row['contact']?> 
+			</td>
+			<td class="text-center">
+				<?=$row['nickname'] . '</br>' . $row['add_time'] ?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

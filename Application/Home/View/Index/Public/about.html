@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="format-detection" content="email=no" />
+	<block name="head_change"></block>
+	<title>佰吉APP-关于我们</title>
+	<meta name="keywords" content="<?=$seo['keywords']?>" /> 
+	<meta name="description" content="<?=$seo['description']?>" />
+	<script>
+	var _ROOT_='__ROOT__';
+	var _STATIC_='__STATIC__';
+	var _PLUGIN_='__PLUGIN__';
+	var _JS_='__JS__';
+	var _IMG_='__IMG__';
+	var _CSS_='__CSS__';
+	</script>
+	<css href="__CSS__/mui.min.css" />
+	<css href="__CSS__/common.css" />
+	<js href="__JS__/screen.js" />
+	<block name="style">
+		<style type="text/css">
+			.weixin{
+				position: relative;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				padding-top: 1rem;
+			}
+			.weixin img{
+				display: block;
+				width: 300px;
+				margin: 0 auto;
+				height: 300px;
+			}
+			.weixin p{
+				display: block;
+				color: #333;
+				font-size: 0.32rem;
+				text-align: left;
+				margin: 0.2rem auto;
+			}
+		</style>
+	</block>
+</head>
+<body>
+<div class="wrapper">
+	<div class="weixin">
+		<p><?=htmlspecialchars_decode($data)?></p>
+	</div>
+</div>
+</body>
+</html>

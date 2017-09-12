@@ -1,0 +1,40 @@
+<extend name="Public/body"/>
+<block name="body">
+	<table class="table js_table table-bordered">
+        <tbody>
+            <tr role="row">
+                <th colspan='12'>评论图片</th>
+            </tr>
+            <tr>
+                <td colspan="12" style="padding:0">
+                    <div class="img_table_box">
+                        <ul class="js_show_image">
+                            <?php
+                                if($list){
+                                    foreach ($list as $key => $value) {
+                            ?>
+                            <li class="col-xs-3">
+                                <a href="<?=show_member_head_img('',$value['image'])?>">
+                                <img style="height:100px;" src="<?=show_member_head_img('',$value['image'])?>" class="center-block">
+                                </a>
+                                <div class="pull-right">
+                                    <a href="<?=U('Backend/Service/Comment/show',array('ids'=>$value['comment_id']))?>" class="btn btn-xs btn-primary  " title="查看详情">查看详情</a>
+                                    <?php
+                                        get_list_btn($menu_info['id'],$value);
+                                    ?>
+                                </div>
+                            </li>
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pages">
+        <?=$page?>
+    </div>
+</block>

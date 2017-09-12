@@ -1,0 +1,128 @@
+<extend name="Public/body" />
+<block name="body">
+    <div class="box box-body com_body">
+        <table class="table  table-bordered">
+            <tbody>
+                <tr role="row">
+                    <th colspan='12'>评价人信息</th>
+                </tr>
+                <tr>
+                    <td rowspan="4" colspan="3" class="text-center" >
+                        <img width="100" src="<?=show_member_head_img('',$info['s_head_img'])?>" class="center-block">
+                    </td>
+                    <td colspan="3" >
+                        昵称：<a href="<?=U('Backend/Member/Member/details',array('ids'=>$info['member_id']))?>" title="<?=$info['seller_nickname']?>"><?=$info['seller_nickname']?></a>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="9">手机号：<?=$info['seller_mobile']?></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr role="row">
+                    <th colspan='12'>被评价人信息</th>
+                </tr>
+                <tr>
+                    <td rowspan="4" colspan="3" class="text-center" >
+                        <img width="100" src="<?=show_member_head_img('',$info['m_head_img'])?>" class="center-block">
+                    </td>
+                    <td colspan="3" >
+                        昵称：<a href="<?=U('Backend/Member/Member/details',array('ids'=>$info['member_id']))?>" title="<?=$info['nickname']?>"><?=$info['nickname']?></a>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="9">手机号：<?=$info['mobile']?></td>
+                </tr>
+            </tbody>
+            <tr role="row">
+                <th colspan="12">评论信息</th>
+            </tr>
+            <tr>
+                <td class="text-left" colspan="20"> 任务标题：
+                    <a href="<?=U('Backend/Shop/Order/index',array('order_no'=>$info['order_no']))?>">
+                        <?=$info['detail_title']?>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left" colspan="20"> 评价标签：
+                    <?php
+                        if( $info['tag_id'] ){
+                            foreach ($info['tag_list'] as $key => $value) {
+                                echo '<span class="tag_border">'.$value['name'].'</span>';
+                            }
+                        }
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left" colspan="20"> 评价内容：
+                    <?=htmlspecialchars_decode($info['content'])?>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left" colspan="20"> 评价分数:
+                    <div class="score js_score_star clearfix" data="<?=$info['star_rating']?>">
+                            
+                        <b><?=$info['star_rating']?>分</b>
+                        <a class="star" href="javascript:;"></a>
+                        <a class="star" href="javascript:;"></a>
+                        <a class="star" href="javascript:;"></a>
+                        <a class="star" href="javascript:;"></a>
+                        <a class="star" href="javascript:;"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left" colspan="4">评价日期：<?=$info['add_time']?></td>
+                <td class="text-left" colspan="4">是否匿名：<?=$info['is_anonymous'] ? '是' : '否' ;?></td>
+                <td class="text-left" colspan="4">是否有图片：<?=$info['is_img'] ? '是' : '否' ;?></td>
+            </tr>
+            <tr>
+                
+                
+            </tr>
+    </table>
+    <br />
+    <table class="table js_table table-bordered">
+        <tbody>
+            <tr role="row">
+                <th colspan='12'>评论图片</th>
+            </tr>
+            <tr>
+                <td colspan="12" style="padding:0">
+                    <div class="img_table_box">
+                        <ul class="js_show_image">
+                            <?php
+                                if($info['is_img']){
+                                    foreach ($info['comment_img'] as $key => $value) {
+                            ?>
+                            <li class="col-xs-3">
+                                <a href="<?=show_member_head_img('',$value['image'])?>">
+                                <img style="height:100px;" src="<?=show_member_head_img('',$value['image'])?>" class="center-block">
+                                </a>
+                                <div class="pull-right">
+                                    <a href="<?=U('del_img',array('id'=>$value['id']))?>" class="btn btn-sm  btn-danger ajax-get confirm" title="删除">删除</a>
+                                </div>
+                            </li>
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <!-- form start -->
+        
+    </div>
+</block>
+<block name="img_win">
+<div class="img_win js_img_win">
+    <div></div>
+</div>
+</block>

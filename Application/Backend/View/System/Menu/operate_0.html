@@ -1,0 +1,55 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="structure">
+	<?php
+			if($pid){
+				$menu = get_no_del('menu');
+				$pid = $pid ? $pid : 1;
+				$path = trim($menu[$pid]['path'], '-');
+				$structure = explode("-",$path);
+				$structure[] = $pid;
+				foreach($structure as $val){
+					if($val){
+						echo '<a href="'.U('index',array("pid"=>$menu[$val]['id'],"level"=>$menu[$val]['level']+1)).'">'.$menu[$val]['title'].'</a> &gt; ';
+					}
+				}
+			}
+			echo ACTION_NAME == 'add' ? '添加' : '修改';
+		?>
+</div>
+<div class="box box-body">
+	<form action="" class="js_form" method="post">
+		<input type='hidden' name='id' value='<?=$info["id"]?>' /> <label
+			class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 菜单名称
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写标题" name="title" value="<?=$info['title']?>" /> <span
+					class="Validform_checktip">菜单名称</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">排序</div>
+			<div>
+				<input type="text" class="form-control width_auto" name="sort"
+					value="<?=$info['sort']?>" /> <span class="Validform_checktip">选填，默认为0，顺序排序方式为由大到小</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">备注说明</div>
+			<div>
+				<textarea class="form-control width_auto" name="description"><?=$info['description']?></textarea>
+			</div>
+		</label>
+
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

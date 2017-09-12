@@ -1,0 +1,79 @@
+<extend name="Public/body" />
+<block name="body">
+	<div class="box box-body">
+		<form action="" method="post" class="js_form">
+			<input type="hidden" name="id" value="<?=$info['id']?>" />
+			<label class="form-group">
+				<div class="control-label">
+					<span class="required">*</span>
+					微信appid
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						datatype="*" nullmsg="填写微信appid"
+						name="appid" value="<?=$info['appid']?>"/>
+					<span class="Validform_checktip">微信公众号配置的appid</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					<span class="required">*</span>
+					微信appsecret
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						datatype="*" nullmsg="填写微信appid"
+						name="appsecret" value="<?=$info['appsecret']?>"/>
+					<span class="Validform_checktip">微信公众号配置的appsecret</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					微信mch_id
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name="mch_id" value="<?=$info['mch_id']?>"/>
+					<span class="Validform_checktip">微信支付，商户ID（可选）</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					微信partnerkey
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name="partnerkey" value="<?=$info['partnerkey']?>"/>
+					<span class="Validform_checktip">微信支付，密钥（可选）</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					微信ssl_cer
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name="ssl_cer" value="<?=$info['ssl_cer']?>"/>
+					<span class="Validform_checktip">微信支付，双向证书（可选，操作退款或打款时必需）</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					微信ssl_key
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name="ssl_key" value="<?=$info['ssl_key']?>"/>
+					<span class="Validform_checktip">微信支付，双向证书（可选，操作退款或打款时必需）</span>
+				</div>
+			</label>
+			<div class="form-btn clearfix">
+				<input type="submit" class="pull-left btn btn-primary" value="提交" />
+				<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+				<div class="js_validTips pull-left" style="height:34px;line-height:34px;">
+					<span class="js_tipContent Validform_checktip"></span>
+				</div>
+			</div>
+		</form>
+	</div>
+</block>

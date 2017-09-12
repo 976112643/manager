@@ -1,0 +1,92 @@
+<!-- 月度报表 S -->
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+				<div class="chart">
+					<div id="echarts3" style="height:400px;margin-right:15px"></div>
+				</div>	
+            </div>
+		</div>
+	</div>
+<!-- 月度报表 E -->
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+var myChart3 = echarts.init(document.getElementById('echarts3'),'macarons');
+var option3 = {
+    legend: {
+        data: [],
+        x: "center"
+    },
+    tooltip : {
+		trigger: 'axis'
+	},
+	toolbox: {
+        show:true,
+    	feature: {
+    		dataZoom: {
+	    		show: true,
+	            yAxisIndex: 'none'
+	        },
+    		dataView: {
+                readOnly: true,
+                show: true
+            },
+	        magicType: {
+                type: ["line", "bar"],
+                show: true
+            },
+	        restore: {show: true},
+            saveAsImage: {show: true},
+        }
+    },
+    calculable: true,
+    xAxis: [
+        {
+            type: "category",
+            data: <?=$date_list?>,
+            boundaryGap: false,
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: "value",
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    series: [
+    	{
+            name: "平台支出金额总数",
+            type: "line",
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        type: "default"
+                    }
+                }
+            },
+            data: <?=$user_list['member']?>,
+            smooth: true
+        },
+       
+    ],
+    title: {
+        text: "支出报表（支出总额：<?=$user_count?>元）",
+        subtext: "截止日期（包括当天）：<?=$_time?>"
+    },
+    grid: {
+        x: 50,
+        x2: 30,
+        y2: 30,
+        y: 60,
+        borderWidth: 0
+    }
+};
+myChart3.setOption(option3);
+
+
+</script>

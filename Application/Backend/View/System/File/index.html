@@ -1,0 +1,80 @@
+<extend name="Public/body" />
+<block name="body">
+<form method="post" name="form1" action="#" id="fromsumbit">
+	<input type="hidden" name="path_one" value="<?=$path?>">
+	<table class="table js_table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="6" class="text-right">
+					<?php if(!empty($previous)){ ?> <a class="btn btn-primary btn-xs"
+					href="javascript:;"
+					onclick="form1.action='<?=U('index',array('path'=>$previous[0]))?>';form1.submit();">返回上一层
+				</a> <?php }  ?> <a class="btn btn-primary btn-sm"
+					href="<?=U('index')?>"> 返回目录 </a> <?=get_top_btn($menu_info['id'],I('pid'))?>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr role="row">
+				<th>文件名/文件夹名</th>
+				<th width="80" class="text-center">文件大小</th>
+				<th width="160" class="text-center">上次访问时间</th>
+				<th width="160" class="text-center">上次修改时间</th>
+				<th width="160" class="text-center">上次改变时间</th>
+				<th width="50" class="text-center">操作</th>
+			</tr>
+			<?php
+				foreach ( $filesnames as  $row ){
+					if( strpos( $row,'.' ) ){
+			?>
+			<tr>
+				<td><a href="javascript:;"
+					onclick="form1.action='<?=U('down',array('path'=>$row))?>';form1.submit();">
+						<?=$row?>
+				</a></td>
+				<td class="text-right">
+					<?=byte_format($info[$row]['size'],1)?>
+				</td>
+				<td>
+					<?=date("Y-m-d H:i:s", $info[$row]['atime'])?>
+				</td>
+				<td>
+					<?=date("Y-m-d H:i:s", $info[$row]['mtime'])?>
+				</td>
+				<td>
+					<?=date("Y-m-d H:i:s", $info[$row]['ctime'])?>
+				</td>
+				<td>
+					<?php
+					$info['id'] = base64_encode($path.'/'.$row);
+					get_list_btn($menu_info['id'], $info);
+				?>
+				</td>
+			</tr>
+			<?php
+					}else{
+				?>
+			<tr>
+				<td class="text-left" width="20%"><a href="javascript:;"
+					onclick="form1.action='<?=U('index',array('path'=>$row))?>';form1.submit();">
+						<?=$row?>
+				</a></td>
+				<td class="text-left" width="16%"></td>
+				<td width="16%"></td>
+				<td width="16%"></td>
+				<td width="16%"></td>
+				<td width="16%"></td>
+			</tr>
+			<?php
+					}
+				}
+			?>
+		</tbody>
+	</table>
+
+	<div class="pages">
+		<?=$page?>
+	</div>
+
+	<form />
+</block>

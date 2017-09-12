@@ -1,0 +1,92 @@
+<!-- 月度报表 S -->
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+				<div class="chart">
+					<div id="echarts1" style="height:600px;margin-right:15px"></div>
+				</div>	
+            </div>
+		</div>
+	</div>
+<!-- 月度报表 E -->
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+var myChart1 = echarts.init(document.getElementById('echarts1'),'macarons');
+var option1 = {
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        data:['净额', '支出', '收入']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : false,
+    xAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    yAxis : [
+        {
+            type : 'category',
+            axisTick : {show: false},
+            data : <?=$date_list?>
+        }
+    ],
+    series : [
+        {
+            name:'净额',
+            type:'bar',
+            itemStyle : { normal: {label : {show: true, position: 'inside'}}},
+            data:<?=$user_list['diff']?>
+        },
+        {
+            name:'收入',
+            type:'bar',
+            stack: '总量',
+            barWidth : 5,
+            itemStyle: {normal: {
+                label : {show: true}
+            }},
+            data:<?=$user_list['total']?>
+        },
+        {
+            name:'支出',
+            type:'bar',
+            stack: '总量',
+            itemStyle: {normal: {
+                label : {show: true, position: 'left'}
+            }},
+            data:<?=$user_list['remove_total']?>
+
+        }
+    ],
+    title: {
+        text: "平台金额报表（净额总数：<?=$user_count?>元）",
+        subtext: "截止日期（包括当天）：<?=$_time?>"
+    },
+    grid: {
+        x: 80,
+        x2: 60,
+        y2: 30,
+        y: 60,
+        borderWidth: 0
+    }
+};
+        
+myChart1.setOption(option1);
+            
+
+</script>

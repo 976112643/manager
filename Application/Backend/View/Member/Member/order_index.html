@@ -1,0 +1,52 @@
+<extend name="Public/body" />
+<block name="body">
+	<js href="__JS__/common_s.js" />
+<table class="table js_table table-bordered">
+
+	<tbody>
+		<tr role="row">
+			<th width="120" class="text-center">任务名称</th>
+			<th width="120" class="text-center">任务描述</th>
+			<th width="50" class="text-left">截止日期</th>
+			<th width="80" class="text-right">订单金额</th>
+			<th width="100" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+
+			<td class="text-center">
+				<?=$row['detail_title']?>
+			</td>
+			<td class="text-center">
+				<?=$row['description']?>
+			</td>
+			<td class="text-center">
+				<?=$row['door_time']?>
+			</td>
+	        <td class="text-right">
+                <?=$row['money_total']?>
+            </td>
+			<td class="text-center">
+				<a href="<?=U('Backend/Shop/Order/details',array('ids'=>$row['id']))?>" class="btn btn-xs btn-success">查看详情</a>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

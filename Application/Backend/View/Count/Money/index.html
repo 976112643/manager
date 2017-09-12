@@ -1,0 +1,31 @@
+<extend name="Public/body" />
+<block name="body">
+
+	<div class="row" style="margin-bottom: 20px;">
+		<include file="Count/Public/search_shop" />
+	</div>
+    <?=$all?>
+
+    <?=$total?>
+
+    <?=$remove_total?>
+
+<?php
+
+	$_time=I('time')?I('time'):date('Y-m-d',time());
+?>
+</block>
+
+<block name="script">
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+$(function (){
+	config={ dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: true };
+	$('input[name=time]').click(function (){
+		WdatePicker(config);
+	});
+
+});
+
+</script>
+</block>

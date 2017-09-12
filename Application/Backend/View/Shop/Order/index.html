@@ -1,0 +1,114 @@
+<extend name="Public/body" />
+<block name="body"> 
+	<table class="table js_table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="20" class="text-right clearfix">
+					<form action="<?=U('index');?>" class="form-inline pull-left" method="get">
+						<input type="text" class="form-control input-sm" placeholder="手机" name="mobile" value="<?=$mobile?>">
+						<input type="text" class="form-control input-sm" placeholder="用户名称" name="nickname" value="<?=$nickname?>">
+						<input type="text" class="form-control input-sm" placeholder="订单编号" name="order_no" value="<?=$order_no?>">
+						<select name="status" class="form-control input-sm">
+							<option value=''>请选择状态</option>
+                            <?php foreach($status as $key=>$row){ ?>
+                                <option <?php if(I('status')==$key){ ?> selected="selected" <?php }?> value='<?=$key?>'><?=$row?></option>
+                            <?php }?>    
+						</select>
+                        <div class="form-group date_group">
+                            <span class="control-label">下单时间：</span>
+                            <input style="min-width: 30px;width: 110px" type="text" class="form-control" id="starTime" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'endTime\')||\'%y-%M-%d\'}'})" name="start" value="<?=I('start')?>" placeholder="起始时间">
+                            <span class="control-label">到</span>
+                            <input style="min-width: 30px;width: 110px" type="text" class="form-control" id="endTime"
+                            onclick="WdatePicker({minDate:'#F{$dp.$D(\'starTime\')}',maxDate:'%y-%M-%d'})" name="end" value="<?=I('end')?>"  placeholder="截止时间">
+                        </div>
+						<button type="submit" class="btn btn-primary btn-sm" target-form="operate_form">提交</button>
+					</form>
+					<div class="pull-right">
+					
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr role="row">
+				<th class="text-center" width="100" >订单号</th>
+				<th class="text-center" width="190" >用户信息</th>
+				<th class="text-center" width="190" >接单人信息</th>
+				<th class="text-center" width="80" >价格</th>
+				<th class="text-center" width="180">下单时间</th>
+				<th width="100" class="text-center">状态</th>
+				<th width="38" class="text-center">操作</th>
+			</tr>
+			<?php
+				if(!$list){
+			?>
+			<tr>
+				<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+			</tr>
+			<?php
+				}
+			?>
+			<?php
+				$remove = array(
+					'status' =>array(
+						'10'=>U('over'),
+						'45'=>U('over'),
+						'50'=>U('over'),
+						'90'=>U('over'),
+						'99'=>U('over')
+					)
+				);
+				foreach($list as $row){
+				//dump($row);
+				$remark = json_decode($row['remark'],true);
+                //dump($remark);    
+			?>
+			<tr>
+				
+				<td class="text-center">
+					<?=$row['order_no']?>
+				</td>
+				<td>
+					用户名称:<a href="<?=U('Backend/Member/Member/details',array('ids'=>$row['member_id']))?>"><?=$row['nickname']?></a><br />
+					用户手机:<?=$row['mobile']?><br />
+				</td>
+				<td>
+				    <?php if($row['seller_id']<=0){ ?>
+				        <p>未接单</p>
+				    <?php }else{ ?>
+                        <p>接单人名称:<a href="<?=U('Backend/Member/Member/details',array('ids'=>$row['seller_id']))?>"><?=$row['seller_nickname']?></a></p>
+                        <p>接单人手机:<?=$row['seller_mobile']?></p>
+				    <?php }?>        
+
+					<!--<?=$remark['order_seat_info']?> <?=$remark['order_seat_num']?>
+					<?php 
+					   foreach($remark['child_order']['list'] as $v){
+					?>
+					<p style="margin: 0"><?=$v['title']?> <?=$v['selling_price']?> X <?=$v['num']?> = <?=$v['total']?></p>
+					<?php }?>-->
+				</td>
+				<td class="text-right">
+				    ￥<?=$row['money_total']?>
+                </td>
+				<td class="text-center">
+					<?=$row['add_time'] ?>
+				</td>
+				<td class="text-center">
+				    <?=$row['status_text']?>
+				</td>
+				<td class="text-center">
+					<?php
+                        get_list_btn($menu_info['id'],$row,$remove);
+					?>
+				</td>
+			</tr>
+			<?php
+				}
+			?>
+		</tbody>
+	</table>
+	<div class="pages">
+		<?=$page?>
+	</div>
+</block>

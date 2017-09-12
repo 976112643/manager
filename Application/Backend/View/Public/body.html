@@ -1,0 +1,129 @@
+<?php
+	/*当前路径*/
+	$cur_path=MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME;
+	/*对应菜单数据*/
+	$menu_info['path'] = '';
+	$menu_list = get_menu_list ();
+	foreach ( $menu_list as $key => $value ) {
+		if ($cur_path == $value ['url']) {
+			$menu_info = $value;
+		}
+	}
+	/*对应菜单层级*/
+	$menu_path = explode("-",$menu_info['path']);
+	/*遍历菜单*/
+	$menu_1 = array();
+	$menu_2 = array();
+	$menu_3 = array();
+	foreach($menu_result as $row_1){
+		if(!$row_1["child"]) continue;
+		/*填充URL*/
+		$first = array_slice($row_1["child"],0,1);
+		$second = array_slice($first[0]["child"],0,1);
+		$row_1['data']['url'] = $second[0]['data']['url'];
+		/*当前一级菜单中遍历二级菜单*/
+		if($row_1['data']['id']==$menu_path[2]){
+			$row_1['data']['class'] = "cur";
+			foreach($row_1['child'] as $row_2){
+				$third = array_slice($row_2["child"],0,1);
+				$row_2['data']['url'] = $third[0]['data']['url'];
+				/*当前二级菜单中遍历三级菜单*/
+				if($row_2['data']['id']==$menu_path[3]){
+					$row_2['data']['class'] = "active";
+					foreach($row_2['child'] as $row_3){
+						$row_3['data']['class'] = '';
+						$fourth = array_slice($row_3,0,1);
+						/*获取四级菜单*/
+						if($fourth['data']['id']==$menu_path[4]){
+							$row_3['data']['class'] = 'active';
+						}
+						$menu_3[] = $row_3['data'];
+					}
+				}
+				if($row_2['data']['url']){
+					$menu_2[] = $row_2['data'];
+				}
+			}
+		}
+		if($row_1['data']['url']){
+			$menu_1[] = $row_1['data'];
+		}
+	}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta
+	content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+	name='viewport'>
+<link rel="shortcut icon" href="__ROOT__/favicon.ico">
+<include file="Public/head" />
+</head>
+<body class="skin-gray">
+	<include file="Public/header" />
+	<include file="Public/sideBar" />
+	<div class="wrapper">
+		<div class="content-wrapper js_content_wrapper">
+			<div class="breadcrumb_box">
+				<section class="top_menu">
+					<ul class="nav nav-tabs">
+						<li class="side_menu"><a href="javascript:void(0);"
+							class="sidebar-toggle js_offcanvas"><img
+								src="__IMG__/side_menu.png"></a></li>
+						<?php
+						$small_tips = '';
+						foreach($menu_3 as $row){
+							if($menu_info['id']==$row['id'] || $row['id'] == $menu_path[3]){
+								$row['class'] = 'active';
+								$small_title=$row['title'];
+								$small_tips = str_replace("\n",'</br>',$row['description']);
+							}
+					?>
+						<li class="js_tab <?=$row['class']?>"><a
+							href="<?=U($row['url'])?>">
+								<?=$row['title']?>
+						</a></li>
+						<?php
+						}
+					?>
+
+						<?php
+						/*由菜单description字段填充*/
+						if($small_tips){
+					?>
+						<!-- 问号 -S -->
+						<li class="pull-right"><a href="javascript:void(0)"
+							class="tip_msg_box js_tip_msg_box"> <img
+								src="__IMG__/tip.png" alt="">
+								<div class="tip_msg_up js_tip_msg_up"></div>
+						</a></li>
+						<!-- 问号 -E -->
+						<?php
+						}
+					?>
+					</ul>
+
+				</section>
+				<!-- 问号 -S -->
+				<div class="tip_msg js_tip_msg">
+					<h6>提示</h6>
+					<?=$small_tips?>
+					<div class="colse_dialog js_colse_dialog"></div>
+				</div>
+				<!-- 问号 -E -->
+			</div>
+			<section class="content">
+				<block name="body"></block>
+			</section>
+		</div>
+		<include file="Public/footer" />
+
+	</div>
+	<include file="Public/image_dialog" />
+</body>
+<js href="__PLUGIN__/select2/select2.full.js" />
+<js href="__PLUGIN__/select2/i18n/zh-CN.js" />
+<js href="__PLUGIN__/select2/super_select2.js" />
+</html>

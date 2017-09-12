@@ -1,0 +1,118 @@
+<extend name="Public/body" />
+<block name="body"> <script type="text/javascript"
+	src="__PLUGIN__/uploadify/jquery.uploadify.min.js?v=<?=time().rand(0,9999)?>"></script>
+<js href="__PLUGIN__/my97date/WdatePicker.js" />
+<div class="box box-body">
+	<form action="<?=U('')?>" method="post" class="operate_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> 
+		<input type="hidden" name="adspace_id" value="<?=I('adspace_id')?>" />
+		 <input type="hidden" name="old_image" value="<?=$info['save_path']?>" />
+		<div class="form-group">
+			<div class="control-label">广告类型</div>
+			<div>
+				<select name="type" class="form-control width_auto js_type">
+					<option value="10"<?php if($info['type']=='10' ||
+						!$info['type']){echo "selected";}?>>图片</option>
+					<!-- <option value="20"<?php if($info['type']=='20'){echo
+						"selected";}?>>HTML代码</option> -->
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="control-label">广告标题</div>
+			<div>
+				<input type="text" class="form-control width_auto" name="title"
+					value="<?=$info['title']?>">
+			</div>
+		</div>
+		<div class="form-group js_image"
+			<?php if($info['type']=='20'){echo 'style="display:none;"';}?>>
+			<div class="control-label">上传图片</div>
+				<div>
+					<?php
+						$config=array(
+							'table'		=>'banner',
+							'name'		=>'image',
+							'val_key'	=>"save_path"
+						);
+						echo W("Common/Img/index",array($config,$info['id']));
+					?>
+				</div>
+			</div>
+		<div class="form-group js_image"
+			<?php if($info['type']=='20'){echo 'style="display:none;"';}?>>
+			<div class="control-label">广告链接</div>
+				<div><input type="text" class="form-control width_auto" name="url" value="<?=$info['url']?>"></div>
+			</div>
+
+		<div class="form-group js_code"
+			<?php if($info['type']=='10' || !$info['type']){echo
+			'style="display:none;"';}?>>
+			<div class="control-label">HTML代码</div>
+				<div><textarea class="form-control width_auto" name="content"><?=$info['content']?></textarea></div>
+			</div>
+		<div class="form-group">
+			<div class="control-label">排序</div>
+			<div class="form-inline">
+				<input type="text" class="form-control" name="sort"
+					value="<?=$info['sort']?>">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="control-label">起止时间</div>
+			<div class="form-inline">
+				<?php
+						if($info['start_time']){
+							$start_time=$info['start_time'];
+						}else{
+							$start_time=date("Y-m-d",time());
+						}
+					?>
+				<input type="text" class="form-control" size="10" name="start_time"
+					value="<?=$start_time?>" id="start_time" readonly
+					onClick="WdatePicker()"> -
+				<?php
+						if($info['end_time']){
+							$end_time=$info['end_time'];
+						}else{
+							$end_time=date("Y-m-d",strtotime("+1 day"));
+						}
+					?>
+				<input type="text" class="form-control" size="10" name="end_time"
+					value="<?=$end_time?>" id="end_time" readonly
+					onClick="WdatePicker()">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="control-label">状态</div>
+			<div class="form-inline">
+				<select name="is_hid" class="form-control">
+					<option value="1"<?php if($info['is_hid']=='1' ||
+						!$info['is_hid']){echo "selected";}?>>禁用</option>
+					<option value="0"<?php if($info['is_hid']=='0'){echo
+						"selected";}?>>启用</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="submit" class="btn btn-primary ajax-post"
+				target-form="operate_form" value="提交"> <a
+				href="<?=U('index',array('p'=>I('p')))?>"
+				class="btn btn-default cancel">取消并返回</a>
+		</div>
+	</form>
+</div>
+</block>
+<block name="script"> <script type="text/javascript">
+$(document).ready(function(){
+	$(".js_type").change(function(){
+		if($(this).val()=='10'){
+			$(".js_code").hide();
+			$(".js_image").show();
+		}else{
+			$(".js_code").show();
+			$(".js_image").hide();
+		}
+	})
+})
+</script> </block>

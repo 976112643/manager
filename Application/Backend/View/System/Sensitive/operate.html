@@ -1,0 +1,26 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" />
+		<label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 词语
+			</div>
+			<div>
+				<input type="text" class="form-control large" datatype="*"
+					nullmsg="填写词语" name="name" value="<?=$info['name']?>" /> <span
+					class="Validform_checktip">词语（最多50字符）</span>
+			</div>
+		</label>
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

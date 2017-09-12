@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='viewport'
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<title>404</title>
+<style>
+.btn {
+	display: block;
+	width: 120px;
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 50px;
+	padding: 6px 15px;
+	border: 1px solid #812a18;
+	border-radius: 5px;
+	color: #812a18;
+	text-decoration: none;
+}
+
+.btn:hover {
+	border: 1px solid #812a18;
+	background-color: #812a18;
+	color: #fff;
+}
+</style>
+</head>
+
+<body style="background-color: #e9e4d8; padding-top: 180px;">
+	<div class="wrap">
+		<!-- Page Error 404  S -->
+		<div class="statusbox clearfix" style="text-align: center;">
+			<img src="__IMG__/status/404.png" width="317" height="249" id="img" />
+			<a href="javascript:history.back(-1);" class="btn">返回上一页</a>
+		</div>
+		<!-- Page Error 404  E -->
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	window.onload=function (){
+		var a_url=window.location.href;
+
+		var str='Application/Backend/View/Common/exception.html';
+		_src=a_url.replace(str,'');
+		_src=_src+'Public/Backend/img/status/404.png';
+		// document.getElementById('img').src=_src;
+	}
+</script>

@@ -1,0 +1,58 @@
+<extend name="Public/body" />
+<block name="body">
+	<div class="box box-body">
+		<!-- form start -->
+		<form action="" method="post" class="js_form">
+			<input type='hidden' name='id' value='<?=$info["id"]?>' />
+			<label class="form-group">
+				<div class="control-label">
+					<span class="required">*</span>手机
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name='mobile' value="<?=$info['mobile']?>"
+						datatype="*|m" nullmsg="请填写手机" placeholder="请填写手机">
+					<span class="Validform_checktip">用户名</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					邮箱
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name='email' value="<?=$info['email']?>"
+						datatype="e" nullmsg="请填写邮箱" placeholder="请填写邮箱">
+					<span class="Validform_checktip">邮箱</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					昵称
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name='nickname' value="<?=$info['nickname']?>">
+					<span class="Validform_checktip">昵称</span>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="control-label">
+					密码
+				</div>
+				<div>
+					<input type="text" class="form-control width_auto"
+						name='password' value="">
+					<span class="Validform_checktip">密码</span>
+				</div>
+			</label>
+			<div class="form-btn clearfix">
+				<input type="submit" class="pull-left btn btn-primary" value="提交" />
+				<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+				<div class="js_validTips pull-left" style="height:34px;line-height:34px;">
+					<span class="js_tipContent Validform_checktip"></span>
+				</div>
+			</div>
+		</form>
+	</div>
+</block>

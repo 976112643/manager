@@ -1,0 +1,144 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="structure">
+	<?php
+			if($pid){
+				$menu = get_no_del('menu');
+				$pid = $pid ? $pid : 1;
+				$path = trim($menu[$pid]['path'], '-');
+				$structure = explode("-",$path);
+				$structure[] = $pid;
+				foreach($structure as $val){
+					if($val){
+						echo '<a href="'.U('index',array("pid"=>$menu[$val]['id'],"level"=>$menu[$val]['level']+1)).'">'.$menu[$val]['title'].'</a> &gt; ';
+					}
+				}
+			}
+			echo ACTION_NAME == 'add' ? '添加' : '修改';
+		?>
+</div>
+<div class="box box-body">
+	<form role="form" action="<?=U('')?>" class="operate_form"
+		method="post" style="min-width: 400px;">
+		<input type='hidden' name='id' value='<?=$info["id"]?>' /> <input
+			type='hidden' name='pid' value='<?=intval(I('pid'))?>' /> <input
+			type='hidden' name='level' value='<?=intval(I('level'))?>' />
+		<label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 菜单名称
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写标题" name="title" value="<?=$info['title']?>" /> <span
+					class="Validform_checktip">菜单名称</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 菜单链接
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写链接" name="url" value="<?=$info['url']?>" /> <span
+					class="Validform_checktip">菜单链接</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">排序</div>
+			<div>
+				<input type="text" class="form-control width_auto" name="sort"
+					value="<?=$info['sort']?>" /> <span class="Validform_checktip">选填，默认为0，顺序排序方式为由大到小</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">备注说明</div>
+			<div>
+				<textarea class="form-control width_auto" name="description"><?=$info['description']?></textarea>
+			</div>
+		</label>
+		<?php
+				if($info['class']){
+					$class_arr=explode(" ",$info['class']);
+					$class_val=$info['class'];
+				}else{
+					$class_arr=array("btn-default");
+					$class_val="btn-default";
+				}
+			?>
+		<div class="form-group btn_class js_btn_class">
+			<label>选择按钮样式</label> <input type="hidden" class="js_class"
+				name="class" value="<?=$class_val?>">
+			<div class="form-group">
+				<?php
+						$btn_array=array("btn-default","btn-primary","btn-success","btn-info","btn-warning","btn-danger","bg-maroon","bg-purple","bg-navy","bg-orange","bg-olive");
+						foreach ($btn_array as $val){
+					?>
+				<input type="button"
+					class="btn <?=$val?> <?php if(in_array($val,$class_arr)){ echo 'cur'; } ?>"
+					data-value="<?=$val?>" value="<?=$info['title']?>" />
+				<?php
+						}
+					?>
+			</div>
+			<div class="form-group form-inline js_open_type">
+				<span>打开方式：</span> <label><input type="radio"
+					name="open_type"<?php if(!in_array("dialog",$class_arr) &&
+					!in_array("ajax-post",$class_arr)){ echo 'checked'; } ?> value=""
+					/> 跳转页面</label> <label><input type="radio" name="open_type"<?php
+					if(in_array("dialog",$class_arr)){ echo 'checked'; } ?>
+					value="dialog" /> 弹窗</label> <label><input type="radio"
+					name="open_type"<?php
+					if(in_array("ajax-post",$class_arr)){ echo 'checked'; } ?>
+					value="ajax-post" /> 无刷新操作</label>
+			</div>
+			<div class="form-group form-inline js_open_tips">
+				<span>是否提示：</span> <label><input type="radio"
+					name="open_tips"<?php if(!in_array("confirm",$class_arr)){
+					echo 'checked'; } ?> value="" /> 否</label> <label><input
+					type="radio" name="open_tips"<?php
+					if(in_array("confirm",$class_arr)){ echo 'checked'; } ?>
+					value="confirm" /> 是</label>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<span>按钮显示位置：</span> <label><input type="radio"
+				name="display_position"<?php
+				if($info['display_position']==1 || $info['display_position']==''){
+				echo 'checked'; } ?> value="1" checked /> 头部</label> <label><input
+				type="radio" name="display_position"<?php
+				if($info['display_position']==2){ echo 'checked'; } ?> value="2" />
+				列表显示</label> <label><input type="radio" name="display_position"<?php
+				if($info['display_position']==3){ echo 'checked'; } ?> value="3" />
+				全部位置</label> <label><input type="radio" name="display_position"<?php
+				if($info['display_position']==4){ echo 'checked'; } ?> value="4" />
+				不显示</label>
+		</div>
+		<div class="form-btn clearfix ">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index',array(" pid"=>$pid,"level"=>$level))?>"
+				class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+</div>
+</form>
+<script type="text/javascript">
+$(function(){
+	$("input[name=title]").on("keyup",function(){
+		$(".js_btn_class input[type=button]").val($(this).val());
+	})
+	$(".js_btn_class input[type=button]").on("click",function(){
+		$(this).addClass("cur").siblings('input[type=button]').removeClass('cur');
+		setClass();
+	});
+	$(".js_open_type input,.js_open_tips input").on("click",function(){
+		setClass();
+	})
+})
+function setClass(){
+	var _val=$(".js_btn_class").find("input[type=button].cur").attr("data-value");
+	$(".js_class").val($(".js_btn_class").find("input[type=button].cur").attr("data-value")+" "+$(".js_open_type").find("input:checked").val()+" "+$(".js_open_tips").find("input:checked").val());
+}
+</script>
+
+</div>
+</block>

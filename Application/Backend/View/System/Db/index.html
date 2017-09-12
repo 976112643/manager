@@ -1,0 +1,45 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<tbody>
+		<tr role="row">
+			<th width="300">表名</th>
+			<th>注释</th>
+			<th width="120" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $key=>$row){
+			?>
+		<tr>
+
+			<td>
+				<?=$row['table_name']?>
+			</td>
+			<td>
+				<?=$row['table_comment']?>
+			</td>
+			<td class="text-center">
+				<?php
+					$row['id'] = $row['table_name'];
+					get_list_btn($menu_info['id'], $row);
+				?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

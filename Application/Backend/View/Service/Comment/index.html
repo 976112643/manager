@@ -1,0 +1,197 @@
+<extend name="Public/body"/>
+<block name="body">
+	<table class="table js_table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="20" class="text-right clearfix">
+					<form action="<?=U('index');?>" class="form-inline pull-left" method="get">
+                        <!--<select class="form-control input-sm province_select" name="province" id="province" datatype="*" nullmsg="请选择省"  onchange="province_change(this)">
+                            <option value=''>请选择省</option>
+                            <?php 
+                                foreach($area as $row){
+                                    if($row['pid']==0){
+                            ?>
+                            <option value="<?=$row['id']?>"  path="<?=$row['path']?>"><?=$row['title']?></option>
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </select>
+                        <select class="form-control input-sm js_city_select"  name="city" id="city" datatype="*" nullmsg="请选择市" onchange="city_change(this)" >
+                            <option value="">请选择市</option>
+                        </select>-->
+						<div  class="form-group">
+							<span class="control-label">等级：</span>
+						  	<select name="type" class="form-control input-sm cod-xm-1" style="min-width: 30px;width: 130px">
+								<option value=''>选择评论等级</option>
+								<?php 
+									$type=I('type');
+									$set_type[0] = (is_numeric($type) && $type ==1) ? "selected='selected'" : '';
+									$set_type[1] = ($type == 2) ? "selected='selected'" : '';
+									$set_type[2] = ($type == 3) ? "selected='selected'" : '';
+								?>
+								<option value="1" <?=$set_type[0]?> >好评</option>
+								<option value="2" <?=$set_type[1]?> >中评</option>
+								<option value="3" <?=$set_type[2]?> >差评</option>
+							</select>
+						</div>
+						<input type="text" class="form-control input-sm" placeholder="任务名称 | 评价内容" name="keywords" value="<?=I('keywords')?>">	
+                        <input type="text" class="form-control input-sm" placeholder="评价人昵称" name="nickname" value="<?=I('nickname')?>">  
+					  	<?=search_time_html()?>
+					  	<div class="form-group form_btn_group">
+					  		<input type="submit" class="btn btn-primary btn-sm" value="查询">
+					  		<!-- <a href="<?=U('')?>" class="btn btn-default ">重置</a> -->
+					  	</div>  	 	 
+					</form>
+					<div class="pull-right">
+						<?=get_top_btn($menu_info['id'],I('pid'))?>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="title">
+				<th class="text-center" width="20">
+					<input type="checkbox" class="js_check_all" data-target="ids" value="">
+				</th>
+				<th class="text-center" >订单名称</th>
+				<th class="text-center" >评价等级</th>
+				<th class="text-center" >评价人姓名</th>
+				<th class="text-center" >评价时间</th>
+				<th class="text-center" >评论内容</th>
+				<th class="text-center">被评价人员</th>
+				<th class="text-center" >操作</th>
+			</tr> 	
+
+			<!-- 评论列表 -S -->
+			<?php
+				foreach($list as $v){
+			?>
+			<tr>
+				<td class="text-center">
+					<input type="checkbox" data-child="ids" class="ids" name="ids[]" value="<?=$v['id']?>">
+				</td>
+				<td class="text-center">
+                    <a href="<?=U('Backend/Shop/Order/index',array('order_no'=>$v['order_no']))?>">
+                        <?=$v['detail_title']?>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <?php 
+                        switch ($v['type'])
+                        {
+                        case 1:
+                          echo '好评';
+                          break;  
+                        case 2:
+                          echo '中评';
+                          break;
+                        case 3:
+                          echo '差评';
+                          break;   
+                        default:
+
+                        }
+                    ?>
+                </td>
+                <td class="text-center"><?=$v['seller_nickname']?></td>
+                <td class="text-center">
+                    <?=$v['add_time']?>
+                </td>
+                <td class="text-center">
+                    <?=$v['content']?>
+                </td>
+				<!--<td>
+					<div style="margin-left: 50px;margin-top: 10px;margin-bottom: 10px;">
+					    <?php if($v['cover']){ ?>
+					    <img onerror="nofind();" src="<?=thumb($v['cover'],'80','60','L')?>" class="js_scale_img" data-url="<?=$v['cover_url']?>" width="80" height="60" />
+						<?php }?>
+						<?php
+							foreach($v['images'] as $val){
+						?>
+							<img onerror="nofind();" src="<?=thumb($val['image'],'80','60','L')?>" class="js_scale_img" data-url="<?php echo $val['url']?>" width="80" height="60" />
+						<?php
+							}
+						?>
+					</div>
+				</td>-->
+		        <td class="text-center">
+                    <?=$v['nickname']?>
+                </td>
+				<td class="text-center">
+					<?php
+						get_list_btn($menu_info['id'],$v);
+					?>
+				</td>
+			</tr>
+			<?php
+				}
+			?>
+			<?php if(count($list)<=0){ ?>
+             <tr>
+                <td colspan="80">
+                    <include file="Public/nodata" text="没有数据" />
+                </td>
+            </tr>
+			<?php }?>    
+		</tbody>
+	</table>
+    <select id="js_area_select_data"  style="display:none">
+        <?php
+            foreach($area as $row){
+                if($row['pid']==0){
+                    continue;
+                }
+        ?>
+        <option value="<?=$row['id']?>" pid="<?=$row['pid']?>" path="<?=$row['path']?>" ><?=$row['title']?></option>
+        <?php
+            }
+        ?>
+    </select>
+    <select id="js_area_select_shop_data" style="display:none;">
+        <?php foreach($shop_area as $row){ ?>
+            <option value="<?=$row['id']?>" pid="<?=$row['city']?>" path="" ><?=$row['title']?></option>
+        <?php }?>    
+    </select>
+	<div class="pages">
+		<?=$page?>
+	</div>
+   <script>
+    function province_change(obj){
+        var pid=$(obj).val();
+        $('.js_city_select').html('');
+        var area='0';
+        $('.js_city_select').html("<option value=''>请选择城市</option>");
+        $('#js_area_select_data option[pid='+pid+']').clone().appendTo('.js_city_select');
+        $('.js_area_select').html("<option value=''>请选择区/县</option>");
+    }
+    function city_change(obj){
+        var pid=$(obj).val();
+        $('.js_area_select').html('');
+        var area='0';
+        $('.js_area_select').html("<option value=''>请选择门店</option>");
+        $('#js_area_select_shop_data option[pid='+pid+']').clone().appendTo('.js_area_select');
+    }
+    function choose_addpath(obj){
+        var addpath = $(obj).find("option:selected").attr('path');
+        $('#addpath').val(addpath);
+    }
+    <?php if($_GET['province']){ ?>
+    $('#province').val('<?=intval($_GET['province'])?>').change();
+    <?php }?>
+    <?php if($_GET['city']){ ?>
+    $('#city').val('<?=intval($_GET['city'])?>').change();
+    <?php }?>
+    <?php if($_GET['shop_id']){ ?>
+    $('#area').val('<?=intval($_GET['shop_id'])?>');
+    <?php }?>
+
+   </script>
+</block>
+<block name="img_win">
+    <div class="content">
+        <div class="img_win js_img_win">
+            <div></div>
+        </div>
+    </div>
+</block>

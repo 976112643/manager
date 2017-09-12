@@ -1,0 +1,68 @@
+<extend name="Public/body" />
+<block name="body"> 
+	<table class="table js_table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="20" class="text-right clearfix">
+					<form action="<?=U('index');?>" class="form-inline pull-left" method="get">
+						<input type="text" class="form-control input-sm" placeholder="手机" name="mobile" value="<?=$mobile?>">
+						<input type="text" class="form-control input-sm" placeholder="举报人名称" name="nickname" value="<?=$nickname?>">
+						<input type="text" class="form-control input-sm" placeholder="订单编号" name="order_no" value="<?=$order_no?>">
+						<button type="submit" class="btn btn-primary btn-sm" target-form="operate_form">提交</button>
+					</form>
+					<div class="pull-right">
+					
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr role="row">
+				<th width="20"><input type="checkbox" class="js_check_all" data-target="ids" value=""></th>
+				<th class="text-center" width="100" >订单号</th>
+				<th class="text-center" width="190" >举报人信息</th>
+				<th class="text-center" width="190" >订单信息</th>
+				<th class="text-center" width="180">举报时间</th>
+			</tr>
+			<?php
+				if(!$list){
+			?>
+			<tr>
+				<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+			</tr>
+			<?php
+				}
+			?>
+			<?php
+				foreach($list as $row){
+			?>
+			<tr>
+				<td width="20"><input type="checkbox" class="ids" data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+				
+				<td class="text-center">
+					<?=$row['order_no']?>
+				</td>
+				<td>
+					用户名称:<a href="<?=U('Backend/Member/Member/details',array('ids'=>$row['uid']))?>"><?=$row['nickname']?></a><br />
+					用户手机:<?=$row['mobile']?><br />
+				</td>
+				<td>
+					任务发布人:<a href="<?=U('Backend/Member/Member/details',array('ids'=>$row['member_id']))?>"><?=$row['member_nickname']?></a><br />
+					任务标题:<a href="<?=U('Backend/Shop/Order/details',array('ids'=>$row['order_id']))?>"><?=$row['detail_title']?></a><br />
+					任务描述:<?=$row['description']?><br />
+					订单金额:<?=$row['money_total']?><br />
+				</td>
+				<td class="text-center">
+					<?=$row['add_time'] ?>
+				</td>
+			</tr>
+			<?php
+				}
+			?>
+		</tbody>
+	</table>
+	<div class="pages">
+		<?=$page?>
+	</div>
+</block>

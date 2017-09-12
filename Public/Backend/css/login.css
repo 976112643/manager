@@ -1,0 +1,83 @@
+html, body {
+	min-height: 100%
+}
+
+* {
+	box-sizing: content-box;
+}
+
+.login-page {
+	background: #d2d6de url(../img/login_bg.jpg) no-repeat center center;
+}
+
+.login-logo {
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.login-logo a {
+	outline: none;
+	user-select: none;
+}
+
+.login-box {
+	width: 360px;
+	margin: 7% auto
+}
+
+@media ( max-width :768px) {
+	.login-box {
+		width: 90%;
+		margin-top: 20px
+	}
+}
+
+.login-box-body {
+	background: #fff;
+	padding: 20px;
+	color: #444;
+	border-top: 0;
+	color: #666;
+	position: relative;
+}
+
+.form-group {
+	position: relative;
+}
+
+.form-control {
+	width: 266px;
+	padding: 0px 12px;
+	padding-left: 40px;
+}
+
+.login-box-body .icon {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 35px;
+	height: 34px;
+	background: url(../img/login_icon.png) no-repeat;
+}
+
+.login-box-body .icon_lock {
+	background-position: 0 -34px;
+}
+
+.login-box-body .icon_code {
+	background-position: 0 -68px;
+}
+
+.btn {
+	padding: 12px 0;
+	border: none;
+}
+
+.validTips {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	line-height: 26px;
+	width: 100%;
+	text-align: center;
+}

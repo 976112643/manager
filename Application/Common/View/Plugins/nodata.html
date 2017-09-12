@@ -1,0 +1,24 @@
+<?php
+	$tips=isset($tips)?$tips:"暂无数据";
+	$url =isset($url)?$url:"";
+	$sumbt =isset($sumbt)?$tips:"去看看";
+?>
+<div class="noneshowlist text-center"
+	style="height: auto; line-height: normal;">
+	<i class="iconfont" style="font-size: 78px; display: block;"><img
+		src="__STATIC__/img/nodata.png" alt=""></i>
+	<h4>
+		<?=$tips?>
+	</h4>
+	<div style="margin: 10px 0; height: auto; line-height: normal;">
+		<?php
+			if($url){	
+		?>
+		<a href="<?=U($url)?>" class="btn btn-danger">
+			<?=$sumbt?>
+		</a>
+		<?php
+			}
+		?>
+	</div>
+</div>

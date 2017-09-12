@@ -1,0 +1,41 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<tbody>
+		<tr>
+			<th>名字</th>
+			<th>类型</th>
+			<th>空</th>
+			<th>默认</th>
+			<th>额外</th>
+			<th>注释</th>
+		</tr>
+		<?php
+				foreach($columns as $key=>$row){
+			?>
+		<tr>
+			<td>
+				<?=$row['column_name']?>
+			</td>
+			<td>
+				<?=$row['column_type']?>
+			</td>
+			<td>
+				<?=$row['is_nullable']?>
+			</td>
+			<td>
+				<?=$row['column_default']?>
+			</td>
+			<td>
+				<?=$row['extra']?>
+			</td>
+			<td>
+				<?=$row['column_comment']?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+</block>

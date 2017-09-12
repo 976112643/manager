@@ -1,0 +1,42 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<!-- form start -->
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> <label
+			class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 父级
+			</div>
+			<div>
+				<select name="pid" class="form-control width_auto">
+					<?=$info['pid']?>
+				</select> <span class="Validform_checktip">选择父级</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 用户组
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写用户组" name="title" value="<?=$info['title']?>" /> <span
+					class="Validform_checktip">填写用户组</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">备注</div>
+			<div>
+				<input type="text" class="form-control width_auto" name="remark"
+					value="<?=$info['remark']?>" /> <span class="Validform_checktip">填写备注</span>
+			</div>
+		</label>
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

@@ -1,0 +1,71 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="10" class="text-right clearfix">
+				<div class="pull-right">
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="20"><input type="checkbox" class="js_check_all"
+				data-target="ids" value=""></th>
+			<th>配置标题</th>
+			<th>配置调用标识</th>
+			<th>配置类型</th>
+			<th>备注</th>
+			<th width="60" class="text-center">排序</th>
+			<th width="50" class="text-center">状态</th>
+			<th width="38" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td><input type="checkbox" class="ids" data-child="ids"
+				name="ids[]" value="<?=$row['id']?>"></td>
+			<td>
+				<?=$row['title']?>
+			</td>
+			<td>
+				<?=$row['name']?>
+			</td>
+			<td>
+				<?=C('config_type')[$row['type']]?>
+			</td>
+			<td>
+				<?=$row['description']?>
+			</td>
+			<td class="text-center">
+				<?=$row['sort']?>
+			</td>
+			<td class="text-center"><img
+				src="__IMG__/status_<?=$row['is_hid']?>.png" alt=""></td>
+			<td class="text-center">
+				<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

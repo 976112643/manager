@@ -1,0 +1,156 @@
+[2017/06/16 10:28:32] ERR - Payment notification signature verification failed.array (
+  'appid' => '
+        wx4d9ce2eb3c0e7bb8
+    ',
+  'bank_type' => '
+        CFT
+    ',
+  'cash_fee' => '1',
+  'fee_type' => '
+        CNY
+    ',
+  'is_subscribe' => '
+        N
+    ',
+  'mch_id' => '1461413002',
+  'nonce_str' => '
+        cske4r4maaerviebmusub7ulqod8tg5v
+    ',
+  'openid' => '
+        oPBKxwOEG8_9jxGTH8NcWAiK1X4w
+    ',
+  'out_trade_no' => '2017050254515457',
+  'result_code' => '
+        SUCCESS
+    ',
+  'return_code' => '
+        SUCCESS
+    ',
+  'sign' => '
+        3698C53B31208FC99619F4F171D9DEAC
+    ',
+  'time_end' => '20170502210418',
+  'total_fee' => '1',
+  'trade_type' => '
+        APP
+    ',
+  'transaction_id' => '4004362001201705029298631388',
+)
+[2017/06/16 10:32:55] ERR - Payment notification signature verification failed.array (
+  'appid' => '
+        wx4d9ce2eb3c0e7bb8
+    ',
+  'bank_type' => '
+        CFT
+    ',
+  'cash_fee' => '1',
+  'fee_type' => '
+        CNY
+    ',
+  'is_subscribe' => '
+        N
+    ',
+  'mch_id' => '1461413002',
+  'nonce_str' => '
+        cske4r4maaerviebmusub7ulqod8tg5v
+    ',
+  'openid' => '
+        oPBKxwOEG8_9jxGTH8NcWAiK1X4w
+    ',
+  'out_trade_no' => '2017050254515457',
+  'result_code' => '
+        SUCCESS
+    ',
+  'return_code' => '
+        SUCCESS
+    ',
+  'sign' => '
+        3698C53B31208FC99619F4F171D9DEAC
+    ',
+  'time_end' => '20170502210418',
+  'total_fee' => '1',
+  'trade_type' => '
+        APP
+    ',
+  'transaction_id' => '4004362001201705029298631388',
+)
+[2017/06/16 10:39:32] ERR - Payment notification signature verification failed.array (
+  'appid' => '
+        wx0391fc671875527d
+    ',
+  'bank_type' => '
+        CFT
+    ',
+  'cash_fee' => '1',
+  'fee_type' => '
+        CNY
+    ',
+  'is_subscribe' => '
+        N
+    ',
+  'mch_id' => '1462215002',
+  'nonce_str' => '
+        0070d23b06b1486a538c0eaa45dd167a
+    ',
+  'openid' => '
+        ofcZKwoRn-szFbaJTl_mHHlTo5bg
+    ',
+  'out_trade_no' => '
+        10fb6cfa4c990d2bad5ddef4f70e8ba2
+    ',
+  'result_code' => '
+        SUCCESS
+    ',
+  'return_code' => '
+        SUCCESS
+    ',
+  'sign' => '
+        8DD25745679E6803DA848C9815A66A25
+    ',
+  'time_end' => '20170421094637',
+  'total_fee' => '1',
+  'trade_type' => '
+        APP
+    ',
+  'transaction_id' => '4009252001201704217769405120',
+)
+[2017/06/16 11:01:00] ERR - Payment notification signature verification failed.array (
+  'appid' => '
+        wx0391fc671875527d
+    ',
+  'bank_type' => '
+        CFT
+    ',
+  'cash_fee' => '1',
+  'fee_type' => '
+        CNY
+    ',
+  'is_subscribe' => '
+        N
+    ',
+  'mch_id' => '1462215002',
+  'nonce_str' => '
+        b1xtcnkz3cqo91mmqi8udf08gi8bmstk
+    ',
+  'openid' => '
+        ofcZKwiDlAF2MEdOQ-ukAgvjl7Ow
+    ',
+  'out_trade_no' => '
+        2017050348539851
+    ',
+  'result_code' => '
+        SUCCESS
+    ',
+  'return_code' => '
+        SUCCESS
+    ',
+  'sign' => '
+        2E1FA886F1AB815FB935D75AD31257BA
+    ',
+  'time_end' => '20170503090622',
+  'total_fee' => '1',
+  'trade_type' => '
+        APP
+    ',
+  'transaction_id' => '4004362001201705039339009712',
+)

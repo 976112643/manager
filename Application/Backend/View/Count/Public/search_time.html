@@ -1,0 +1,12 @@
+<form action='<?=U("")?>' method='get' class="form-inline pull-left col-md-12" >
+	<span>日期类型：</span>
+	<select name="type" class="form-control input-sm">
+		<option value="day"  <?php if($type=='day'){echo "selected";}?>>日</option>
+        <option value="week" <?php if($type=='week'){echo "selected";}?>>周</option>
+		<option value="month" <?php if($type=='month'){echo "selected";}?>>月</option>
+		<option value="year" <?php if($type=='year'){echo "selected";}?>>年</option>
+	</select>
+	<span>截止日期（包括当天）：</span>
+	<input type="text" class="form-control date-input input-sm"   name="time" value="<?=I('time')?>" placeholder="截止时间" >
+	<input type="submit" class="btn btn-info btn-sm" value='搜索' />
+</form>

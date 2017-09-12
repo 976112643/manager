@@ -1,0 +1,57 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> <label
+			class="form-group">
+			<div class="control-label">父级</div>
+			<div>
+				<select name="pid" class="form-control width_auto">
+					<option value="0">顶级</option>
+					<?=$info['pid']?>
+				</select> <span class="Validform_checktip">选择父级</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 标题
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写标题" name="title" value="<?=$info['title']?>" /> <span
+					class="Validform_checktip">标题</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">导航链接</div>
+			<div>
+				<input type="text" class="form-control large" name="url"
+					value="<?=$info['url']?>"> <span class="Validform_checktip">示例：</br>目录：""</br>站内链接："/Index/index"</br>站外链接："www.baidu.com"
+				</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">浏览方式</div>
+			<div>
+				<select name="target" class="form-control width_auto">
+					<option value="_self">当前标签打开</option>
+					<option value="_blank"<?php if($info['target']=='_blank'){
+						echo 'selected="selected"'; } ?> >在新标签打开</option>
+				</select> <span class="Validform_checktip">浏览方式</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">排序</div>
+			<div>
+				<input type="text" placeholder="0" class="form-control width_auto"
+					name="sort" value="<?=$info['sort']?>" /> <span
+					class="Validform_checktip">选填，默认为0，顺序排序方式为由大到小</span>
+			</div>
+		</label>
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

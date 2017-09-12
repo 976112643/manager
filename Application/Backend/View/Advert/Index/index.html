@@ -1,0 +1,62 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="adspace_box clearfix">
+	<?php
+			foreach ($_list as $key => $val) {
+				$scale_arr=json_decode($val['scale']);
+				$num=0;
+				foreach ($scale_arr as $value) {
+					$arr=count(explode(':',$value));
+					if(intval($arr)==0){
+						$num+=1;
+					}else{
+						$num+=intval($arr);
+					}
+				}
+				$cur_date=date("Y-m-d H:i:s",time());
+				$map['adspace_id']=$val['id'];
+
+				$map['start_time']=array("lt",$cur_date);
+				$map['end_time']=array("gt",$cur_date);
+				$ading_num=count_data("banner",$map);
+
+				$map['start_time']=array("gt",$cur_date);
+				$map['status']=1;
+				$adstart_num=count_data("banner",$map);
+				
+				unset($map['start_time'],$map['end_time']);
+		?>
+	<div class="list col-md-3 col-sm-5">
+		<div class="list_box clearfix">
+			<div class="cover col-xs-4">
+				<img src="__ROOT__/<?=$val['cover']?>" class="img-responsive">
+			</div>
+			<div class="des col-xs-8">
+				<div class="title">
+					[ ID：
+					<?=$val['id']?>
+					]
+					<?=$val['title']?>
+				</div>
+				<div class="info">
+					广告位数量：
+					<?=$num?>
+					个<br /> 即将到期广告：
+					<?=$ading_num?>
+					个<br /> 待投放广告：
+					<?=$adstart_num?>
+					个<br />
+				</div>
+				<div class="operate">
+					<a href="<?=U('set',array(" id"=>$val['id']))?>" class="dialog"
+						padding="5" style="margin-right:10px;" title="设置<?=$val['title']?>位">设置
+					</a> <a href="<?=U('lists',array(" adspace_id"=>$val['id']))?>">查看广告</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
+			}
+		?>
+</div>
+</block>

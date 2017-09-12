@@ -1,0 +1,48 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<!-- form start -->
+	<form role="form" action="<?=U('')?>" method="post"
+		class="operate_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" />
+		<div class="box-body">
+			<div class="form-group">
+				<label for="exampleInputPassword1">页面</label> <input type="text"
+					class="form-control width_auto" name="keywords"
+					value="<?=$info['keywords']?>"<?php /*
+				if($info['page_title']){ echo 'disabled="disabled"'; }*/ ?> />
+			</div>
+			<div class="form-group">
+				<label for="exampleInputEmail1">类型</label> <select
+					class="form-control width_auto" name="type">
+					<?php
+							$keywords_type =array(
+								'1' =>'产品',
+								'2' =>'秀吧',
+								'3' =>'店铺',
+							);
+							foreach($keywords_type as $key=>$val){
+						?>
+					<option value="<?=$key?>"<?php
+						if($key==$info['type']){echo "selected";}?>>
+						<?=$val?>
+					</option>
+					<?php
+							}
+						?>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">次数</label> <input type="text"
+					class="form-control width_auto" name="count"
+					value="<?=$info['count']?>" placeholder="关键字">
+			</div>
+		</div>
+		<div class="box-footer">
+			<button type="submit" class="btn btn-primary ajax-post"
+				target-form="operate_form">提交</button>
+			<a href="<?=U('index')?>" class="btn btn-default">取消返回</a>
+		</div>
+	</form>
+</div>
+</block>

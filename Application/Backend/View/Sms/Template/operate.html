@@ -1,0 +1,62 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> <label
+			class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 签名名称
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写签名名称" name="sign" value="<?=$info['sign']?>" /> <span
+					class="Validform_checktip">签名名称(可重复，参照阿里大于)</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 模版ID
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写模版ID" name="code" value="<?=$info['code']?>"> <span
+					class="Validform_checktip">模版ID(唯一，参照阿里大于)</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 标题
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写标题" name="title" value="<?=$info['title']?>"> <span
+					class="Validform_checktip">标题(用于标识，不影响短信发送，参照阿里大于)</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> PRODUCT
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" name="product"
+					value="<?=$info['product']?>"> <span
+					class="Validform_checktip">内容里的参数(一般填写网站名称)</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 内容
+			</div>
+			<div>
+				<textarea class="form-control width_auto" name="content"><?=$info['content']?></textarea>
+				<span class="Validform_checktip">内容(用于参考，不影响短信发送，参照阿里大于)</span>
+			</div>
+		</label>
+
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

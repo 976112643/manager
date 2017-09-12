@@ -1,0 +1,70 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<!-- form start -->
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> <label
+			class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 用户组
+			</div>
+			<div>
+				<select name="role_id" class="form-control width_auto">
+					<?=$info['role_select'];?>
+				</select> <span class="Validform_checktip">选择用户组</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 登录用户名
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写用户名" value="<?=$info['username']?>" name="username"
+					placeholder="用户名" /> <span class="Validform_checktip">用户名为6-20位</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<?php
+						if(!$info['id']){
+					?>
+				<span class="required">*</span>
+				<?php
+						}
+					?>
+				登录密码
+			</div>
+			<div>
+				<input type="password" class="form-control width_auto"<?php
+				if(!$info['id']){ ?> datatype="*" nullmsg="填写密码"
+				<?php
+						}
+					?>
+				name="password" value=""> <span class="Validform_checktip">8-30位密码（必须包含数字字母和特殊字符）</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">姓名</div>
+			<div>
+				<input type="text" class="form-control width_auto"
+					value="<?=$info['nickname']?>" name="nickname" placeholder="" /> <span
+					class="Validform_checktip">填写姓名</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">联系邮箱</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="/^$/|e"
+					name="email" value="<?=$info['email']?>"> <span
+					class="Validform_checktip">填写邮箱</span>
+			</div>
+		</label>
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>
+<block name="script"> </block>

@@ -1,0 +1,186 @@
+<extend name="Public/body" />
+<block name="body"> 
+	<div class="clearfix " style="width:1000px;">
+		<p class="text-center bg-success lead">基本信息</p>
+		<table class="table table-bordered">
+			<?php
+				foreach($base_config as $k => $v){
+			?>
+			<tr>
+				<td class="col-xs-2"><?=$v['title']?></td>
+				<?php
+					if($v['name']=='head_img'){
+				?>
+				<td class="col-xs-10">
+					<a href="javascript:;" class="js_show_image" data-src="<?=file_url($info[$v['name']])?>">
+						<img src="<?=file_url($info[$v['name']])?>"style="height:50px;">
+					</a>
+				</td>
+				<?php
+					}else{
+				?>
+					<td class="col-xs-10"><?=$info[$v['name']]?></td>
+			</tr>
+			<?php
+					}
+				}
+			?>
+		</table>
+	</div>
+	<?php
+	   //dump($certificate_info);die;
+	?>
+    <div class="clearfix " style="width:1000px;">
+        <p class="text-center bg-success lead">认证资质</p>
+        <?php if($certificate_info['type']==2){ ?>
+        <table class="table table-bordered">
+            <tr>
+                <td class="col-xs-2">名字</td><td class="col-xs-10"><?=$certificate_info['realname']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">手机</td><td class="col-xs-10"><?=$certificate_info['mobile']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">银行账号</td><td class="col-xs-10"><?=$certificate_info['bank_account']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">支付宝账号</td><td class="col-xs-10"><?=$certificate_info['alipay']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">身份证号</td><td class="col-xs-10"><?=$certificate_info['id_card']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">认证定金</td><td class="col-xs-10">￥<?=$certificate_info['balance_money']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">缴费状态</td><td class="col-xs-10"><?=$certificate_info['balance_status']==1?'已缴费':'未缴费';?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">身份证正面</td>
+                <td class="col-xs-10">
+                    <a href="javascript:;" class="js_show_image" data-src="<?=file_url($certificate_info['id_card_front'])?>">
+                        <img src="__ROOT__/<?=$certificate_info['id_card_front']?>"style="height:200px;">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">身份证反面</td>
+                <td class="col-xs-10">
+                    <a href="javascript:;" class="js_show_image" data-src="<?=file_url($certificate_info['id_card_reverse'])?>">
+                        <img src="__ROOT__/<?=$certificate_info['id_card_reverse']?>"style="height:200px;">
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <?php }else{ ?>
+        <?php $area = get_no_hid('area'); ?> 
+        <table class="table table-bordered">
+            <tr>
+                <td class="col-xs-2">公司名称</td><td class="col-xs-10"><?=$certificate_info['company']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">工商编号</td><td class="col-xs-10"><?=$certificate_info['number']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">所在地区</td><td class="col-xs-10"><?=$area[$certificate_info['province']]['title'].$area[$certificate_info['city']]['title'].$area[$certificate_info['area']]['title'].$certificate_info['address'];?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">名字</td><td class="col-xs-10"><?=$certificate_info['realname']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">手机</td><td class="col-xs-10"><?=$certificate_info['mobile']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">银行账号</td><td class="col-xs-10"><?=$certificate_info['bank_account']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">认证定金</td><td class="col-xs-10">￥<?=$certificate_info['balance_money']?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">缴费状态</td><td class="col-xs-10"><?=$certificate_info['balance_status']==1?'已缴费':'未缴费';?></td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">资质证书上传</td>
+                <td class="col-xs-10">
+                    <a href="javascript:;" class="js_show_image" data-src="<?=file_url($certificate_info['qualification_certificate'])?>">
+                        <img src="__ROOT__/<?=$certificate_info['id_card_front']?>"style="height:200px;">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-xs-2">工商管理证书</td>
+                <td class="col-xs-10">
+                    <a href="javascript:;" class="js_show_image" data-src="<?=file_url($certificate_info['certificate_of_business'])?>">
+                        <img src="__ROOT__/<?=$certificate_info['id_card_reverse']?>"style="height:200px;">
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <?php }?>    
+    </div>
+	<div class="clearfix " style="width:1000px;">
+		<p class="text-center bg-success lead">银行卡信息</p>
+		<table class="table table-bordered">
+			<?php
+			if($info['bank_info']){
+				foreach($info['bank_info'] as $k =>$v){
+					
+			?>
+			<tr>
+				<td class="col-xs-2"><?=$v['bank_name']?></td>
+				<td class="col-xs-10">
+				<?php
+					foreach($bank_config as $vv){
+				?>
+					<p><?=$vv['title']?> : 
+					<?php
+						if($vv['name'] == 'nickname') echo $info['nickname'];
+						if($vv['name']=='bank_img'){
+					?>
+						<a href="javascript:;" class="js_show_image" data-src="<?=file_url($v[$vv['name']])?>">
+							<img src="__ROOT__/<?=$v[$vv['name']]?>"style="height:50px;">
+						</a>
+					<?php
+						}else{
+					?>
+					<?=$v[$vv['name']]?>
+					<?php
+						}
+					?>
+					</p>
+				<?php
+					}
+				?>
+				</td>
+			</tr>
+			<?php
+				}
+			}else{
+			?>
+			无
+			<?php
+				}
+			?>
+		</table>
+	</div>
+	<div class="form-btn clearfix">
+		<a href="<?=U('index',array('p'=>I('p')))?>" class="pull-left btn btn-default">取消并返回</a>
+	</div>
+	<script>
+		$(function(){
+			$('.js_show_image').on('click',function(){
+				var _src = $(this).attr('data-src');
+				var winH = $(window).height();
+				$('.image_dialog').find('img').attr('src',_src);
+				var w = $('.image_dialog').find('img').width();
+				var h = $('.image_dialog').find('img').height();
+				if(h < winH){
+					var _top = (winH-h)/2;
+					$('.image_dialog').css({'top':_top+'px'});
+				}
+				$('.image_dialog').css({'visibility':'visible','opacity':'100','margin-left':(0-w/2)+'px','left':'50%'});
+				$('.bg_image_shadow').css({'visibility':'visible'});
+			});
+		});
+	</script>
+</block>

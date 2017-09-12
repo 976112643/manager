@@ -1,0 +1,214 @@
+<extend name="Public/body" />
+<block name="body">
+
+	<div class="row" style="margin-bottom: 20px;">
+		<include file="Count/Public/search_time" />
+	</div>
+
+	<!-- 月度报表 S -->
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+				<div class="chart">
+					<div id="echarts1" style="height:400px;"></div>
+				</div>	
+            </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+				<div class="chart">
+					<div id="echarts2" style="height:400px;"></div>
+				</div>	
+            </div>
+		</div>
+	</div>
+	<!-- 月度报表 E -->
+
+<?php
+
+	$_time=I('time')?I('time'):date('Y-m-d',time());
+?>
+</block>
+
+<block name="script">
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+$(function (){
+	config={ dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: true };
+	$('input[name=time]').click(function (){
+		WdatePicker(config);
+	});
+
+});
+var myChart1 = echarts.init(document.getElementById('echarts1'));
+console.log(myChart1);
+var option1 = {
+    legend: {
+        data: [],
+        x: "right"
+    },
+    tooltip : {
+		trigger: 'axis'
+	},
+	toolbox: {
+        show:true,
+    	feature: {
+    		dataZoom: {
+	    		show: true,
+	            yAxisIndex: 'none'
+	        },
+    		dataView: {
+                readOnly: true,
+                show: true
+            },
+	        magicType: {
+                type: ["line", "bar"],
+                show: true
+            },
+	        restore: {show: true},
+            saveAsImage: {show: true},
+        }
+    },
+    calculable: true,
+    xAxis: [
+        {
+            type: "category",
+            data: <?=$date_list?>,
+            boundaryGap: false,
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: "value",
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    series: [
+    	{
+            name: "平台金额",
+            type: "line",
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        type: "default"
+                    }
+                }
+            },
+            data: <?=$user_list['member']?>,
+            smooth: true
+        },
+       
+    ],
+    title: {
+        text: "平台金额报表（金额总数：<?=$user_count?>元）",
+        subtext: "截止日期（包括当天）：<?=$_time?>"
+    },
+    grid: {
+        x: 50,
+        x2: 30,
+        y2: 30,
+        y: 60,
+        borderWidth: 0
+    }
+};
+myChart1.setOption(option1);
+var myChart2 = echarts.init(document.getElementById('echarts2'));
+var option2 = {
+	    timeline:{
+	        data: <?=$date_list?>,
+	        label : {
+	            formatter : function(s) {
+	                return s.slice(0, 10);
+	            }
+	        },
+	        autoPlay : false,
+	        playInterval : 1000
+	    },
+	    options:[
+	        {
+	            title : {
+	                'text':'<?=date('Y')?>年平台金额报表',
+	                'subtext':'数据来自全部门店'
+	            },
+	            tooltip : {'trigger':'axis'},
+	            legend : {
+	                x:'right',
+	                'data':['GDP'],
+	                'selected':{
+	                    'GDP':true,
+	                }
+	            },
+	            toolbox : {
+	                'show':true, 
+	                orient : 'vertical',
+	                x: 'right', 
+	                y: 'center',
+	                'feature':{
+	                    'mark':{'show':true},
+	                    'dataView':{'show':true,'readOnly':false},
+	                    'magicType':{'show':true,'type':['line','bar','stack','tiled']},
+	                    'restore':{'show':true},
+	                    'saveAsImage':{'show':true}
+	                }
+	            },
+	            calculable : true,
+	            grid : {'y':80,'y2':100},
+	            xAxis : [{
+	                'type':'category',
+	                'axisLabel':{'interval':0},
+	                'data':<?=$shop_list?>
+	            }],
+	            yAxis : [
+	                {
+	                    'type':'value',
+	                    'name':'GDP（元）',
+	                    'max':<?=$max?>
+	                },
+	                {
+	                    'type':'value',
+	                    'name':'其他（亿元）'
+	                }
+	            ],
+	            series : [
+	                {
+	                    'name':'GDP',
+	                    'type':'bar',
+	                    'markLine':{
+	                        symbol : ['arrow','none'],
+	                        symbolSize : [4, 2],
+	                        itemStyle : {
+	                            normal: {
+	                                lineStyle: {color:'orange'},
+	                                barBorderColor:'orange',
+	                                label:{
+	                                    position:'left',
+	                                    formatter:function(params){
+	                                        return Math.round(params.value);
+	                                    },
+	                                    textStyle:{color:'orange'}
+	                                }
+	                            }
+	                        },
+	                        'data':[{'type':'average','name':'平均值'}]
+	                    },
+	                    'data': <?=$option_first?>
+	                },
+	                
+	            ]
+	        },
+	        <?=$option_list?>
+       		
+	    ]
+	};
+myChart2.setOption(option2);                   
+
+
+</script>
+</block>

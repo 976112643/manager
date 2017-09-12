@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<?php $config=C('TMPL_PARSE_STRING'); ?>
+<meta charset="UTF-8">
+<title>系统发生错误</title>
+<style type="text/css">
+body {
+	font-family: "微软雅黑";
+}
+
+.bg {
+	width: 534px;
+	height: 330px;
+	background: url(<?=$ config [ '__STATIC__' ]?>/ images/ exception.png)
+		no-repeat center 0;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.bg .title {
+	position: absolute;
+	top: 220px;
+	left: 5%;
+	text-align: center;
+	width: 90%;
+	font-size: 36px;
+	color: #fff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	white-space: nowrap;
+	word-break: keep-all;
+}
+</style>
+</head>
+<body>
+	<div class="bg">
+		<div class="title">
+			<?php echo strip_tags($e['message']);?>
+		</div>
+	</div>
+</body>
+</html>

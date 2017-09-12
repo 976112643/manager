@@ -1,0 +1,68 @@
+<extend name="Public/body" />
+<block name="body"> 
+	<table class="table js_table table-bordered">
+		<!-- <thead>
+			<tr>
+				<th colspan="20" class="text-right clearfix">
+					<form action="<?=U('index');?>" class="form-inline pull-left" method="get">
+						<input type="text" class="form-control input-sm" placeholder="手机" name="mobile" value="<?=$mobile?>">
+						<select name="is_hid" class="form-control input-sm">
+							<option value=''>请选择状态</option>
+							<?php 
+								$set[0] = (is_numeric($is_hid) && $is_hid ==0) ? "selected='selected'" : '';
+								$set[1] = ($is_hid == 1) ? "selected='selected'" : '';
+							?>
+							<option value="1" <?=$set[1]?> >禁用</option>
+							<option value="0" <?=$set[0]?>>启用</option>
+						</select>
+						<button type="submit" class="btn btn-primary btn-sm" target-form="operate_form">提交</button>
+					</form>
+					<div class="pull-right">
+					
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+					</div>
+				</th>
+			</tr>
+		</thead> -->
+		<tbody>
+			<tr role="row">
+				<th width="20"><input type="checkbox" class="js_check_all" data-target="ids" value=""></th>
+				<th width="120" class="text-center">邀请用户</th>
+				<th>关注用户</th>
+				<th>关注时间</th>
+			</tr>
+			<?php
+				if(!$list){
+			?>
+			<tr>
+				<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+			</tr>
+			<?php
+				}
+			?>
+			<?php
+				foreach($list as $row){
+			?>
+			<tr>
+				<td width="20"><input type="checkbox" class="ids" data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+				<td>
+					<a href="<?=U('Backend/Member/Member/details',array('ids'=>$row['pid']))?>" title="<?=$row['parent_nickname']?>">
+						<?=$row['parent_nickname']?>
+					</a>
+				</td>
+				<td>
+					<a href="<?=U('Backend/Member/Member/details',array('ids'=>$row['member_id']))?>" title="<?=$row['my_nickname']?>">
+						<?=$row['my_nickname']?>
+					</a>
+				</td>
+				<td><?=$row['add_time']?></td>
+			</tr>
+			<?php
+				}
+			?>
+		</tbody>
+	</table>
+	<div class="pages">
+		<?=$page?>
+	</div>
+</block>

@@ -1,0 +1,110 @@
+<extend name="Public/body" />
+<block name="body"> 
+	<table class="table js_table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="20" class="text-right clearfix">
+					<form action="<?=U('index');?>" class="form-inline pull-left" method="get">
+						<input type="text" class="form-control input-sm" placeholder="手机" name="mobile" value="<?=$mobile?>">
+						<input type="text" class="form-control input-sm" placeholder="昵称" name="nickname" value="<?=$nickname?>">
+						<select name="is_hid" class="form-control input-sm">
+							<option value=''>请选择状态</option>
+							<?php 
+								$set[0] = (is_numeric($is_hid) && $is_hid ==0) ? "selected='selected'" : '';
+								$set[1] = ($is_hid == 1) ? "selected='selected'" : '';
+							?>
+							<option value="1" <?=$set[1]?> >禁用</option>
+							<option value="0" <?=$set[0]?>>启用</option>
+						</select>
+	                    <input type="start_date" style="min-width:auto;width:110px!important" onclick="WdatePicker({skin:'backend',dateFmt:'yyyy-MM-dd'})" class="form-control input-sm wdate" placeholder="开始时间" name="start_date" value="<?=$start_date?>">
+                        <input type="stop_date" style="min-width:auto;width:110px!important" onclick="WdatePicker({skin:'backend',dateFmt:'yyyy-MM-dd'})" class="form-control input-sm wdate" placeholder="结束时间" name="stop_date" value="<?=$stop_date?>">
+						<button type="submit" class="btn btn-primary btn-sm" target-form="operate_form">提交</button>
+					</form>
+					<div class="pull-right">
+					
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr role="row">
+				<th width="20"><input type="checkbox" class="js_check_all" data-target="ids" value=""></th>
+				<th width="50" class="sort"><a href="<?=U('Backend/Member/Member/index',array('start_date'=>I('start_date'),'stop_date'=>I('stop_date'),'sort'=>'id','order'=>I('order')=='asc'?'desc':'asc'))?>" class="<?php if(!I('order')){ ?>sort<?php }else{ if(I('sort')=='id'){ echo I('order')=='asc'?'desc':'asc'; }else{ echo 'sort'; } }?> "> ID</a></th>
+				<th width="120" class="text-center">手机</th>
+				<th>昵称</th>
+				<th>总积分</th>
+				<th>余额</th>
+				<th>推广人数</th>
+				<th>注册时间</th>
+				<th>最后登录时间｜地点</th>
+				<th width="50" class="text-center">状态</th>
+				<th width="15%" class="text-center">操作</th>
+			</tr>
+			<?php
+				if(!$list){
+			?>
+			<tr>
+				<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+			</tr>
+			<?php
+				}
+			?>
+			<?php
+				foreach($list as $row){
+			?>
+			<tr>
+				<td width="20"><input type="checkbox" class="ids" data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+                <td class="text-center">
+                    <?=$row['id']?>
+                </td>
+				<td class="text-center">
+					<?=$row['mobile']?>
+				</td>
+				<td>
+					<a href="<?=U('details',array('ids'=>$row['id'],'p'=>I('p')))?>" title="<?=$row['nickname']?>">
+						<?=$row['nickname']?>
+					</a>
+				</td>
+				<td>
+					<?=$row['integral']?>
+				</td>
+				<td>
+					<?=$row['balance']?>
+				</td>
+				<td>
+				    <a href="<?=U('Backend/Member/Analysis/recommend',array('ids'=>$row['id']))?>"><?=$row['num']?$row['num']:0?></a>
+                </td>
+                <td>
+                    <?=date('Y-m-d H:i:s',$row['register_time'])?>
+                </td>
+                
+				<td>
+					<?php
+						$login_str = '';
+						if($row['login_time']){
+							$login_str = date('Y-m-d H:i:s',$row['login_time']).' | ' . ip_to_location($row['login_ip']);
+						}else{
+							$login_str = '还未登陆';
+						}
+					?>
+					<?=$login_str?>
+				</td>
+				<td class="text-center">
+					<img src="__IMG__/status_<?=$row['is_hid']?>.png" alt="">
+				</td>
+				<td class="text-center">
+					<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+				</td>
+			</tr>
+			<?php
+				}
+			?>
+		</tbody>
+	</table>
+	<div class="pages">
+		<?=$page?>
+	</div>
+</block>

@@ -1,0 +1,72 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="20" class="clearfix">
+				<form action="<?=U('index');?>"
+					class="form-inline pull-left clearfix" method="get">
+					<input type="search" class="form-control input-sm" placeholder="手机"
+						name="mobile" value="<?=$mobile?>">  <input type="search"
+						class="form-control input-sm" placeholder="昵称" name="nickname"
+						value="<?=$nickname?>"> <input type="submit"
+						class="btn btn-default btn-sm" value="搜索" />
+				</form>
+				<div class="pull-right">
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="20"><input type="checkbox" class="js_check_all"
+				data-target="ids" value=""></th>
+			<th width="110" class="text-center "><a
+				href="<?=$sort['mobile']['url']?>"
+				class="<?=$sort['mobile']['class']?>">手机</a></th>
+			<!--<th>邮箱</th>-->
+			<th>昵称</th>
+			<th width="80" class="text-center">可用金额</th>
+			<th width="80" class="text-center">冻结金额</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td width="20"><input type="checkbox" class="ids"
+				data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+			<td class="text-center">
+				<?=$row['mobile']?>
+			</td>
+			<!--<td>
+				<?=$row['email']?>
+			</td>-->
+			<td>
+				<?=$row['nickname']?>
+			</td>
+			<td class="text-center">
+				<?=$row['balance']?>
+			</td>
+			<td class="text-center">
+				<?=$row['frozen']?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

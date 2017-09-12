@@ -1,0 +1,32 @@
+<section class="content-header">
+	<ul class="treeview-menu">
+		<?php
+				foreach($group_menu as $k=>$val){
+						foreach($val as $menu){
+							$sideClass='';
+							if( $menu_info['id']==$menu['data']['id'] || $menu['data']['id']==$menuPathArr[3] ){
+								$sideClass='cur';
+								$small_title=$menu['data']['title'];
+								$small_tips = str_replace("\n",'</br>',$menu['data']['description']);
+							}
+					?>
+		<li class="<?=$sideClass?>"><a
+			href="<?=U($menu['data']['url'])?>">
+				<?=$menu['data']['title']?>
+		</a></li>
+		<?php
+						}
+						}
+					?>
+	</ul>
+	<ol class="breadcrumb">
+		<li><a href="<?=U('/Backend')?>" title="首页"><i
+				class="iconfont">&#xe678;</i>首页</a></li>
+		<li><a href="<?=U('index')?>" title="<?=$small_title?>">
+				<?=$small_title?>
+		</a></li>
+		<li class="active">
+			<?=($info['id']?" 修改":" 添加")?>
+		</li>
+	</ol>
+</section>

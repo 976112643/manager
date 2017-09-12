@@ -1,0 +1,141 @@
+<!-- 月度报表 S -->
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+            	<div class="col-xs-6">
+					<div class="chart">
+						<div id="echarts2" style="height:400px;"></div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="chart">
+						<div id="echarts3" style="height:400px;"></div>
+					</div>
+				</div>	
+            </div>
+		</div>
+	</div>
+<!-- 月度报表 E -->
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+var myChart2 = echarts.init(document.getElementById('echarts2'));
+var option2 = {
+    legend: {
+        data: ['已支付','待支付'],
+        x: "right"
+    },
+    tooltip : {
+		trigger: 'axis'
+	},
+    toolbox: {
+        feature: {
+            dataView: {
+                readOnly: true
+            },
+            magicType: {
+                type: ["line", "bar", "stack", "tiled"],
+                show: false
+            }
+        }
+    },
+    calculable: true,
+    xAxis: [
+        {
+            type: "category",
+            data: <?=$date_list?>,
+            boundaryGap: false,
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: "value",
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    series: [
+    	{
+            name: "已支付",
+            type: "line",
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        type: "default"
+                    }
+                }
+            },
+            data: <?=$user_list['success_total']?>,
+            smooth: true
+        },
+        {
+            name: "待支付",
+            type: "line",
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        type: "default"
+                    }
+                }
+            },
+            data: <?=$user_list['error_total']?>,
+            smooth: true
+        },
+       
+    ],
+    title: {
+        text: "充值报表（充值总数：<?=$user_count?>笔）（金额总数：<?=$sum_success_total?>元）",
+        subtext: "截止日期（包括当天）：<?=$_time?>"
+    },
+    grid: {
+        x: 50,
+        x2: 30,
+        y2: 30,
+        y: 60,
+        borderWidth: 0
+    }
+};
+myChart2.setOption(option2);
+var myChart3 = echarts.init(document.getElementById('echarts3'));
+var option3 = {
+	    title : {
+	        text: '充值金额报表',
+	        x:'center'
+	    },
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	    },
+	    legend: {
+	        orient: 'vertical',
+	        x: 'left',
+	        data: ['已支付','待支付']
+	    },
+	    series : [
+	        {
+	            name: '充值金额',
+	            type: 'pie',
+	            radius : '55%',
+	            center: ['50%', '60%'],
+	            data:[
+	                {value:<?=$sum_success_total?>, name:'已支付'},
+	                {value:<?=$sum_error_total?>, name:'待支付'},
+	            ],
+	            itemStyle: {
+	                emphasis: {
+	                    shadowBlur: 10,
+	                    shadowOffsetX: 0,
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                }
+	            }
+	        }
+	    ]
+	};
+myChart3.setOption(option3);
+
+myChart2.connect(myChart3);
+myChart3.connect(myChart2);
+</script>

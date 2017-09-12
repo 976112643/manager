@@ -1,0 +1,443 @@
+
+@charset "utf-8";
+
+/* CSS Document */
+
+body,
+div,
+img,
+ul,
+li,
+table,
+a,
+p,
+input,
+textarea,
+h3,
+h1 {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+body,
+html,
+textarea {
+    width: 100%;
+    color: #666;
+    font-family: 'Heiti SC', arial, tahoma, 'Microsoft Yahei', '\5b8b\4f53', sans-serif;
+    text-align: left;
+}
+body a:hover,body a:focus{ text-decoration: none }
+
+a,
+img,
+div {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+li {
+    list-style: none;
+}
+
+input,
+textarea {
+    outline: none
+}
+
+a:foucs,
+a:hover {
+    text-decoration: none;
+    color: auto
+}
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.transition5 {
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.transition10 {
+    -moz-transition: all 1s ease 0.2s;
+    -webkit-transition: all 1s ease 0.2s;
+    -o-transition: all 1s ease 0.2s;
+    -ms-transition: all 1s ease 0.2s;
+    transition: all 1s ease 0.2s;
+}
+
+.transition3 {
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.mark{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0; top: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+
+.tip_win {
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    min-width: 80px;
+    line-height:20px;
+    font-size: 12px;
+    position: fixed;
+    left: 50%;
+    border-radius: 3px;
+    bottom: 50px;
+    z-index: 300;
+    text-align: center;
+    display: none; 
+}
+.tip_win1{
+    transform: rotateX(90deg) scale(0.653);
+    transform-origin: 50% 200%;
+    -webkit-animation: tip1 0.8s linear 0s infinite alternate;
+}
+.tip_win2{
+    transform: rotate(0deg);
+    transform-origin: 50% 200%;
+    -webkit-animation: tip2 1s linear 0s infinite alternate;
+}
+.tip_win3{
+    left:10%;
+    transform: scale(0.6);
+    -webkit-animation: tip3 1.5s linear 0s alternate;
+    opacity: 0
+}
+
+.tip_win4{
+    left:90%;
+    transform: scale(0.6);
+    -webkit-animation: tip4 1.5s linear 0s alternate;
+    opacity: 0
+}
+.tip_win5{
+    bottom:80px;
+    transform: scale(0.6);
+    -webkit-animation: tip5 1.5s linear 0s alternate;
+}
+.tip_win6{
+    -webkit-transform: scale(1.5) ;
+    -webkit-transform-origin: center top;
+    opacity: 0;
+    -webkit-animation: tip6 1.5s linear 0s alternate;
+}
+@-webkit-keyframes tip1 {
+    0% {
+        -webkit-transform: rotateX(30deg) scale(0.653);
+    }
+    20% {
+        -webkit-transform: rotateX(0deg) scale(1.2);
+    }
+    40% {
+        -webkit-transform: rotateX(0deg) scale(1);
+    }
+    100% {
+        -webkit-transform: rotateX(0deg) scale(1);
+    }
+}
+@-webkit-keyframes tip2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    5% {
+        -webkit-transform: rotate(-5deg);
+    }
+    10% {
+        -webkit-transform: rotate(0deg);
+    }
+    15% {
+        -webkit-transform: rotate(5deg);
+    }
+    20% {
+        -webkit-transform: rotate(0deg);
+    }
+    25% {
+        -webkit-transform: rotate(-5deg);
+    }
+    30% {
+        -webkit-transform: rotate(0deg);
+    }
+    35% {
+        -webkit-transform: rotate(5deg);
+    }
+    40% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+    }
+}
+@-webkit-keyframes tip3 {
+    0% {
+        left:10%;
+        -webkit-transform: scale(0.6);
+        opacity: 0
+    }
+    10% {
+        left:55%;
+        -webkit-transform: scale(1.1) ;
+        opacity: 1
+    }
+    25% {
+        left:50%;
+        -webkit-transform: scale(1) ;
+        opacity: 1
+    }
+    90% {
+        left:50%;
+        -webkit-transform: scale(1);
+        opacity: 1
+    }
+    100% {
+        left:90%;
+        -webkit-transform: scale(0.6);
+        opacity: 0
+    }
+}
+@-webkit-keyframes tip4 {
+    0% {
+        left:90%;
+        -webkit-transform: scale(0.6);
+        opacity: 0
+    }
+    10% {
+        left:45%;
+        -webkit-transform: scale(1.1) ;
+        opacity: 1
+    }
+    25% {
+        left:50%;
+        -webkit-transform: scale(1) ;
+        opacity: 1
+    }
+    90% {
+        left:50%;
+        -webkit-transform: scale(1);
+        opacity: 1
+    }
+    100% {
+        left:10%;
+        -webkit-transform: scale(0.6);
+        opacity: 0
+    }
+}
+
+@-webkit-keyframes tip5 {
+    0% {
+        bottom: 80px;
+        -webkit-transform: scale(0.6) ;
+    }
+    10% {
+        bottom: 50px;
+        -webkit-transform: scale(1) ;
+        opacity: 1
+    }
+    15% {
+        bottom: 60px;
+    }
+    18% {
+        bottom: 50px;
+    }
+    20% {
+        bottom: 55px;
+    }
+    22% {
+        bottom: 50px;
+    }
+    90% {
+        bottom: 50px;
+        -webkit-transform: scale(1) ;
+        opacity: 1
+    }
+    100% {
+        bottom: 40px;
+        -webkit-transform: scale(0.6) ;
+        opacity: 0
+    }
+}
+
+@-webkit-keyframes tip6 {
+    0% {
+       -webkit-transform: scale(2) ;
+       opacity: 0
+    }
+    15% {
+       -webkit-transform: scale(0.8) ;
+       opacity: 1;
+       -webkit-transform-origin: center 150%;
+    }
+    20% {
+       -webkit-transform: scale(1) ;
+    }
+    90% {
+        -webkit-transform: scale(1) ;
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: scale(1.2) ;
+        opacity: 0
+    }
+}
+
+/*外部容器*/
+.pull-left{ float: left; }
+.pull-right{ float: right; }
+
+
+.wrapper{ min-width: 100%; overflow: hidden; }
+.main{ width: 1100px; margin: 0 auto; }
+.header{ height: 100px; width: 100%; position: fixed; left: 0; top: 0; background:rgba(255,255,255,0.2); z-index: 100;}
+.header .logo{ display: block; float: left; height: 70px; margin-top: 15px; }
+.header .logo img{ height: 100%; width: auto }
+.header .h_link{ display: block; float: right; height: 100%; line-height: 100px; width: 120px; text-align: center; color: #fff; }
+.header_show{ background:rgba(255,255,255,1); box-shadow: 0 1px 6px rgba(0,0,0,0.2); }
+.header_show .h_link{ color: #666 }
+
+.banner{ height: 650px; background: url(../img/pc_banner.jpg) center center; background-size: auto 100% }
+.banner .main{ height: 100% }
+.phone{ width: 410px; height: 100%; position: relative; float: left; left: 150px; opacity: 0}
+.phone .img{ width: 406px; position: absolute; bottom: 0; left:  0 }
+.phone .imgs_div{ width: 192px; height:341px; overflow: hidden; position: absolute; left: 60px; bottom:139px; border: 1px solid #eee  }
+.phone .imgs_div .box{ width:960px; position: relative; left: 0;}
+.phone .imgs_div .box img{ width: 192px; float: left; }
+
+.banner .text{ position: relative; left:0; width: 600px; float: left; color: #fff; padding-top: 220px; padding-left: 150px;}
+.banner .text .tt{ font-size: 36px; position: relative; top: 50px; transition: 1s ease 0s; -webkit-transition: 1s ease 0s; opacity: 0 }
+.banner .text .de{ padding: 30px 0;  position: relative; line-height: 24px; top: 50px; transition: 1s ease 0.3s; -webkit-transition: 1s ease 0.3s; opacity: 0 }
+.banner .text .btn{ width: 200px; float: left; }
+.banner .text .btn img{ width: 200px; margin: 12px 0; }
+.banner .text .erma{ width: 130px; float: left; margin-left: 50px; }
+.banner .text .erma img{ width: 100% }
+
+.banner .btn_div{position: relative; top: 50px; transition: 1s ease 0.6s; -webkit-transition: 1s ease 0.6s; opacity:0   }
+
+.banner .text_show .tt,.banner .text_show .de,.banner .text_show .btn_div{top:0; opacity: 1}
+
+
+.infos{ padding:0 }
+.yd_div{ padding: 30px 0; padding-bottom: 0 }
+.infos .main{ width: 900px; }
+.infos .box{ padding: 20px 0; padding-bottom: 0 }
+.infos .box1 .left{ width:250px; float: left; transition: 0.6s ease 0s; -webkit-transition: 0.6s ease 0s; position: relative; left: 0}
+.infos .box1 .left img{ float: left; }
+.infos .box1 .right{ width: 650px; float: left; color: #999; padding-left: 150px; }
+.infos .box1 .right .tt{ font-size: 24px; color: #333; padding-top: 80px; }
+.infos .box1 .right .de{ padding: 20px 0; line-height: 26px; font-size: 14px;}
+.infos .box2 .left{ float: right; }
+.infos .box2 .right{ padding-left: 0; padding-right: 150px; }
+
+.infos .box1:hover .left{ left: 30px }
+.infos .box2:hover .left{ left: -30px }
+
+.about{ padding: 30px; border-top: 1px solid #eee }
+.about .main{ width: 900px; }
+.about .tt{ font-size: 22px; color: #333; text-align: center; }
+.about .de{ padding-top: 20px; line-height: 24px; color: #999 }
+
+.footer{ padding: 15px; font-size: 12px; color: #666; background: #333; line-height: 24px; text-align: center;}
+
+.join_us{ padding: 30px 0; border-top: 1px solid #eee }
+.join_us .tt{ font-size: 22px; color: #333; text-align: center; padding-bottom: 50px; }
+.join_us .main{ width: 600px; }
+.join_us .input_div .label{ color: #999; line-height: 24px; padding-bottom: 5px; }
+.join_us .input_div .box input{ border: 1px solid #ddd; transition: 0.3s; -webkit-transition: 0.3s; border-radius: 5px; height: 40px; line-height: 38px; font-size: 14px; padding-left:10px; width: 100% }
+.join_us .input_div .box{ padding-bottom: 10px; }
+.join_us .input_div .box input:focus{ box-shadow: 0 0 10px rgba(0,0,0,0.15) }
+.join_us .sub_btn{ text-align: center; padding: 30px 0  }
+.join_us .sub_btn input{ width: 150px; height: 40px; cursor: pointer; background:#19AFE2; color: #fff; border: none; border-radius: 5px; line-height: 40px; text-align: center;  }
+.join_us .sub_btn input:hover{ background: #47CEB9 }
+
+
+.yd2{ background:url(../img/bg4.jpg) center center; background-size: auto 100%  }
+.yd2 .box1 .right .de{ color: #ccc; }
+.yd1 .box1 .right .tt{ color:#018DD7  }
+.yd2 .box1 .right .tt{ color:#FFD203  }
+.yd3 .box1 .right .tt{ color:#018DD7  }
+.yd4 .box1 .right .tt{color:#62C984}
+.yd4{ background:url(../img/bg3.jpg) center center; background-size: auto 100%   }
+.yd4 .box1 .right .de{ color: #ccc; }
+
+
+@media (max-width: 1100px){
+    body .main{ width: 900px; }
+
+    .about .main,.infos .main{ width:900px }
+    .banner .text{ width: 490px; padding-top: 200px; padding-left: 50px; }
+}
+
+@media (max-width: 900px){
+    body .main{ width:768px!important; }
+    .about .main{ width:100%!important; }
+    .join_us .main{ width:600px!important; }
+    .header{ height: 80px; }
+    .header .logo{ height: 50px; }
+    .header .h_link{ line-height: 80px; }
+    .banner .text{ width: 400px; padding-top: 200px; padding-left: 20px; }
+    .header .logo{ margin-left: 10px; }
+    .banner .text .tt{ font-size: 32px; }
+    .phone{ width: 320px; }
+    .infos .box{ padding: 10px 25px; }
+    .infos .box1 .right{ width: 437px; padding-left: 80px; }
+    .infos .box2 .right{ padding-right: 80px; padding-left: 0 }
+}
+
+@media (max-width: 766px){
+    .header{ height: 50px; }
+    .header .logo{ height: 30px; margin-top: 10px; }
+    .header .h_link{ line-height: 50px; font-size: 12px; width: 60px; margin-right: 10px;}
+    body .main{ width:100%!important; }
+    .about .main{ width:100%!important; }
+    .join_us .main{ width:100%!important; }
+    .phone{ width: 400px; height: 583px; position: absolute; left: 50%; margin-left: -200px; transform: scale(0.8); -webkit-transform: scale(0.8); }
+    .banner{ height: auto }
+    .banner .text{ width: 100%; text-align: center; padding: 580px 30px 30px 30px; }
+    .banner .text .btn{ width: 100% }
+    .banner .text .tt{ font-size: 22px; }
+    .banner .text .de{ padding: 15px 0; font-size: 12px; }
+    .banner .text .erma{ width: 100%; margin-left: 0; padding-top: 30px;}
+    .banner .text .erma img{ width: 130px; }
+
+    .infos .box1 .left{ width: 100%; text-align:center; left: 0!important; }
+    .infos{ padding: 25px 0 }
+    .infos .box1 .right{ width: 100%; padding: 0 15px; }
+    .infos .box1 .right .tt{ font-size: 18px; text-align: center; padding-top: 20px; }
+
+    .about{ padding: 15px; }
+    .about .tt{ font-size: 18px; }
+    .about .de{ font-size: 12px; line-height: 22px; }
+
+    .join_us{ padding: 15px 20px; }
+    .join_us .tt{ font-size: 18px; padding-bottom: 10px; }
+    .footer{ line-height: 20px; font-size: 12px; }
+    .infos .box1 .left img{ float: none; }
+}

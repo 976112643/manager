@@ -1,0 +1,48 @@
+<aside class="main-sidebar">
+	<section class="sidebar">
+		<!-- Sidebar user panel (optional) -->
+		<div class="sidebar_top clearfix">
+			<a href="<?=U('Backend/Base/Info/edit')?>" class="image"> <img
+				src="__IMG__/login_logo.png" alt="<?=session('username')?>的头像" />
+				<div>
+					<?=session('username')?>
+				</div>
+			</a>
+		</div>
+		<ul class="sidebar-menu">
+			<?php
+				foreach($menu_2 as $row){
+			?>
+			<li class="menu"><a class="<?=$row['class']?>"
+				href="<?=U($row['url'])?>">
+					<?=$row['title']?>
+			</a></li>
+			<?php
+				}
+			?>
+			<li style="display: none;"><a
+				href="<?=U('Backend/Demo/Index/index')?>">列表</a> <a
+				href="<?=U('Backend/Demo/Index/index',array('tpl'=>'form'))?>">表单</a>
+				<a
+				href="<?=U('Backend/Demo/Index/index',array('tpl'=>'form_tab'))?>">表单带选项卡</a>
+				<a href="<?=U('Backend/Demo/Index/index',array('tpl'=>'editor'))?>">编辑器调用</a>
+				<a href="<?=U('Backend/Demo/Index/index',array('tpl'=>'dialog'))?>">弹窗</a>
+				<a href="<?=U('Backend/Demo/Index/index',array('tpl'=>'file'))?>">文件上传</a>
+				<a href="<?=U('Backend/Demo/Index/index',array('tpl'=>'down'))?>">下载</a>
+				<a href="<?=U('Backend/Demo/Index/index',array('tpl'=>'imgDel'))?>">图片删除</a>
+				<a href="<?=U('Backend/Demo/Index/index',array('tpl'=>'tips'))?>">提示</a>
+				<a
+				href="<?=U('Backend/Demo/Index/index',array('tpl'=>'timeline'))?>">时间轴</a>
+			</li>
+		</ul>
+	</section>
+	<footer class="main-footer clearfix">
+		<div>
+			版权所有 &copy; 2015-
+			<?=date("Y")?>
+		</div>
+		<div>
+			<a href="http://www.cnsunrun.com" target="_blank">武汉尚软科技</a>
+		</div>
+	</footer>
+</aside>

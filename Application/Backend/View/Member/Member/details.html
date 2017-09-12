@@ -1,0 +1,79 @@
+<extend name="Public/body" />
+<block name="body"> 
+	<js href="__JS__/common_s.js" />
+	<div class="clearfix " style="width:1000px;">
+		<p class="text-center bg-success lead">基本信息</p>
+		<table class="table table-bordered">
+			<?php
+				foreach($base_config as $k => $v){
+			?>
+			<tr>
+				<td class="col-xs-2"><?=$v['title']?></td>
+				<?php
+					if($v['name']=='head_img'){
+				?>
+				<td class="col-xs-10">
+					<a href="javascript:;" class="js_show_image" data-src="<?=file_url($info[$v['name']])?>">
+						<img src="<?=file_url($info[$v['name']])?>"style="height:50px;">
+					</a>
+				</td>
+				<?php
+					}else{
+				?>
+					<td class="col-xs-10"><?=$info[$v['name']]?></td>
+			</tr>
+			<?php
+					}
+				}
+			?>
+		</table>
+	</div>
+	<div class="clearfix " style="width:1000px;">
+		<p class="text-center bg-success lead">银行卡信息</p>
+		<table class="table table-bordered">
+			<?php
+			if($info['bank_info']){
+				foreach($info['bank_info'] as $k =>$v){
+					
+			?>
+			<tr>
+				<td class="col-xs-2"><?=$v['bank_name']?></td>
+				<td class="col-xs-10">
+				<?php
+					foreach($bank_config as $vv){
+				?>
+					<p><?=$vv['title']?> : 
+					<?php
+						if($vv['name'] == 'nickname') echo $info['nickname'];
+						if($vv['name']=='bank_img'){
+					?>
+						<a href="javascript:;" class="js_show_image" data-src="<?=file_url($v[$vv['name']])?>">
+							<img src="__ROOT__/<?=$v[$vv['name']]?>"style="height:50px;">
+						</a>
+					<?php
+						}else{
+					?>
+					<?=$v[$vv['name']]?>
+					<?php
+						}
+					?>
+					</p>
+				<?php
+					}
+				?>
+				</td>
+			</tr>
+			<?php
+				}
+			}else{
+			?>
+			无
+			<?php
+				}
+			?>
+		</table>
+	</div>
+	<div class="form-btn clearfix">
+		<a href="<?=U('index',array('p'=>I('p')))?>" class="pull-left btn btn-default">取消并返回</a>
+	</div>
+</block>

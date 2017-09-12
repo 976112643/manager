@@ -1,0 +1,43 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<!-- form start -->
+	<form role="form" action="<?=U('')?>" method="post"
+		class="operate_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" />
+		<div class="box-body">
+			<div class="form-group">
+				<label for="exampleInputPassword1">页面</label> <input type="text"
+					class="form-control" name="title" value="<?=$info['title']?>"<?php
+				/* if($info['page_title']){ echo 'disabled="disabled"'; }*/ ?> />
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">标题</label> <input type="text"
+					class="form-control" name="page_title"
+					value="<?=$info['page_title']?>" placeholder="标题">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">关键字</label> <input type="text"
+					class="form-control" name="keywords" value="<?=$info['keywords']?>"
+					placeholder="关键字">
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputPassword1">网址</label> <input type="text"
+					class="form-control" name="url" value="<?=$info['url']?>"
+					placeholder="网址">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">描述</label>
+				<textarea class="form-control" rows="3" placeholder="Enter ..."
+					name="description"><?=$info['description']?></textarea>
+			</div>
+		</div>
+		<div class="box-footer">
+			<button type="submit" class="btn btn-primary ajax-post"
+				target-form="operate_form">提交</button>
+			<a href="<?=U('index')?>" class="btn btn-default">取消返回</a>
+		</div>
+	</form>
+</div>
+</block>

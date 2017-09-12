@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta
+	content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+	name='viewport'>
+<block name="head_change"></block>
+<?php /* SEO代码编辑区 */ ?>
+<?php
+	if(isset($title)){
+		$title=$title.' | '.C('SITE_TITLE');
+	}else{
+		$title=C('SITE_TITLE');
+	}
+	if(!isset($keywords)){
+		$keywords=C('SITE_KEYWORD');
+	}
+	if(!isset($description)){
+		$description=C('SITE_DESCRIPTION');
+	}
+?>
+<title><?=$title?></title>
+<meta name="keywords" content="<?=$keywords?>" />
+<meta name="description" content="<?=$description?>" />
+<link rel="shortcut icon" href="__ROOT__/favicon.ico">
+<script>
+var _ROOT_='__ROOT__';
+var _STATIC_='__STATIC__';
+var _PLUGIN_='__PLUGIN__';
+var _JS_='__JS__';
+var _IMG_='__IMG__';
+var _CSS_='__CSS__';
+</script>
+<css href="__STATIC__/css/common.css" />
+<css href="__CSS__/login.css" />
+</head>
+<body class="login-page">
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="<?=C('WEB_URL')?>" target="_blank"><img
+				src="__IMG__/login_logo.png" style="width:200px"></a>
+		</div>
+		<div class="login-box-body">
+			<form action="<?=U('Backend/Base/Public/login')?>" class="js_form"
+				func="Login" method="post" tipmsg="验证通过">
+				<div class="form-group">
+					<input type="text" name="username" class="form-control"
+						placeholder="请输入您的账号" datatype="*" nullmsg="请输入您的账号" />
+					<div class="icon icon_user"></div>
+				</div>
+				<div class="form-group">
+					<input type="password" name="password" class="form-control"
+						placeholder="请输入您的密码" datatype="*" nullmsg="请输入您的密码" />
+					<div class="icon icon_lock"></div>
+				</div>
+				<div class="form-group">
+					<input class="form-control" type="text" name="code"
+						placeholder="输入验证码" datatype="*" nullmsg="请输入验证码" />
+					<div class="icon icon_code"></div>
+				</div>
+				<div class="form-group">
+					<img class="verifyimg js_verifyimg"
+						src="<?=U('Backend/Base/Public/verify')?>" height="60">
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-block btn-primary" value="登录" />
+				</div>
+				<div class="validTips js_validTips">
+					<span class="js_tipContent Validform_checktip"></span>
+				</div>
+			</form>
+		</div>
+	</div>
+	<js href="__STATIC__/js/common.js" />
+	<js href="__JS__/login.js" />
+</body>
+</html>

@@ -1,0 +1,253 @@
+<?php
+	if(strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 9.0") || strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 8.0") || strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 7.0") || strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 6.0")){
+?>
+
+<input type="file" id="upload_file_<?=$config['index']?>">
+<script type="text/javascript">
+if(typeof(swfobject)!="object"){
+	$("head").append('<link rel="stylesheet" type="text/css" href="__PLUGIN__/uploadify/uploadify.css" />');
+	$("head").append('<script type="text/javascript" src="__PLUGIN__/uploadify/jquery.uploadify.min.js"><\/script>');
+}
+</script>
+<?php
+	}else{
+?>
+<script type="text/javascript">
+if(is_import==undefined){
+	$("head").append('<link rel="stylesheet" type="text/css" href="__PLUGIN__/uploadify/uploadify.css" />');
+}
+var is_import=true;
+</script>
+<div id="upload_file_<?=$config['index']?>"
+	class="upload-area html5_file" style="margin: 0;">
+	<label class="cnsr-button"
+		onchange="fileSelected_<?=$config['index']?>(this)"> <input
+		type="file" multiple="true" name="download" class="file_btn"
+		id="file_btn_<?=$config['index']?>" />
+	</label>
+	<div id="uploadfile-queue_<?=$config['index']?>" class="cnsr-queue"></div>
+</div>
+<?php
+	}
+?>
+<div class="upload-file-box clearfix">
+	<?php
+		if($config['multi']=="true"){
+			//获取附件表中符合条件的数据
+			$_list=M($config['table'])->where(array($config['table_id']=>$id))->select();
+			foreach ($_list as $row) {
+	?>
+	<div class="file_list">
+		<?=basename($row['save_path'])?>
+		<a class="delThis" onclick="delThis_<?=$config['index']?>(this)"
+			index="<?=$row['id']?>"></a>
+	</div>
+	<?php
+			}
+		}else{
+			if($info!=''){
+	?>
+	<div class="file_list">
+		<?=basename($info)?>
+		<a class="delThis" onclick="delThis_<?=$config['index']?>(this)"
+			index="<?=$id?>"></a>
+	</div>
+	<?php
+			}
+		}
+	?>
+</div>
+
+<?php
+	if(strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 9.0") || strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 8.0") || strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 7.0") || strpos($_SERVER['HTTP_USER_AGENT'],"MSIE 6.0")){
+?>
+<script type="text/javascript">
+//上传文件
+/* 初始化上传插件 */
+$("#upload_file_<?=$config['index']?>").uploadify({
+	formData :{
+		'<?=session_name()?>':'<?=session_id()?>'
+	},
+	'multi'        : <?=$config['multi']?>,//false表示关闭多文件上传，如果需要开启需要把值设置为true
+	"width"           : 87,
+	"height"          : 28,
+	"swf"             : "__PLUGIN__/uploadify/uploadify.swf",
+	"fileObjName"     : "download",
+	"buttonText"      : "",
+	"uploader"        : "<?=U('uploadFileAPK',array('session_id'=>session_id()))?>",
+	'removeTimeout'	  : 0,
+	'fileTypeExts'	  : '*.apk;',
+	"onUploadSuccess" : uploadFile_<?=$config['index']?>,
+	'onFallback' : function() {
+		alert('未检测到兼容版本的Flash.');
+	}
+});
+function uploadFile_<?=$config['index']?>(file, data){
+	var data = $.parseJSON(data);
+	uploadPictureCallback_<?=$config['index']?>(data);
+}
+</script>
+<?php
+	}else{
+?>
+
+<script>
+var xhr_<?=$config['index']?> = new XMLHttpRequest();
+//监听选择文件信息
+var file_num_<?=$config['index']?>;
+var file_length_<?=$config['index']?>;
+function fileSelected_<?=$config['index']?>() {
+	<?php
+		if($config['max_num']!=''){
+	?>
+	var uploaded_file_num_<?=$config['index']?> = $("#upload_file_<?=$config['index']?>").parent().find(".upload-pre-item").length;
+	if(uploaded_file_num_<?=$config['index']?> > <?=$config['max_num']?>){
+		return false;
+	}
+	<?php
+		}
+	?>
+	//HTML5文件API操作
+	file_num_<?=$config['index']?>=0;
+	file_length_<?=$config['index']?>=0;
+	var file = document.getElementById('file_btn_<?=$config['index']?>').files[file_num_<?=$config['index']?>];
+	file_length_<?=$config['index']?>=document.getElementById('file_btn_<?=$config['index']?>').files.length-1;
+	if (file) {
+		var fileSize = 0;
+		if (file.size > 1024 * 1024){
+		  fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+		}else{
+		  fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+		}
+		$("#uploadfile-queue_<?=$config['index']?>").html('<div class="file_info clearfix"><span class="fileName break_word">'+file.name+'('+fileSize+')</span><a class="cancel" href="javascript:cancleUploadFile_<?=$config['index']?>()">X</a></div><div class="progress"><div class="js_progress-bar progress-bar progress-bar-warning progress-bar-striped active" style="width:0%;"></div></div>').fadeIn();
+		uploadFile_<?=$config['index']?>(file_num_<?=$config['index']?>);
+	}
+}
+
+//上传文件
+function uploadFile_<?=$config['index']?>(file_num_<?=$config['index']?>) {
+	  var fd = new FormData();
+	  //关联表单数据,可以是自定义参数
+	  fd.append("name", $('#name_<?=$config['index']?>').val());
+	  fd.append("download", document.getElementById('file_btn_<?=$config['index']?>').files[file_num_<?=$config['index']?>]);
+
+	  //监听事件
+	  xhr_<?=$config['index']?>.upload.addEventListener("progress", uploadProgress_<?=$config['index']?>, false);
+	  xhr_<?=$config['index']?>.addEventListener("load", uploadComplete_<?=$config['index']?>, false);
+	  xhr_<?=$config['index']?>.addEventListener("error", uploadFailed_<?=$config['index']?>, false);
+	  xhr_<?=$config['index']?>.addEventListener("abort", uploadCanceled_<?=$config['index']?>, false);
+	  //发送文件和表单自定义参数
+	  xhr_<?=$config['index']?>.open("POST","<?=U('uploadFileAPK',array('session_id'=>$config['index'].session_id()))?>");
+	  xhr_<?=$config['index']?>.send(fd);
+}
+//取消上传
+function cancleUploadFile_<?=$config['index']?>(){
+	xhr_<?=$config['index']?>.abort();
+	$("#uploadfile-queue_<?=$config['index']?>").fadeOut(function(){
+		$(this).html("");
+	})
+}
+//上传进度
+function uploadProgress_<?=$config['index']?>(evt) {
+	if (evt.lengthComputable) {
+		var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+		$('.js_progress-bar').css({"width":percentComplete.toString()+'%'});
+		if(percentComplete.toString()==100){
+			setTimeout(function() {
+				$("#uploadfile-queue_<?=$config['index']?>").fadeOut(function(){
+					$(this).html("");
+				})
+			},100);
+		}
+	}
+}
+//上传成功响应
+function uploadComplete_<?=$config['index']?>(evt){
+	//服务断接收完文件返回的结果
+	var data = $.parseJSON(evt.target.responseText);
+	var result=uploadPictureCallback_<?=$config['index']?>(data);
+	if(result==true && file_num_<?=$config['index']?><file_length_<?=$config['index']?>){
+		<?php
+			if($config['max_num']!=''){
+		?>
+		var uploaded_file_num_<?=$config['index']?> = $("#upload_file_<?=$config['index']?>").parent().find(".upload-pre-item").length;
+		if(uploaded_file_num_<?=$config['index']?> > <?=$config['max_num']?>){
+			return false;
+		}
+		<?php
+			}
+		?>
+		file_num_<?=$config['index']?>++;
+		uploadFile_<?=$config['index']?>(file_num_<?=$config['index']?>);
+	}
+}
+//上传失败
+function uploadFailed_<?=$config['index']?>(evt) {
+	alert("上传失败");
+}
+//取消上传
+function uploadCanceled_<?=$config['index']?>(evt) {
+	alert("您取消了本次上传.");
+}
+</script>
+<?php
+	}
+?>
+<script type="text/javascript">
+	function uploadPictureCallback_<?=$config['index']?>(data){
+		var src = '';
+		if(data.status){
+			src = data.url || '__ROOT__/' + data.save_path;
+			var name="<?=$config['name']?>";
+			if(<?=$config['multi']?>){
+				name="<?=$config['name']?>[]";
+			}
+			var html='<div class="file_list"><input type="hidden" name="'+name+'" value="'+data.id+'"/>' + basename(src) + '<a class="delThis" index="'+data.id+'" onclick=\'delCache_<?=$config['index']?>(this,"'+data.id+'")\'></a></div>';
+			if(<?=$config['multi']?>){
+				$("#upload_file_<?=$config['index']?>").parent().find('.upload-file-box').append(html);
+			}else{
+				$("#upload_file_<?=$config['index']?>").parent().find('.upload-file-box').html(html);
+			}
+			return true;
+		}else{
+			tips(data.info,1000,"error");
+			return false;
+		}
+	}
+
+	//删除已经添加到数据库的文件
+	function delThis_<?=$config['index']?>(obj){
+		var file_id=$(obj).attr('index');
+		if(confirm("确定删除吗？")){
+			$.post('<?=U("ajaxDelete_".$config["table"])?>',{'file_id':file_id,'id':'<?=$id?>'},function(data){
+				if(data.status==1){
+					$(obj).parent().parent().html('');
+					tips(data.info,1500,"success");
+				}else{
+					tips(data.info,1500,"error");
+				}
+			});
+		}
+	}
+	//删除临时上传的文件，也就是上传后还没有点击发布的文件
+	function delCache_<?=$config['index']?>(obj){
+		if(confirm("确定删除吗？")){
+			<?php
+				if($config['multi']!="true"){
+			?>
+				$('#file_btn_<?=$config['index']?>').val("");
+			<?php
+				}
+			?>
+			var temp_id=$(obj).attr('index');
+			$.post("<?=U('delTempFile')?>",{id:temp_id},function(data){
+				if(data.status==1){
+					$(obj).parent().parent().html('');
+					tips(data.info,1500,"success");
+				}else{
+					tips(data.info,1500,"error");
+				}
+			})
+		}
+	}
+</script>

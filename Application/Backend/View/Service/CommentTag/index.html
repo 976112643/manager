@@ -1,0 +1,99 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table js_table table-bordered">
+	<thead>
+		<tr>
+			<th colspan="20" class="text-right clearfix">
+				<form action="<?=U('index');?>" class="form-inline pull-left"
+					method="get">
+					<input type="text" class="form-control input-sm" placeholder="名称" name="keywords" value="<?=trim($keywords)?>">
+					<select name="is_hid"
+						class="form-control input-sm">
+						
+						<option value=''>请选择状态</option>
+						<?php 
+								$set[0] = (is_numeric($is_hid) && $is_hid ==0) ? "selected='selected'" : '';
+								$set[1] = ($is_hid == 1) ? "selected='selected'" : '';
+							?>
+						<option value="1"<?=$set[1]?> >禁用</option>
+						<option value="0"<?=$set[0]?>>启用</option>
+					</select>
+					<button type="submit" class="btn btn-primary btn-sm"
+						target-form="operate_form">提交</button>
+				</form>
+				<div class="pull-right">
+
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="20"><input type="checkbox" class="js_check_all"
+				data-target="ids" value=""></th>
+			<th width="120" class="text-center">名称</th>
+			<th width="120" class="text-center">累计数量</th>
+			<th width="120" class="text-center">排序</th>
+			<th width="50" class="text-center">状态</th>
+			<th width="100" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td width="20"><input type="checkbox" class="ids"
+				data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+
+			<td class="text-center">
+				<?=$row['name']?>
+			</td>
+			<td class="text-center">
+				<?=$row['num']?>
+			</td>
+			<td class="text-center">
+				<?=$row['sort']?>
+			</td>
+			<td class="text-center"><img
+				src="__IMG__/status_<?=$row['is_hid']?>.png" alt=""></td>
+			<td class="text-center">
+				<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+	<script>
+		$(function(){
+			$('.js_show_image').on('click',function(){
+				var _src = $(this).attr('data-src');
+				var winH = $(window).height();
+				$('.image_dialog').find('img').attr('src',_src);
+				var w = $('.image_dialog').find('img').width();
+				var h = $('.image_dialog').find('img').height();
+				if(h < winH){
+					var _top = (winH-h)/2;
+					$('.image_dialog').css({'top':_top+'px'});
+				}
+				$('.image_dialog').css({'visibility':'visible','opacity':'100','margin-left':(0-w/2)+'px','left':'50%'});
+				$('.bg_image_shadow').css({'visibility':'visible'});
+			});
+		});
+	</script>
+</block>

@@ -1,0 +1,211 @@
+<block name="style"> <css
+	href="__PLUGIN__/avatar/css/jcrop-min.css" /> <css
+	href="__PLUGIN__/avatar/css/upload_head.css" /> <css
+	href="__PLUGIN__/avatar/js/uploadify/uploadify.css" /> </block>
+<div class="upload-area flash_avatar">
+	<input type="file" id="user_avatar_<?=$config['index']?>">
+	<div class="preview hidden"
+		style="width: &lt;?=$config['width']?&gt;px; height: &lt;?=$config['width']?&gt;px;"
+		id="preview-hidden_<?=$config['index']?>"></div>
+
+	<input type="hidden" id="x_<?=$config['index']?>" name="x" /> <input
+		type="hidden" id="y_<?=$config['index']?>" name="y" /> <input
+		type="hidden" id="w_<?=$config['index']?>" name="w" /> <input
+		type="hidden" id="h_<?=$config['index']?>" name="h" /> <input
+		type="hidden" id='img_src_<?=$config['index']?>' name='src'/>
+	<input type="hidden" id='picName_<?=$config['index']?>'
+	name='picName'/>
+</div>
+<block name="script"> <js
+	href="__PLUGIN__/avatar/js/uploadify/uploadify-min.js" /> <js
+	href="__PLUGIN__/avatar/js/jcrop-min.js" /> <script>
+$(function(){
+    //上传头像(uploadify插件)
+    $("#user_avatar_<?=$config['index']?>").uploadify({
+        formData :{
+            '<?=session_name()?>':'<?=session_id()?>'
+        },
+        'queueSizeLimit': 1,
+        'removeTimeout' : 0.5,
+        'preventCaching': true,
+        'multi'         : false,
+        'swf'           : '__PLUGIN__/avatar/js/uploadify/uploadify.swf',
+        "uploader"      : "<?=U('uploadPicture',array('session_id'=>session_id()))?>",
+        'buttonText'    : '<i class="userup-icon"></i>上传图片',
+        'fileObjName'     : "download",
+        'width'         : '<?=$config['width']?>',
+        'height'        : '<?=$config['height']?>',
+        'fileTypeExts'  : '*.jpg; *.png; *.gif;',
+        'onUploadSuccess' : uploadPicture_<?=$config['index']?>,
+        'onFallback' : function() {
+            console.log('未检测到兼容版本的Flash.');
+        }
+    });
+    //提交裁剪好的图片
+    $('.save-pic').click(function(){
+        if($('#preview-hidden').html()==''){
+            //$.ThinkBox.error('请先上传图片！');
+            $(".upload-area .file-tips").html("<span style='color:red'>请先上传图片！</span>");
+        }else{
+            //由于GD库裁剪gif图片很慢，所以长时间显示弹出框
+            $.ajax({
+                type: "POST",
+                url:'<?=U("avatar")?>',
+                dataType:"html",
+                data:{"<?=$config['name']?>":$("#picName_<?=$config['index']?>").val(),"x":$("#x_<?=$config['index']?>").val(),"y":$("#y_<?=$config['index']?>").val(),"w":$("#w_<?=$config['index']?>").val(),"h":$("#h_<?=$config['index']?>").val()},
+                success: function(data,status){//如果调用php成功
+                    var data = $.parseJSON(data);
+                    if(data.status == 1){
+                        window.location.reload();
+                    }else{
+                        $(".tcrop").html(data.info);
+                    }
+                }
+            });
+
+        }
+    });
+    //重新上传,清空裁剪参数
+    $('.reupload-img').click(function(){
+        $('#preview-hidden_<?=$config['index']?>').find('*').remove();
+        $('#preview-hidden_<?=$config['index']?>').hide().addClass('hidden').css({'padding-top':0,'padding-left':0});
+        $(".preview-area .crop img").attr("src","").removeAttr("style");
+    });
+})
+function uploadPicture_<?=$config['index']?>(file,data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        src = data.url || '__ROOT__/' + data.save_path;
+        var preview = $('.upload-area').children('#preview-hidden_<?=$config['index']?>');
+        preview.show().removeClass('hidden');
+        //两个预览窗口赋值
+        $('.crop').children('img').attr('src',src+'?random='+Math.random());
+        //隐藏表单赋值
+        $('#img_src_<?=$config['index']?>').val(src);
+        $('#picName_<?=$config['index']?>').val(data.save_path);         
+        //绑定需要裁剪的图片
+        var img = $('<img />');
+        preview.append(img);
+        preview.children('img').attr('src',src+'?random='+Math.random());
+        var crop_img = preview.children('img');
+        crop_img.attr('id',"cropbox").show();
+        var img = new Image();
+        img.src = src+'?random='+Math.random();
+        //根据图片大小在画布里居中
+        img.onload = function(){
+            var img_height = 0;
+            var img_width = 0;
+            var real_height = img.height;
+            var real_width = img.width;
+            if(real_height > real_width && real_height > <?=$config['height']?>){
+                var persent = real_height / <?=$config['height']?>;
+                real_height = <?=$config['height']?>;
+                real_width = real_width / persent;
+            }else if(real_width > real_height && real_width > <?=$config['width']?>){
+                var persent = real_width / <?=$config['width']?>;
+                real_width = <?=$config['width']?>;
+                real_height = real_height / persent;
+            }
+            if(real_height < <?=$config['height']?>){
+                img_height = (<?=$config['height']?> - real_height)/2; 
+            }
+            if(real_width < <?=$config['width']?>){
+                img_width = (<?=$config['width']?> - real_width)/2;
+            }
+            preview.css({paddingTop:img_height+'px',paddingLeft:img_width+'px'});           
+        }
+        //裁剪插件
+        $('#cropbox').Jcrop({
+            bgColor:'#333',   //选区背景色
+            bgFade:true,      //选区背景渐显
+            fadeTime:1000,    //背景渐显时间
+            allowSelect:false, //是否可以选区，
+            allowResize:true, //是否可以调整选区大小
+            aspectRatio: <?=$config['scale']?>,     //约束比例
+            minSize : [100,100],//可选最小大小
+            boxWidth : <?=$config['width']?>,     //画布宽度
+            boxHeight : <?=$config['height']?>,    //画布高度
+            setSelect:[ 0, 0, 100, 100],//初始化时位置
+            onSelect: function (c){ //选择时动态赋值，该值是最终传给程序的参数！
+                $('#x_<?=$config['index']?>').val(c.x);//需裁剪的左上角X轴坐标
+                $('#y_<?=$config['index']?>').val(c.y);//需裁剪的左上角Y轴坐标
+                $('#w_<?=$config['index']?>').val(c.w);//需裁剪的宽度
+                $('#h_<?=$config['index']?>').val(c.h);//需裁剪的高度
+            }
+        });
+    }else{
+        console.log("上传失败");
+    }
+}
+function jcrop_reset(){
+    $(".preview").addClass("hidden").html('');
+}
+
+<?php
+    if($info['cover']){  
+?>
+addDefault();
+<?php
+    }
+?>
+//加载默认数据
+function addDefault(){
+    //服务断接收完文件返回的结果
+    var src = '__ROOT__/<?=$info['cover']?>';
+    var preview = $('.upload-area').children('#preview-hidden_<?=$config['index']?>');
+    preview.show().removeClass('hidden');
+    //隐藏表单赋值
+    $('#img_src_<?=$config['index']?>,#picName_<?=$config['index']?>').val(src);
+    //绑定需要裁剪的图片
+    var img = $('<img />');
+    preview.append(img);
+    preview.children('img').attr('src',src+'?random='+Math.random());
+    var crop_img = preview.children('img');
+    crop_img.attr('id',"cropbox").show();
+    var img = new Image();
+    img.src = src+'?random='+Math.random();
+    //根据图片大小在画布里居中
+    img.onload = function(){
+        var img_height = 0;
+        var img_width = 0;
+        var real_height = img.height;
+        var real_width = img.width;
+        if(real_height > real_width && real_height > <?=$config['height']?>){
+            var persent = real_height / <?=$config['height']?>;
+            real_height = <?=$config['height']?>;
+            real_width = real_width / persent;
+        }else if(real_width > real_height && real_width > <?=$config['width']?>){
+            var persent = real_width / <?=$config['width']?>;
+            real_width = <?=$config['width']?>;
+            real_height = real_height / persent;
+        }
+        if(real_height < <?=$config['height']?>){
+            img_height = (<?=$config['height']?> - real_height)/2; 
+        }
+        if(real_width < <?=$config['width']?>){
+            img_width = (<?=$config['width']?> - real_width)/2;
+        }
+        preview.css({paddingTop:img_height+'px',paddingLeft:img_width+'px'});           
+    }
+    //裁剪插件
+    $('#cropbox').Jcrop({
+        bgColor:'#333',   //选区背景色
+        bgFade:true,      //选区背景渐显
+        fadeTime:1000,    //背景渐显时间
+        allowSelect:false, //是否可以选区，
+        allowResize:true, //是否可以调整选区大小
+        aspectRatio: <?=$config['scale']?>,     //约束比例
+        minSize : [100,100],//可选最小大小
+        boxWidth : <?=$config['width']?>,     //画布宽度
+        boxHeight : <?=$config['height']?>,    //画布高度
+        setSelect:[ 0, 0, 100, 100],//初始化时位置
+        onSelect: function (c){ //选择时动态赋值，该值是最终传给程序的参数！
+            $('#x_<?=$config['index']?>').val(c.x);//需裁剪的左上角X轴坐标
+            $('#y_<?=$config['index']?>').val(c.y);//需裁剪的左上角Y轴坐标
+            $('#w_<?=$config['index']?>').val(c.w);//需裁剪的宽度
+            $('#h_<?=$config['index']?>').val(c.h);//需裁剪的高度
+        }
+    });
+}
+</script> </block>

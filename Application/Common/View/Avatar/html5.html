@@ -1,0 +1,240 @@
+<block name="style"> <css
+	href="__PLUGIN__/avatar/css/jcrop-min.css" /> <css
+	href="__PLUGIN__/avatar/css/upload_head.css" /> </block>
+<form action="" method="post" class="avatar_box clearfix">
+	<div class="col-sm-12 col-md-6">
+		<div class="upload-area html5_avatar">
+			<label class="cnsr-button"
+				style="height: 260px; line-height: 240px; width: 260px;"
+				onchange="fileSelected(this)"> <input type="file"
+				name="download" id="file_btn" /> <span class="cnsr-button-text"><i
+					class="userup-icon"></i>上传头像</span>
+				<div id="user_avatar-queue" class="cnsr-queue"></div>
+				<div class="file-tips">支持JPG,PNG，图片小于1MB，尺寸不小于200*200,真实高清头像更受欢迎！</div>
+			</label>
+			<div class="preview" id="preview-hidden"></div>
+		</div>
+	</div>
+	<div class="preview_box col-sm-12 col-md-6">
+		<div class="preview-area">
+			<input type="hidden" id="x" name="x" /> <input type="hidden" id="y"
+				name="y" /> <input type="hidden" id="w" name="w" /> <input
+				type="hidden" id="h" name="h" /> <input type="hidden" id='img_src'
+				name='src' /> <input type="hidden" id='picName' name='picName' />
+			<h4 class="tcrop">效果预览</h4>
+			<p>你上传的图片会自动生成2种尺寸，请注意小尺寸的头像是否清晰</p>
+			<div class="clearfix">
+				<div class="col-xs-6">
+					<div class="crop crop100">
+						<img id="crop-preview-100" src="<?=get_avatar('',100)?>" alt="">
+						<div class="avatar_tips">100*100像素</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="crop crop60">
+						<img id="crop-preview-60" src="<?=get_avatar('',60)?>" alt="">
+						<div class="avatar_tips">60*60像素</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="clearfix" style="padding: 10px 0; text-align: center;">
+	<a class="btn btn-orange save-pic" href="javascript:void(0);">保存</a> <a
+		class="btn btn-default reupload-img" href="javascript:void(0);">重新上传</a>
+</div>
+<block name="script"> <js
+	href="__PLUGIN__/avatar/js/jcrop-min.js" /> <script>
+$(function(){
+    //提交裁剪好的图片
+    $('.save-pic').click(function(){
+        if($('#preview-hidden').html()==''){
+            //$.ThinkBox.error('请先上传图片！');
+            $(".upload-area .file-tips").html("<span style='color:red'>请先上传图片！</span>");
+        }else{
+            //由于GD库裁剪gif图片很慢，所以长时间显示弹出框
+            $.ajax({
+                type: "POST",
+                url:'<?=U("avatar")?>',
+                dataType:"html",
+                data:{"picName":$("#picName").val(),"x":$("#x").val(),"y":$("#y").val(),"w":$("#w").val(),"h":$("#h").val()},
+                success: function(data,status){//如果调用php成功
+                    var data = $.parseJSON(data);
+                    if(data.status == 1){
+                        window.location.reload();
+                    }else{
+                        $(".tcrop").html(data.info);
+                    }
+                },
+                beforeSend:function(){
+                    $(".tcrop").html("头像裁剪保存中，请稍候……");
+                }
+            });
+
+        }
+    });
+    //重新上传,清空裁剪参数
+    $('.reupload-img').click(function(){
+        $('#preview-hidden').find('*').remove();
+        $('#preview-hidden').hide().addClass('hidden').css({'padding-top':0,'padding-left':0});
+        $(".preview-area .crop img").attr("src","").removeAttr("style");
+        $(".upload-area .file-tips").html("支持JPG,PNG，图片小于1MB，尺寸不小于200*200,真实高清头像更受欢迎！");
+    });
+})
+var xhr = new XMLHttpRequest();
+//监听选择文件信息
+function fileSelected() {
+    //HTML5文件API操作
+    var file = document.getElementById('file_btn').files[0];
+    if (file) {
+        var fileSize = 0;
+        if (file.size > 1024 * 1024){
+          fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+        }else{
+          fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+        }
+        $("#user_avatar-queue").html('<div class="file_info clearfix"><span class="fileName">'+file.name+'('+fileSize+')</span><a class="cancel" href="javascript:cancleUploadFile()">X</a></div><div class="progress"><div class="js_progress-bar progress-bar progress-bar-warning progress-bar-striped active" style="width:0%;"></div></div>').fadeIn();
+        uploadFile();
+    }
+}
+
+//上传文件
+function uploadFile() {
+      var fd = new FormData();
+      //关联表单数据,可以是自定义参数
+      fd.append("name", $('#name').val());
+      fd.append("download", document.getElementById('file_btn').files[0]);
+
+      //监听事件
+      xhr.upload.addEventListener("progress", uploadProgress, false);
+      xhr.addEventListener("load", uploadComplete, false);
+      xhr.addEventListener("error", uploadFailed, false);
+      xhr.addEventListener("abort", uploadCanceled, false);
+      //发送文件和表单自定义参数
+      xhr.open("POST", "<?=U('uploadPicture',array('session_id'=>session_id()))?>");
+      xhr.send(fd);
+}
+//取消上传
+function cancleUploadFile(){
+    xhr.abort();
+    $("#user_avatar-queue").fadeOut(function(){
+        $(this).html("");
+    })
+}
+//上传进度
+function uploadProgress(evt) {
+    if (evt.lengthComputable) {
+        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+        $('.js_progress-bar').css({"width":percentComplete.toString()+'%'});
+        if(percentComplete.toString()==100){
+            setTimeout(function() {
+                $("#user_avatar-queue").fadeOut(function(){
+                    $(this).html("");
+                })
+            },500);
+        }
+    }
+}
+//上传成功响应
+function uploadComplete(evt) {
+    //服务断接收完文件返回的结果
+    var data = $.parseJSON(evt.target.responseText);
+    var src = '';
+    if(data.status){
+            src = data.url || '__ROOT__/' + data.save_path;
+            var preview = $('.upload-area').children('#preview-hidden');
+            preview.show().removeClass('hidden');
+            //两个预览窗口赋值
+            $('.crop').children('img').attr('src',src+'?random='+Math.random());
+            //隐藏表单赋值
+            $('#img_src').val(src);
+            $('#picName').val(data.save_path);         
+            //绑定需要裁剪的图片
+            var img = $('<img />');
+            preview.append(img);
+            preview.children('img').attr('src',src+'?random='+Math.random());
+            var crop_img = preview.children('img');
+            crop_img.attr('id',"cropbox").show();
+            var img = new Image();
+            img.src = src+'?random='+Math.random();
+            //根据图片大小在画布里居中
+            img.onload = function(){
+                var img_height = 0;
+                var img_width = 0;
+                var real_height = img.height;
+                var real_width = img.width;
+                if(real_height > real_width && real_height > 260){
+                    var persent = real_height / 260;
+                    real_height = 260;
+                    real_width = real_width / persent;
+                }else if(real_width > real_height && real_width > 260){
+                    var persent = real_width / 260;
+                    real_width = 260;
+                    real_height = real_height / persent;
+                }
+                if(real_height < 260){
+                    img_height = (260 - real_height)/2; 
+                }
+                if(real_width < 260){
+                    img_width = (260 - real_width)/2;
+                }
+                preview.css({paddingTop:img_height+'px',paddingLeft:img_width+'px'});           
+            }
+            //裁剪插件
+            $('#cropbox').Jcrop({
+                bgColor:'#333',   //选区背景色
+                bgFade:true,      //选区背景渐显
+                fadeTime:1000,    //背景渐显时间
+                allowSelect:false, //是否可以选区，
+                allowResize:true, //是否可以调整选区大小
+                aspectRatio: 1,     //约束比例
+                minSize : [100,100],//可选最小大小
+                boxWidth : 260,     //画布宽度
+                boxHeight : 260,    //画布高度
+                onChange: showPreview,//改变时重置预览图
+                onSelect: showPreview,//选择时重置预览图
+                setSelect:[ 0, 0, 100, 100],//初始化时位置
+                onSelect: function (c){ //选择时动态赋值，该值是最终传给程序的参数！
+                    $('#x').val(c.x);//需裁剪的左上角X轴坐标
+                    $('#y').val(c.y);//需裁剪的左上角Y轴坐标
+                    $('#w').val(c.w);//需裁剪的宽度
+                    $('#h').val(c.h);//需裁剪的高度
+                }
+            });
+    }else{
+        console.log("上传失败");
+    }
+}
+//上传失败
+function uploadFailed(evt) {
+     alert("上传失败");
+}
+//取消上传
+function uploadCanceled(evt) {
+    alert("您取消了本次上传.");
+}
+
+//预览图
+function showPreview(coords){
+    var img_width = $('#cropbox').width();
+    var img_height = $('#cropbox').height();
+      //根据包裹的容器宽高,设置被除数
+      var rx = 100 / coords.w;
+      var ry = 100 / coords.h; 
+      $('#crop-preview-100').css({
+        width: Math.round(rx * img_width) + 'px',
+        height: Math.round(ry * img_height) + 'px',
+        marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+        marginTop: '-' + Math.round(ry * coords.y) + 'px'
+      });
+      rx = 60 / coords.w;
+      ry = 60 / coords.h;
+      $('#crop-preview-60').css({
+        width: Math.round(rx * img_width) + 'px',
+        height: Math.round(ry * img_height) + 'px',
+        marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+        marginTop: '-' + Math.round(ry * coords.y) + 'px'
+      });
+}
+</script> </block>

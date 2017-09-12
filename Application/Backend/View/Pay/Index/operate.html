@@ -1,0 +1,132 @@
+<extend name="Public/body" />
+<block name="body"> <script type="text/javascript"
+	src="__PLUGIN__/uploadify/jquery.uploadify.min.js?v=<?=time().rand(0,9999)?>"></script>
+<js href="__PLUGIN__/my97date/WdatePicker.js" />
+<div class="box box-body">
+	<form action="<?=U('')?>" method="post" class="operate_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" />
+		<div class="form-group">
+			<div class="control-label">支付方式</div>
+			<div>
+				<select name="pay_type" class="form-control width_auto js_type">
+					<option value="" >请选择支付方式</option>
+					<?php
+						foreach($type as $k => $v){
+					?>
+					<option value="<?=$k?>"<?php if($info['pay_type']==$k){echo "selected";}?>><?=$v?></option>
+					<?php
+						}
+					?>
+				</select>
+			</div>
+		</div>
+		<div class="js_pay_form"></div>
+		<!-- 余额支付-S -->
+		<div class="form-group" >
+			<div class="control-label">支付LOGO</div>
+				<div>
+					<?php
+						$config=array(
+							'table'		=>'pay_config',
+							'name'		=>'image',
+							'val_key'	=>"save_path"
+						);
+						echo W("Common/Img/index",array($config,$info['id']));
+					?>
+				</div>
+		</div>
+		<!-- 余额支付-E -->
+		<div class="form-group">
+			<div class="control-label">状态</div>
+			<div class="form-inline">
+				<select name="is_hid" class="form-control">
+					<option value="1"<?php if($info['is_hid']=='1' ||
+						!$info['is_hid']){echo "selected";}?>>禁用</option>
+					<option value="0"<?php if($info['is_hid']=='0'){echo
+						"selected";}?>>启用</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<?php
+				if(ACTION_NAME=='edit'){
+			?>
+			<input type="hidden" name="pay_type" value="<?=$info['pay_type']?>" />
+			<?php }?>
+			<input type="submit" class="btn btn-primary ajax-post"
+				target-form="operate_form" value="提交"> <a
+				href="<?=U('index',array('p'=>I('p')))?>"
+				class="btn btn-default cancel">取消并返回</a>
+		</div>
+	</form>
+</div>
+<div style="display:none;">
+<!-- 支付宝支付配置-S -->
+<div class="js_pay_10">
+	<div class="form-group">
+		<div class="control-label">支付宝收款账号邮箱</div>
+		<div>
+			<input type="text" class="form-control width_auto" name="appid"
+				value="<?=$info['appid']?>">
+		</div>
+	</div>
+	<div class="form-group" >
+		<div class="control-label">合作者ID，支付宝有该配置，开通易宝账户后给予</div>
+		<div>
+			<input type="text" class="form-control width_auto" name="mchid"
+				value="<?=$info['mchid']?>">
+		</div>
+	</div>
+	<div class="form-group" >
+		<div class="control-label">加密key，开通支付宝账户后给予</div>
+		<div>
+			<input type="text" class="form-control width_auto" name="key"
+				value="<?=$info['key']?>">
+		</div>
+	</div>
+</div>
+<!-- 支付宝支付配置-E -->
+<!-- 微信支付配置-S -->
+<div class="js_pay_20">
+	<div class="form-group" >
+		<div class="control-label">微信支付APPID</div>
+		<div>
+			<input type="text" class="form-control width_auto" name="appid"
+				value="<?=$info['appid']?>">
+		</div>
+	</div>
+	<div class="form-group" >
+		<div class="control-label">微信商户ID</div>
+		<div>
+			<input type="text" class="form-control width_auto" name="mchid"
+				value="<?=$info['mchid']?>">
+		</div>
+	</div>
+	<div class="form-group" >
+		<div class="control-label">微信商户支付密匙</div>
+		<div>
+			<input type="text" class="form-control width_auto" name="key"
+				value="<?=$info['key']?>">
+		</div>
+	</div>
+</div>
+<!-- 微信支付配置-E -->
+</div>
+</block>
+<block name="script"> <script type="text/javascript">
+$(document).ready(function(){
+	$(".js_pay_form").html($(".js_pay_"+$('.js_type').val()).html());
+	<?php
+		if(ACTION_NAME =='edit'){	
+	?>
+	$(".js_type").attr('disabled',true);
+	<?php } ?>
+	$(".js_type").change(function(){
+		if($(this).val()!=30 && $(this).val()!=""){
+			$(".js_pay_form").html($(".js_pay_"+$(this).val()).html());
+		}else{
+			$(".js_pay_form").html("");
+		}
+	})
+})
+</script> </block>

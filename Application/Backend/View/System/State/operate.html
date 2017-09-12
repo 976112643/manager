@@ -1,0 +1,61 @@
+<extend name="Public/body" />
+<block name="body">
+<div class="box box-body">
+	<form action="" method="post" class="js_form">
+		<input type="hidden" name="id" value="<?=$info['id']?>" /> <label
+			class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 表名
+			</div>
+			<div>
+				<select name="r_table" class="form-control width_auto" datatype="*"
+					nullmsg="填写表名">
+					<option value="">请选择</option>
+					<?=array_to_select($info['table_list'],$info['r_table'], array('prefix'=>''))?>
+				</select> <span class="Validform_checktip">选择分类</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 字段
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写字段" name="r_field" value="<?=$info['r_field']?>" /> <span
+					class="Validform_checktip">字段</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 值
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写值" name="r_value" value="<?=$info['r_value']?>" /> <span
+					class="Validform_checktip">值</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">
+				<span class="required">*</span> 标题
+			</div>
+			<div>
+				<input type="text" class="form-control width_auto" datatype="*"
+					nullmsg="填写标题" name="title" value="<?=$info['title']?>" /> <span
+					class="Validform_checktip">标题</span>
+			</div>
+		</label> <label class="form-group">
+			<div class="control-label">备注</div>
+			<div>
+				<input type="text" class="form-control width_auto" name="remark"
+					value="<?=$info['remark']?>" /> <span class="Validform_checktip">备注</span>
+			</div>
+		</label>
+		<div class="form-btn clearfix">
+			<input type="submit" class="pull-left btn btn-primary" value="提交" />
+			<a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+			<div class="js_validTips pull-left"
+				style="height: 34px; line-height: 34px;">
+				<span class="js_tipContent Validform_checktip"></span>
+			</div>
+		</div>
+	</form>
+</div>
+</block>

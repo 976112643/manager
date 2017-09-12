@@ -1,0 +1,92 @@
+<!-- 月度报表 S -->
+	<div class="row">
+		<div class="box">
+            <div class="box-body">
+				<div class="chart">
+					<div id="echarts2" style="height:400px;margin-right:15px"></div>
+				</div>	
+            </div>
+		</div>
+	</div>
+<!-- 月度报表 E -->
+<js href="__PLUGIN__/echarts/echarts.js" />
+<script type="text/javascript">
+var myChart2 = echarts.init(document.getElementById('echarts2'),'macarons');
+var option2 = {
+    legend: {
+        data: [],
+        x: "right"
+    },
+    tooltip : {
+		trigger: 'axis'
+	},
+	toolbox: {
+        show:true,
+    	feature: {
+    		dataZoom: {
+	    		show: true,
+	            yAxisIndex: 'none'
+	        },
+    		dataView: {
+                readOnly: true,
+                show: true
+            },
+	        magicType: {
+                type: ["line", "bar"],
+                show: true
+            },
+	        restore: {show: true},
+            saveAsImage: {show: true},
+        }
+    },
+    calculable: true,
+    xAxis: [
+        {
+            type: "category",
+            data: <?=$date_list?>,
+            boundaryGap: false,
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: "value",
+            splitLine: {
+                show: false
+            }
+        }
+    ],
+    series: [
+    	{
+            name: "订单数量",
+            type: "line",
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        type: "default"
+                    }
+                }
+            },
+            data: <?=$user_list['member']?>,
+            smooth: true
+        },
+       
+    ],
+    title: {
+        text: "收入报表（收入总额：<?=$user_count?>元）",
+        subtext: "截止日期（包括当天）：<?=$_time?>"
+    },
+    grid: {
+        x: 50,
+        x2: 30,
+        y2: 30,
+        y: 60,
+        borderWidth: 0
+    }
+};
+myChart2.setOption(option2);
+
+
+</script>

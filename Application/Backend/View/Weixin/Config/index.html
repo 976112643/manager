@@ -1,0 +1,50 @@
+<extend name="Public/body" />
+<block name="body">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="20" class="clearfix">
+					<div class="pull-right">
+						<?=get_top_btn($menu_info['id'],I('pid'))?>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr role="row">
+				<th width="20"><input type="checkbox" class="js_check_all" data-target="ids" value=""></th>
+				<th width="100">公众号二维码</th>
+				<th width="100">公众号名称</th>
+				<th width="110" class="text-center">操作</th>
+			</tr>
+			<?php
+				if(!$list){
+			?>
+			<tr>
+				<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+			</tr>
+			<?php
+				}
+			?>
+			<?php
+				foreach($list as $row){
+			?>
+			<tr>
+				<td><input type="checkbox" class="ids" data-child="ids" name="ids[]" value="<?=$row['id']?>"></td>
+				<td><img src="__ROOT__/<?=$row['qrc_img']?>" title="<?=$row['title']?>" style="width:200px;height:200px;" /></td>
+				<td><?=$row['title']?></td>
+				<td class="text-center">
+					<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+				</td>
+			</tr>
+			<?php
+				}
+			?>
+		</tbody>
+	</table>
+	<div class="pages">
+		<?=$page?>
+	</div>
+</block>

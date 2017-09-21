@@ -15,6 +15,7 @@ class IndexController extends BaseController
 	 */
 	public function login()
 	{
+		SUCCESS("111");
         $login = Base::getInstance( );
         $login->login();
 	}

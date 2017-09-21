@@ -26,22 +26,22 @@ define('URL', '/^^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(?:[\/\?#][\/=\?
 
 /**
  * 数据增删改查操作
- * 
+ *
  * @package
  *
  */
 /**
  * 事务封装
- * 
+ *
  * @param function $action
  *            打包函数，所有封装SQL返回结果合并到RESULT数组内
  * @return string 失败时返回错误信息
- *         @time 2015-06-17
+ * @time 2015-06-17
  * @author 秦晓武
  */
 function trans($action = '')
 {
-    if (! is_callable($action))
+    if (!is_callable($action))
         return false;
     M()->startTrans();
     $result = $action();
@@ -60,32 +60,31 @@ function trans($action = '')
             } else {
                 $result[$key] = $value;
             }
-        }
-        ;
+        };
         return implode('|', $result);
     }
 }
 
 /**
  * 获取所有未删除数据
- * 
+ *
  * @param string $table
  *            表名
  * @param string $sort
  *            排序字段
  * @return string $result 结果数组
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
  */
 function get_no_del($table = '', $sort = 'sort desc')
 {
-    if (! $table)
+    if (!$table)
         return array();
     /**
      * 以表名_all命名缓存
      */
     $file = $table . '_no_del';
-    if (! F($file)) {
+    if (!F($file)) {
         $all = get_result($table, array(
             'is_del' => 0
         ), $sort);
@@ -96,24 +95,24 @@ function get_no_del($table = '', $sort = 'sort desc')
 
 /**
  * 获取所有未禁用数据
- * 
+ *
  * @param string $table
  *            表名
  * @param string $sort
  *            排序字段
  * @return string $result 结果数组
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
  */
 function get_no_hid($table = '', $sort = 'sort desc')
 {
-    if (! $table)
+    if (!$table)
         return array();
     /**
      * 以表名_all命名缓存
      */
     $file = $table . '_no_hid';
-    if (! F($file)) {
+    if (!F($file)) {
         $all = get_result($table, array(
             'is_del' => 0,
             'is_hid' => 0
@@ -125,14 +124,14 @@ function get_no_hid($table = '', $sort = 'sort desc')
 
 /**
  * 获取数据集
- * 
- * @param $model 表模型            
- * @param $map 查询条件            
- * @param $field 查询字段            
- * @param $order 排序            
- * @param $limit 条数            
- * @param $group 分组            
- * @param $having 附带条件            
+ *
+ * @param $model 表模型
+ * @param $map 查询条件
+ * @param $field 查询字段
+ * @param $order 排序
+ * @param $limit 条数
+ * @param $group 分组
+ * @param $having 附带条件
  *
  */
 function get_result($model, $map = array(), $order = '', $field = true, $limit = '', $group = '', $having = '')
@@ -142,11 +141,11 @@ function get_result($model, $map = array(), $order = '', $field = true, $limit =
         $model = M($model);
     }
     /* 默认查询未删除数据 */
-    if (! isset($map['is_del'])) {
+    if (!isset($map['is_del'])) {
         $map['is_del'] = 0;
     }
     /* 除了后台，默认查询未禁用数据 */
-    if ((MODULE_NAME != 'Backend') && ! isset($map['is_hid'])) {
+    if ((MODULE_NAME != 'Backend') && !isset($map['is_hid'])) {
         $map['is_hid'] = 0;
     }
     $result = $model->where($map)
@@ -161,11 +160,11 @@ function get_result($model, $map = array(), $order = '', $field = true, $limit =
 
 /**
  * 获取单条数据
- * 
- * @param $model 表模型            
- * @param $map 查询条件            
- * @param $field 查询字段            
- * @param $order 排序            
+ *
+ * @param $model 表模型
+ * @param $map 查询条件
+ * @param $field 查询字段
+ * @param $order 排序
  *
  */
 function get_info($model, $map = array(), $field = true, $order = '')
@@ -175,18 +174,18 @@ function get_info($model, $map = array(), $field = true, $order = '')
         $model = M($model);
     }
     /* 没有$map时, 返回所有字段为空的数据，保持返回类型的统一 */
-    if (! $map || (isset($map['id']) && ! $map['id'])) {
+    if (!$map || (isset($map['id']) && !$map['id'])) {
         foreach ($model->getDbFields() as $key) {
             $result[$key] = '';
         }
         return $result;
     }
     /* 默认查询未删除数据 */
-    if (! isset($map['is_del'])) {
+    if (!isset($map['is_del'])) {
         $map['is_del'] = 0;
     }
     /* 除了后台，默认查询未禁用数据 */
-    if ((MODULE_NAME != 'Backend') && ! isset($map['is_hid'])) {
+    if ((MODULE_NAME != 'Backend') && !isset($map['is_hid'])) {
         $map['is_hid'] = 0;
     }
     $result = $model->where($map)
@@ -198,11 +197,11 @@ function get_info($model, $map = array(), $field = true, $order = '')
 
 /**
  * 添加、更新数据
- * 
- * @param $Model 表模型            
- * @param $rules 查询规则            
- * @param $map 查询条件            
- * @param $data 数据            
+ *
+ * @param $Model 表模型
+ * @param $rules 查询规则
+ * @param $map 查询条件
+ * @param $data 数据
  *
  */
 function update_data($model, $rules = array(), $map = array(), $data = array())
@@ -217,22 +216,22 @@ function update_data($model, $rules = array(), $map = array(), $data = array())
     }
     $data = $model->validate($rules)->create($data);
     /* 数据对象创建错误 */
-    if (! $data) {
+    if (!$data) {
         return $model->getError();
     }
     /* 初始化时间 */
-    $data['updatetime'] = time();
+    if(!$data['updatetime'])$data['updatetime'] = time();
     $data['update_time'] = date('Y-m-d H:i:s');
-    
+
     /* 记录操作员ID，前台为member_id，后台为admin_id */
-    if ((MODULE_NAME != 'Backend') && ! isset($map['is_hid']) && !isset($data['member_id'])) {
+    if ((MODULE_NAME != 'Backend') && !isset($map['is_hid']) && !isset($data['member_id'])) {
         //$data['member_id'] = session('member_id');
     } else {
         $data['admin_id'] = session('member_id');
     }
     if (empty($map) && empty($data[$model->getPk()])) {
         /* 添加 */
-        $data['addtime'] = time();
+        if(!$data['addtime'])$data['addtime'] = time();
         $data['add_time'] = date('Y-m-d H:i:s');
         $result = $model->add($data);
     } else {
@@ -243,14 +242,14 @@ function update_data($model, $rules = array(), $map = array(), $data = array())
             $result = $model->where($map)->save($data);
         }
     }
-    if (! is_numeric($result)) {
+    if (!is_numeric($result)) {
         return $result;
     }
     $id = $result;
-    if (! empty($data[$model->getPk()])) {
+    if (!empty($data[$model->getPk()])) {
         $result = $id = $data[$model->getPk()];
     }
-    if (! empty($map[$model->getPk()])) {
+    if (!empty($map[$model->getPk()])) {
         if (is_array($map[$model->getPk()])) {
             $id = implode(',', $map[$model->getPk()][1]);
         } else {
@@ -267,10 +266,10 @@ function update_data($model, $rules = array(), $map = array(), $data = array())
 
 /**
  * 添加数据
- * 
- * @param $model 表模型            
- * @param $map 条件            
- * @param $rules 验证            
+ *
+ * @param $model 表模型
+ * @param $map 条件
+ * @param $rules 验证
  *
  */
 function add_data($model, $rules = array(), $map = array())
@@ -280,16 +279,17 @@ function add_data($model, $rules = array(), $map = array())
     }
     // 创建数据对象
     $data = $model->validate($rules)->create();
-    if (! $data) { // 数据对象创建错误
+    if (!$data) { // 数据对象创建错误
         return $model->getError();
     }
     $res = $model->add($data);
     /* 执行更新后的回调函数 */
     $trace = debug_backtrace();
     if (isset($trace[1]['object']) && is_object($trace[1]['object']) && method_exists([
-        $trace[1]['object'],
-        'call_back_change'
-    ], true)) {
+            $trace[1]['object'],
+            'call_back_change'
+        ], true)
+    ) {
         $trace[1]['object']->call_back_change($res);
     }
     return $res;
@@ -297,9 +297,9 @@ function add_data($model, $rules = array(), $map = array())
 
 /**
  * 删除数据
- * 
- * @param $Model 表模型            
- * @param $map 条件            
+ *
+ * @param $Model 表模型
+ * @param $map 条件
  *
  */
 function delete_data($Model, $map = array())
@@ -311,9 +311,10 @@ function delete_data($Model, $map = array())
     /* 执行更新后的回调函数 */
     $trace = debug_backtrace();
     if (isset($trace[1]['object']) && is_object($trace[1]['object']) && method_exists([
-        $trace[1]['object'],
-        'call_back_change'
-    ], true)) {
+            $trace[1]['object'],
+            'call_back_change'
+        ], true)
+    ) {
         /* 获取数据ID */
         if (isset($map['id'])) {
             $id = is_array($map['id']) ? implode(',', $map['id'][1]) : $map['id'];
@@ -325,10 +326,10 @@ function delete_data($Model, $map = array())
 
 /**
  * 统计数据
- * 
- * @param $Model 表模型            
- * @param $map 条件            
- * @param $field 字段            
+ *
+ * @param $Model 表模型
+ * @param $map 条件
+ * @param $field 字段
  *
  */
 function count_data($Model, $map = array(), $field = 'id')
@@ -342,8 +343,8 @@ function count_data($Model, $map = array(), $field = 'id')
 
 /**
  * 查询数据的sql操作
- * 
- * @param $sql sql语句            
+ *
+ * @param $sql sql语句
  *
  */
 function query_sql($sql)
@@ -355,8 +356,8 @@ function query_sql($sql)
 
 /**
  * 更新和写入数据的sql操作
- * 
- * @param $sql sql语句            
+ *
+ * @param $sql sql语句
  *
  */
 function execute_sql($sql)
@@ -370,16 +371,16 @@ function execute_sql($sql)
 
 /**
  * 产生导航树
- * 
- * @param $list 结果集            
- * @param $pk ID号            
- * @param $pid 父id            
- * @param $child 子树字段            
+ *
+ * @param $list 结果集
+ * @param $pk ID号
+ * @param $pid 父id
+ * @param $child 子树字段
  * @param
  *            $root
  * @param
  *            $key
- *            
+ *
  */
 function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0, $key = '')
 {
@@ -389,24 +390,24 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
         // 创建基于主键的数组引用
         $refer = array();
         foreach ($list as $k => $data) {
-            $refer[$data[$pk]] = & $list[$k];
+            $refer[$data[$pk]] = &$list[$k];
         }
         foreach ($list as $k => $data) {
             // 判断是否存在parent
             $parentId = $data[$pid];
             if ($root == $parentId) {
                 if ($key != '') {
-                    $tree[$data[$key]] = & $list[$k];
+                    $tree[$data[$key]] = &$list[$k];
                 } else {
-                    $tree[] = & $list[$k];
+                    $tree[] = &$list[$k];
                 }
             } else {
                 if (isset($refer[$parentId])) {
-                    $parent = & $refer[$parentId];
+                    $parent = &$refer[$parentId];
                     if ($key != '') {
-                        $parent[$child][$data[$key]] = & $list[$k];
+                        $parent[$child][$data[$key]] = &$list[$k];
                     } else {
-                        $parent[$child][] = & $list[$k];
+                        $parent[$child][] = &$list[$k];
                     }
                 }
             }
@@ -417,17 +418,17 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
 
 /**
  * 把 int类型转换为 string类型
- * 
- * @param $data 数据            
- * @param $map 条件            
+ *
+ * @param $data 数据
+ * @param $map 条件
  *
  */
-function int_to_string($data, $map = array('status'=>array(1=>'正常',-1=>'删除',0=>'禁用')))
+function int_to_string($data, $map = array('status' => array(1 => '正常', -1 => '删除', 0 => '禁用')))
 {
     if ($data === false || $data === null) {
         return $data;
     }
-    $data = (array) $data;
+    $data = (array)$data;
     foreach ($data as $key => $row) {
         foreach ($map as $col => $pair) {
             if (isset($row[$col]) && isset($pair[$row[$col]])) {
@@ -440,9 +441,9 @@ function int_to_string($data, $map = array('status'=>array(1=>'正常',-1=>'删�
 
 /**
  * 根据字段的值进行数组过滤
- * 
- * @param $arr 要过滤的数组            
- * @param $key 要过滤的值            
+ *
+ * @param $arr 要过滤的数组
+ * @param $key 要过滤的值
  *
  */
 function assoc_unique($arr, $key)
@@ -460,14 +461,14 @@ function assoc_unique($arr, $key)
 
 /**
  * 多图上传
- * 
- * @param $picture_ids 临时图片ID            
- * @param $folder 上传目录            
- * @param $image_field 数据            
- * @param $table 图片保存数据表            
- * @param $image_field 数据            
- * @param $table_key_field 图片保存数据表对应字段名ID            
- * @param $table_key_value 图片保存数据表的ID值            
+ *
+ * @param $picture_ids 临时图片ID
+ * @param $folder 上传目录
+ * @param $image_field 数据
+ * @param $table 图片保存数据表
+ * @param $image_field 数据
+ * @param $table_key_field 图片保存数据表对应字段名ID
+ * @param $table_key_value 图片保存数据表的ID值
  *
  */
 function multi_file_upload($picture_ids, $folder, $table, $table_key_field, $table_key_value, $image_field = 'image')
@@ -479,7 +480,7 @@ function multi_file_upload($picture_ids, $folder, $table, $table_key_field, $tab
         $new_folder = mk_dir($folder);
         if ($new_folder == true) {
             $new_folder = $folder;
-        } else 
+        } else
             if ($new_folder == false) {
                 return '目录创建失败';
             }
@@ -487,7 +488,7 @@ function multi_file_upload($picture_ids, $folder, $table, $table_key_field, $tab
             $picture_ids = implode(',', $picture_ids);
         }
         $picture_ids = addslashes($picture_ids);
-        
+
         if ($picture_ids == '') {
             $picture_ids = '0';
         }
@@ -518,15 +519,15 @@ function multi_file_upload($picture_ids, $folder, $table, $table_key_field, $tab
         ));
     }
     $_POST = $posts;
-    
+
     return $return;
 }
 
 /**
  * 创建目录
- * 
- * @param $dir 目录            
- * @param $mode 权限            
+ *
+ * @param $dir 目录
+ * @param $mode 权限
  *
  */
 function mk_dir($dir, $mode = 0777)
@@ -534,37 +535,38 @@ function mk_dir($dir, $mode = 0777)
     if (is_dir($dir) || @mkdir($dir, $mode, true)) {
         return true;
     }
-    if (! mk_dir(dirname($dir), $mode)) {
+    if (!mk_dir(dirname($dir), $mode)) {
         return false;
     }
 }
 
 /**
  * 生成缩略图
- * 
- * @param $image 传入的图片路径            
- * @param $width 宽度            
- * @param $height 高度            
+ *
+ * @param $image 传入的图片路径
+ * @param $width 宽度
+ * @param $height 高度
  * @param $prefix 前缀
  *            l-large / m-middle / s-small
- * @param $thumb_path 缩略图保存位置            
- * @param $default_pic 没有图片时，默认返回图片            
+ * @param $thumb_path 缩略图保存位置
+ * @param $default_pic 没有图片时，默认返回图片
  *
  */
 function thumb($image, $width = 200, $height = 200, $prefix = 'S', $default_pic = '')
 {
     $default_pic = $default_pic ? $default_pic : C('TMPL_PARSE_STRING')['__STATIC__'] . "/img/default/list.jpg";
-    if (! in_array($prefix, [
+    if (!in_array($prefix, [
         'L',
         'M',
         'S'
-    ])) {
+    ])
+    ) {
         return "缩略图前缀只能使用L、M、S";
     }
     if (file_exists($image)) {
         $name = basename($image);
         $new_image = dirname($image) . '/' . $prefix . $name;
-        if (! file_exists($new_image) && file_exists($image)) {
+        if (!file_exists($new_image) && file_exists($image)) {
             list ($width_orig, $height_orig) = getimagesize($image);
             if ($width_orig != $width || $height_orig != $height) {
                 $image = new Image($image);
@@ -578,7 +580,7 @@ function thumb($image, $width = 200, $height = 200, $prefix = 'S', $default_pic 
     } else {
         $name = basename($image);
         $new_image_default = dirname($image) . '/' . $prefix . $name;
-        if (! file_exists($new_image_default) && file_exists($default_pic)) {
+        if (!file_exists($new_image_default) && file_exists($default_pic)) {
             list ($width_orig, $height_orig) = getimagesize($default_pic);
             if ($width_orig != $width || $height_orig != $height) {
                 $image = new Image($default_pic);
@@ -594,8 +596,8 @@ function thumb($image, $width = 200, $height = 200, $prefix = 'S', $default_pic 
 
 /**
  * 删除缩略图
- * 
- * @param $image 传入的图片路径            
+ *
+ * @param $image 传入的图片路径
  *
  */
 function del_thumb($image)
@@ -623,14 +625,14 @@ function del_thumb($image)
 
 /**
  * 返回路径中的参数
- * 
+ *
  * @author 康利民 <3027788306@qq.com> 2015-01-30
- * @param $add 需要添加的参数            
- * @param $del 需要过滤掉的参数，使用逗号分隔            
+ * @param $add 需要添加的参数
+ * @param $del 需要过滤掉的参数，使用逗号分隔
  * @return 参数数组
  * @example 说明：给url添加排序条件sort，同时删除掉url中的category和author参数及它们的值
  *          I("index",param(array('sort'=>'id'),'category,author'))
- *         
+ *
  */
 function param($add = array(), $del = '')
 {
@@ -644,15 +646,15 @@ function param($add = array(), $del = '')
 
 /**
  * 返回真实路径
- * 
- * @param $url 地址            
+ *
+ * @param $url 地址
  *
  */
 function ass_url($url)
 {
     $menu['url'] = $url;
     $chars = "/((^http)|(^https)|(^ftp)):\/\/(\S)+\.(\w)+/";
-    if (! preg_match($chars, $menu['url'])) {
+    if (!preg_match($chars, $menu['url'])) {
         $return_url = __ROOT__ . '/' . $url;
     } else {
         $return_url = $url;
@@ -662,9 +664,9 @@ function ass_url($url)
 
 /**
  * 系统加密方法
- * 
- * @param $data 要加密的字符串            
- * @param $key 加密密钥            
+ *
+ * @param $data 要加密的字符串
+ * @param $key 加密密钥
  * @param $expire 过期时间
  *            单位 秒
  * @return string
@@ -678,17 +680,17 @@ function think_encrypt($data, $key = '', $expire = 0)
     $len = strlen($data);
     $l = strlen($key);
     $char = '';
-    
-    for ($i = 0; $i < $len; $i ++) {
+
+    for ($i = 0; $i < $len; $i++) {
         if ($x == $l)
             $x = 0;
         $char .= substr($key, $x, 1);
-        $x ++;
+        $x++;
     }
-    
+
     $str = sprintf('%010d', $expire ? $expire + time() : 0);
-    
-    for ($i = 0; $i < $len; $i ++) {
+
+    for ($i = 0; $i < $len; $i++) {
         $str .= chr(ord(substr($data, $i, 1)) + (ord(substr($char, $i, 1))) % 256);
     }
     return str_replace(array(
@@ -704,10 +706,10 @@ function think_encrypt($data, $key = '', $expire = 0)
 
 /**
  * 系统解密方法
- * 
+ *
  * @param $data 要解密的字符串
  *            （必须是think_encrypt方法加密的字符串）
- * @param $key 加密密钥            
+ * @param $key 加密密钥
  *
  */
 function think_decrypt($data, $key = '')
@@ -727,7 +729,7 @@ function think_decrypt($data, $key = '')
     $data = base64_decode($data);
     $expire = substr($data, 0, 10);
     $data = substr($data, 10);
-    
+
     if ($expire > 0 && $expire < time()) {
         return '';
     }
@@ -735,15 +737,15 @@ function think_decrypt($data, $key = '')
     $len = strlen($data);
     $l = strlen($key);
     $char = $str = '';
-    
-    for ($i = 0; $i < $len; $i ++) {
+
+    for ($i = 0; $i < $len; $i++) {
         if ($x == $l)
             $x = 0;
         $char .= substr($key, $x, 1);
-        $x ++;
+        $x++;
     }
-    
-    for ($i = 0; $i < $len; $i ++) {
+
+    for ($i = 0; $i < $len; $i++) {
         if (ord(substr($data, $i, 1)) < ord(substr($char, $i, 1))) {
             $str .= chr((ord(substr($data, $i, 1)) + 256) - ord(substr($char, $i, 1)));
         } else {
@@ -755,16 +757,16 @@ function think_decrypt($data, $key = '')
 
 /**
  * 获取传递过来的字符中的所有本地图片
- * 
- * @param $content 内容            
- * @param $order 排序            
+ *
+ * @param $content 内容
+ * @param $order 排序
  *
  */
 function get_imgs($content, $order = '')
 {
     $pattern = "/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
     preg_match_all($pattern, $content, $match);
-    if (isset($match[1]) && ! empty($match[1])) {
+    if (isset($match[1]) && !empty($match[1])) {
         if ($order != '' && is_numeric($order) && isset($match[1][$order])) {
             return $match[1][$order];
         } else {
@@ -776,8 +778,8 @@ function get_imgs($content, $order = '')
 
 /**
  * 删除传递过来的字符中的所有本地图片
- * 
- * @param $content 内容            
+ *
+ * @param $content 内容
  *
  */
 function del_str_imgs($content)
@@ -794,9 +796,9 @@ function del_str_imgs($content)
 
 /**
  * 替换/还原本地图片路径
- * 
- * @param $str 字符串            
- * @param $type 类型            
+ *
+ * @param $str 字符串
+ * @param $type 类型
  *
  */
 function replace_str_img($str, $type = "")
@@ -813,13 +815,13 @@ function replace_str_img($str, $type = "")
 
 /**
  * 文件上传（单个|多个）
- * 
- * @param $md5 临时文件md5            
- * @param $folder 上传目录            
- * @param $table 图片保存数据表            
- * @param $field 图片保存数据表对应字段名ID            
- * @param $value 图片保存数据表的ID值            
- * @param $file_field 文件路径保存字段            
+ *
+ * @param $md5 临时文件md5
+ * @param $folder 上传目录
+ * @param $table 图片保存数据表
+ * @param $field 图片保存数据表对应字段名ID
+ * @param $value 图片保存数据表的ID值
+ * @param $file_field 文件路径保存字段
  *
  */
 function file_upload_multi($md5, $folder, $table, $field, $value, $file_field = 'image')
@@ -868,22 +870,22 @@ function file_upload_multi($md5, $folder, $table, $field, $value, $file_field = 
 
 /**
  * 根据模块地址获取SEO信息
- * 
+ *
  * @param $model_url 模块路径
  *            return array(
  *            title //网页标题
  *            keywords //网页关键词
  *            description //网页描述
  *            )
- *            @time 2016-03-30
+ * @time 2016-03-30
  * @author 陆龙飞
- *        
+ *
  */
 function get_page_seo_info($model_url = '')
 {
     if (empty($model_url))
         $model_url = MODULE_NAME . '/' . CONTROLLER_NAME . '/' . ACTION_NAME;
-    
+
     $seo = array();
     $map = array(
         'is_hid' => 0,
@@ -910,12 +912,12 @@ function get_page_seo_info($model_url = '')
             break;
         }
     }
-    ! empty($seo['title']) ? $seo['title'] .= ' | ' . C('SITE_TITLE') : $seo['title'] = C('SITE_TITLE');
+    !empty($seo['title']) ? $seo['title'] .= ' | ' . C('SITE_TITLE') : $seo['title'] = C('SITE_TITLE');
     if (empty($seo['keywords']))
         $seo['keywords'] = C('SITE_KEYWORD');
     if (empty($seo['description']))
         $seo['description'] = C('SITE_DESCRIPTION');
-    
+
     return $seo;
 }
 
@@ -924,8 +926,8 @@ function get_page_seo_info($model_url = '')
  * 1、获取商品里推荐的商品
  * 2、把推荐商品存入商铺推荐字段里
  * 3、如果传入的id不正确，更新所有的商铺
- * 
- * @param $shop_id 店铺id            
+ *
+ * @param $shop_id 店铺id
  *
  */
 function get_shop_recommend($shop_id)
@@ -972,7 +974,7 @@ function get_shop_recommend($shop_id)
         $result = get_result('product', $map, 'recommend DESC,sort DESC ,id DESC');
         /* 处理商品的结果集，把商铺ID作为键值整理商品 */
         foreach ($result as $value) {
-            if (! empty($ids_shop[$value['shop_id']])) {
+            if (!empty($ids_shop[$value['shop_id']])) {
                 $shop[$value['shop_id']][] = $value;
             }
         }
@@ -1007,13 +1009,13 @@ function get_shop_recommend($shop_id)
 
 /**
  * 获取用户头像
- * 
+ *
  * @param int $member_id
  *            用户ID
  * @param int $size
  *            头像尺寸
  * @return string 头像路径
- *        
+ *
  */
 function get_avatar($member_id = '', $size = "")
 {
@@ -1051,7 +1053,7 @@ function get_avatar($member_id = '', $size = "")
  */
 function array_change_key(&$old, &$new, &$change)
 {
-    if (! is_array($old)) {
+    if (!is_array($old)) {
         return $new = $old;
     }
     foreach ($old as $k => $v) {
@@ -1062,13 +1064,13 @@ function array_change_key(&$old, &$new, &$change)
 
 /**
  * 结果集数组格式化
- * 
+ *
  * @param array $result
  *            数据库查询结果集
  * @param string $by_filed
  *            格式化后数组的key,默认为ID
  * @return array 返回格式化后数组
- *         @time 2015-06-06
+ * @time 2015-06-06
  * @author 秦晓武
  */
 function array_format($result = array(), $by_filed = 'id')
@@ -1082,13 +1084,13 @@ function array_format($result = array(), $by_filed = 'id')
 
 /**
  * 两个多维数组合并（后面值覆盖前面值）
- * 
+ *
  * @param array $a1
  *            多维数组
  * @param array $a2
  *            多维数组, 用"delete"标记删除的键值
  * @return array 返回合并后数组
- *         @time 2015-06-06
+ * @time 2015-06-06
  * @author 秦晓武
  */
 function array_overlay($a1 = array(), $a2 = array())
@@ -1101,9 +1103,8 @@ function array_overlay($a1 = array(), $a2 = array())
         if (isset($a2[$k]) && $a2[$k] === "delete") {
             unset($a1[$k]);
             continue;
-        }
-        ;
-        if (! array_key_exists($k, $a2))
+        };
+        if (!array_key_exists($k, $a2))
             continue;
         if (is_array($v) && is_array($a2[$k])) {
             $a1[$k] = array_overlay($v, $a2[$k]);
@@ -1117,7 +1118,7 @@ function array_overlay($a1 = array(), $a2 = array())
 /**
  * XML转换成数组
  * @time 2016-07-28
- * 
+ *
  * @param array $xml
  *            要格式化的数据
  * @return array $result 格式化后数组
@@ -1128,7 +1129,7 @@ function xml_to_array($xml)
     $reg = "/<(\w+)[^>]*>([\\x00-\\xFF]*)<\\/\\1>/";
     if (preg_match_all($reg, $xml, $matches)) {
         $count = count($matches[0]);
-        for ($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $subxml = $matches[2][$i];
             $key = $matches[1][$i];
             if (preg_match($reg, $subxml)) {
@@ -1144,7 +1145,7 @@ function xml_to_array($xml)
 /**
  * 数组转换成PHP文件格式
  * @time 2015-05-19
- * 
+ *
  * @param array $data
  *            要格式化的数据
  * @return array $result 格式化后数组
@@ -1152,7 +1153,7 @@ function xml_to_array($xml)
  */
 function array_to_php($data = array())
 {
-    if (! is_array($data)) {
+    if (!is_array($data)) {
         $data = array();
     }
     return "<?php \r\n return " . var_export($data, true) . ";";
@@ -1160,7 +1161,7 @@ function array_to_php($data = array())
 
 /**
  * 数组转树形(无限级)
- * 
+ *
  * @param array $data
  *            输入数组，二维结构
  * @param array $set
@@ -1173,12 +1174,12 @@ function array_to_php($data = array())
  *          'root' => 起始节点，默认'0'(最上层父级ID)
  *          ]"
  * @return array 结果数组
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
  */
 function array_to_tree(&$data, $set = array())
 {
-    if (! is_array($data) || ! is_array($set) || ! count($data)) {
+    if (!is_array($data) || !is_array($set) || !count($data)) {
         return array();
     }
     /* 初始化设置 */
@@ -1189,7 +1190,7 @@ function array_to_tree(&$data, $set = array())
         ),
         'function' => array(
             'format_data' => ''
-        ), 
+        ),
         'root' => '0',
         'root_show' => false,
         'level' => 0
@@ -1201,7 +1202,7 @@ function array_to_tree(&$data, $set = array())
     $tree = array();
     foreach ($data as $key => $row) {
         $temp_row = '';
-        if (! isset($row[$field_parent]) || $row[$field_parent] == $set['root'] || ($row[$field_self] == $set['root'] && $set['root_show'])) {
+        if (!isset($row[$field_parent]) || $row[$field_parent] == $set['root'] || ($row[$field_self] == $set['root'] && $set['root_show'])) {
             if (is_callable($f)) {
                 $temp_row = call_user_func_array($f, array(
                     $row,
@@ -1218,7 +1219,7 @@ function array_to_tree(&$data, $set = array())
     foreach ($tree as $key => $value) {
         $temp_set = $set;
         $temp_set['root'] = $key;
-        $temp_set['level'] ++;
+        $temp_set['level']++;
         $tree[$key]['child'] = array_to_tree($data, $temp_set);
     }
     return $tree;
@@ -1226,11 +1227,11 @@ function array_to_tree(&$data, $set = array())
 
 /**
  * 树转数组
- * 
+ *
  * @param array $tree
  *            树型数组（data为父级数据，child为子级数据）
  * @return array 返回转换后数组
- *         @time 2015-06-06
+ * @time 2015-06-06
  * @author 秦晓武
  */
 function tree_to_array($tree = array())
@@ -1247,18 +1248,18 @@ function tree_to_array($tree = array())
 
 /**
  * 树内搜索
- * 
+ *
  * @param array $tree
  *            树型数组（data为父级数据，child为子级数据）
  * @param string $key
  *            数据
  * @return array 返回整个节点数据
- *         @time 2015-06-06
+ * @time 2015-06-06
  * @author 秦晓武
  */
 function search_in_tree($tree, $key = '')
 {
-    if (! is_array($tree))
+    if (!is_array($tree))
         return '';
     if ($tree[$key])
         return $tree[$key];
@@ -1271,7 +1272,7 @@ function search_in_tree($tree, $key = '')
 
 /**
  * 树形显示
- * 
+ *
  * @param array $tree
  *            输入数组
  * @param array $set
@@ -1299,15 +1300,15 @@ function search_in_tree($tree, $key = '')
  *            'child' => 所有子级数据（最后一级子集）
  *            )
  * @return string $result 结果模版
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
  */
 function tree_to_show($tree, $set = array(), &$pipe = array())
 {
-    if (! is_array($tree) || ! is_array($set) || ! count($tree)) {
+    if (!is_array($tree) || !is_array($set) || !count($tree)) {
         return '';
     }
-    
+
     /* 初始化设置 */
     $default_set = array(
         'show' => 'title',
@@ -1331,7 +1332,7 @@ function tree_to_show($tree, $set = array(), &$pipe = array())
     $set = array_overlay($default_set, $set);
     $default_pipe = array(
         'return_line' => array(
-            'node' => - 1,
+            'node' => -1,
             'data' => array()
         ),
         'parent' => array(),
@@ -1350,7 +1351,7 @@ function tree_to_show($tree, $set = array(), &$pipe = array())
         if ($temp_set['level'] > 0) {
             $temp_set['prefix'] = $set['add_prefix'] . $set['prefix'];
         }
-        if (! is_array($row['child']) || ! count($row['child'])) {
+        if (!is_array($row['child']) || !count($row['child'])) {
             $f = $set['function']['replace_self'];
             $pipe['child'][$row['data'][$field_self]] = $row['data'];
         } else {
@@ -1360,7 +1361,7 @@ function tree_to_show($tree, $set = array(), &$pipe = array())
             $pipe['parent'][$row['data'][$field_self]] = $row['data'];
         }
         switch ($pipe['return_line']['node']) {
-            case - 1:
+            case -1:
             case $key:
                 $pipe['return_line']['node'] = isset($row['data'][$field_parent]) ? $row['data'][$field_parent] : 0;
                 $pipe['return_line']['data'][] = $row['data'];
@@ -1380,7 +1381,7 @@ function tree_to_show($tree, $set = array(), &$pipe = array())
 
 /**
  * 数组变成下拉框(无限级)
- * 
+ *
  * @param array $data
  *            原始数组（数据库查出的结果集）
  * @param int $id
@@ -1388,9 +1389,9 @@ function tree_to_show($tree, $set = array(), &$pipe = array())
  * @param array $set
  *            配置数组(参照tree_to_show函数)
  * @return string $result 下拉框的option
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
- *        
+ *
  */
 function array_to_select($data = array(), $id = '-2', $set = array())
 {
@@ -1400,7 +1401,7 @@ function array_to_select($data = array(), $id = '-2', $set = array())
 
 /**
  * 树型变成下拉框(无限级)
- * 
+ *
  * @param array $tree
  *            树型数组（data为父级数据，child为子级数据）
  * @param int $id
@@ -1408,9 +1409,9 @@ function array_to_select($data = array(), $id = '-2', $set = array())
  * @param array $set
  *            配置数组(参照tree_to_show函数)
  * @return string $result 下拉框的option
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
- *        
+ *
  */
 function tree_to_select($tree = array(), $id = '-2', $set = array())
 {
@@ -1425,15 +1426,15 @@ function tree_to_select($tree = array(), $id = '-2', $set = array())
 
 /**
  * 数组变成下拉框，子级回调函数
- * 
+ *
  * @param array $row
  *            当前数据
  * @param array $set
  *            配置数组(参照tree_to_show函数)
  * @return string $result 结果模版
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
- *        
+ *
  */
 function select_self($row, $set = array())
 {
@@ -1464,13 +1465,13 @@ function select_self($row, $set = array())
 
 /**
  * 数组变成下拉框，父级回调函数
- * 
+ *
  * @param array $row
  *            当前数据
  * @param array $set
  *            配置数组(@see tree_to_show)
  * @return string 结果模版
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
  */
 function select_parent($row, $set = array())
@@ -1500,7 +1501,7 @@ function select_parent($row, $set = array())
 
 /**
  * 数组变成面包屑(无限级)
- * 
+ *
  * @param array $data
  *            原始数组（数据库查出的结果集）
  * @param int $id
@@ -1508,9 +1509,9 @@ function select_parent($row, $set = array())
  * @param array $set
  *            配置数组(参照tree_to_show函数)
  * @return string $result 下拉框的option
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
- *        
+ *
  */
 function array_to_crumbs($data = array(), $id = '-2', $set = array())
 {
@@ -1523,15 +1524,15 @@ function array_to_crumbs($data = array(), $id = '-2', $set = array())
 
 /**
  * 生成子级结构(array_to_crumbs的回调函数)
- * 
+ *
  * @param array $row
  *            当前数据
  * @param array $set
  *            配置数组(参照tree_to_show函数)
  * @return string $result 结果模版
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
- *        
+ *
  */
 function crumbs_self($row, $set = array())
 {
@@ -1542,15 +1543,15 @@ function crumbs_self($row, $set = array())
 
 /**
  * 生成父级结构(array_to_crumbs的回调函数)
- * 
+ *
  * @param array $row
  *            当前数据
  * @param array $set
  *            配置数组(参照tree_to_show函数)
  * @return string $result 结果模版
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
- *        
+ *
  */
 function crumbs_parent($row, $set = array())
 {
@@ -1568,7 +1569,7 @@ function crumbs_parent($row, $set = array())
  * 3.在树内搜索
  * 4.转换子节点为数组
  * 5.取出子节点ID
- * 
+ *
  * @param array $all
  *            数据
  * @param string $id
@@ -1576,7 +1577,7 @@ function crumbs_parent($row, $set = array())
  * @param boolean $self
  *            是否包含自身
  * @return string $result 结果数组
- *         @time 2015-05-22
+ * @time 2015-05-22
  * @author 秦晓武
  * @example 传入0，返回[0,1,2,3]
  */
@@ -1599,13 +1600,13 @@ function get_all_child_ids($all = array(), $id = 0, $self = true)
 /**
  * 获取所有父级数据ID
  * @需求：通过ID获取所有父级数据
- * 
+ *
  * @param array $data
  *            数据
  * @param string $id
  *            节点ID
  * @return string $result 结果数组
- *         @time 2016-11-17
+ * @time 2016-11-17
  * @author 秦晓武
  * @example 传入4，返回[1,2,3]
  */
@@ -1622,7 +1623,7 @@ function get_all_parent_ids($data, $id)
 /**
  * 写文件
  * @time 2015-05-19
- * 
+ *
  * @param string $file
  *            要写入的文件路径
  * @param array $data
@@ -1641,13 +1642,13 @@ function write_file($file, $data, $mode = 'a+')
         if (is_array($data)) {
             foreach ($data as $row) {
                 $flag = fwrite($fp, $row);
-                if (! $flag) {
+                if (!$flag) {
                     return 'TIP_ERROR_INFO';
                 }
             }
         } else {
             $flag = fwrite($fp, $data);
-            if (! $flag) {
+            if (!$flag) {
                 return 'TIP_ERROR_INFO' . $data;
             }
         }
@@ -1660,7 +1661,7 @@ function write_file($file, $data, $mode = 'a+')
 /**
  * 记录日志
  * @time 2015-08-06
- * 
+ *
  * @param string $file_path
  *            文件目录（基于Runtime/Logs/Class）
  * @param string $content
@@ -1670,26 +1671,26 @@ function write_file($file, $data, $mode = 'a+')
  */
 function write_log($file_path = "", $content = "")
 {
-    if (! $content || ! $file_path)
+    if (!$content || !$file_path)
         return false;
     $dir = RUNTIME_PATH . 'Logs' . DIRECTORY_SEPARATOR . 'Class';
-    if (! is_dir($dir) && ! mkdir($dir))
+    if (!is_dir($dir) && !mkdir($dir))
         return false;
     $dir = $dir . DIRECTORY_SEPARATOR . $file_path;
-    if (! is_dir($dir) && ! mkdir($dir))
+    if (!is_dir($dir) && !mkdir($dir))
         return false;
     $filename = $dir . DIRECTORY_SEPARATOR . date("Ymd", time()) . '.log.php';
     $logs = include $filename;
-    if ($logs && ! is_array($logs)) {
+    if ($logs && !is_array($logs)) {
         unlink($filename);
         return false;
     }
     $logs[] = date("Y-m-d H:i:s") . ' : ' . $content;
     $str = "<?php \r\n return " . var_export($logs, true) . ";";
-    if (! $fp = @fopen($filename, "wb")) {
+    if (!$fp = @fopen($filename, "wb")) {
         return false;
     }
-    if (! fwrite($fp, $str))
+    if (!fwrite($fp, $str))
         return false;
     fclose($fp);
     return true;
@@ -1697,21 +1698,21 @@ function write_log($file_path = "", $content = "")
 
 /**
  * 获取随机字符串
- * 
+ *
  * @param number $length
  *            获取随机字符串的长度,默认为6
  * @param string $strPol
  *            备选字符组成的字符串,默认为A-Za-z0-9;
  * @return string 获取的随机字符串
  * @author 李东
- *         @time 2015-11-18
+ * @time 2015-11-18
  */
 function get_rand_char($length = 6, $strPol = '')
 {
     $str = '';
     $strPol = $strPol == '' ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz" : $strPol;
     $max = strlen($strPol) - 1;
-    for ($i = 0; $i < $length; $i ++) {
+    for ($i = 0; $i < $length; $i++) {
         $str .= $strPol[rand(0, $max)]; // rand($min,$max)生成介于min和max两个数之间的一个随机整数
     }
     return $str;
@@ -1719,10 +1720,10 @@ function get_rand_char($length = 6, $strPol = '')
 
 /**
  * IP转地址
- * 
+ *
  * @param string $p
  *            IP
- *            @time 2015-08-15
+ * @time 2015-08-15
  * @author 秦晓武
  */
 function ip_to_location($p = '127.0.0.1')
@@ -1740,7 +1741,7 @@ function ip_to_location($p = '127.0.0.1')
 
 /**
  * 字符串截取，支持中文和其他编码
- * 
+ *
  * @param string $str
  *            需要转换的字符串
  * @param int $start
@@ -1778,11 +1779,11 @@ function msubstr($str = '', $start = 0, $length = 1, $charset = "utf-8", $suffix
 
 /**
  * 截取摘要的主要函数
- * 
- * @param $text 文本内容            
- * @param $length 截取长度            
- * @param $allowd_tag 允许标签            
- * @param $suffix 省略符            
+ *
+ * @param $text 文本内容
+ * @param $length 截取长度
+ * @param $allowd_tag 允许标签
+ * @param $suffix 省略符
  */
 function msubstr_tag($text, $length = 150, $allowd_tag = true, $suffix = '...')
 {
@@ -1793,7 +1794,7 @@ function msubstr_tag($text, $length = 150, $allowd_tag = true, $suffix = '...')
     }
     /* 获取标签 */
     $allowd_tag = $allowd_tag ? $allowd_tag : '<a><b><blockquote><br><cite><code><dd><del><div><dl><dt><em><h1><h2><h3><h4><h5><h6><i><li><ol><p><pre><span><strong><ul>';
-    
+
     /* 去除标签 */
     $text = strip_tags($text, $allowd_tag);
     /* 去除&nbsp; */
@@ -1804,13 +1805,13 @@ function msubstr_tag($text, $length = 150, $allowd_tag = true, $suffix = '...')
     /* 计算字数，截取摘要 */
     $num = 0;
     $in_tag = false;
-    for ($i = 0; $num < $length || $in_tag; $i ++) {
+    for ($i = 0; $num < $length || $in_tag; $i++) {
         if (mb_substr($text, $i, 1) == '<')
             $in_tag = true;
         elseif (mb_substr($text, $i, 1) == '>')
             $in_tag = false;
-        elseif (! $in_tag)
-            $num ++;
+        elseif (!$in_tag)
+            $num++;
     }
     $text = trim(mb_substr($text, 0, $i, 'utf-8'));
     $text = force_balance_tags($text);
@@ -1821,7 +1822,7 @@ function msubstr_tag($text, $length = 150, $allowd_tag = true, $suffix = '...')
  * 标签自动补全（代码来源：wordpress）
  *
  * @since 2.0.4
- *       
+ *
  * @author Leonard Lin <leonard@acm.org>
  * @license GPL
  * @copyright November 4, 2001
@@ -1831,7 +1832,7 @@ function msubstr_tag($text, $length = 150, $allowd_tag = true, $suffix = '...')
  *           1.1 Fixed handling of append/stack pop order of end text
  *           Added Cleaning Hooks
  *           1.0 First Version
- *          
+ *
  * @param string $text
  *            Text to be balanced.
  * @return string Balanced text.
@@ -1869,18 +1870,18 @@ function force_balance_tags($text = '')
         'q',
         'span'
     );
-    
+
     // WP bug fix for comments - in case you REALLY meant to type '< !--'
     $text = str_replace('< !--', '<    !--', $text);
     // WP bug fix for LOVE <3 (and other situations with '<' before a number)
     $text = preg_replace('#<([0-9]{1})#', '&lt;$1', $text);
-    
+
     while (preg_match("/<(\/?[\w:]*)\s*([^>]*)>/", $text, $regex)) {
         $newtext .= $tagqueue;
-        
+
         $i = strpos($text, $regex[0]);
         $l = strlen($regex[0]);
-        
+
         // clear the shifter
         $tagqueue = '';
         // Pop or Push
@@ -1893,16 +1894,16 @@ function force_balance_tags($text = '')
             }            // if stacktop value = tag close value then pop
             elseif ($tagstack[$stacksize - 1] == $tag) { // found closing tag
                 $tag = '</' . $tag . '>'; // Close Tag
-                                          // Pop
+                // Pop
                 array_pop($tagstack);
-                $stacksize --;
+                $stacksize--;
             } else { // closing tag not at top, search for it
-                for ($j = $stacksize - 1; $j >= 0; $j --) {
+                for ($j = $stacksize - 1; $j >= 0; $j--) {
                     if ($tagstack[$j] == $tag) {
                         // add tag to tagqueue
-                        for ($k = $stacksize - 1; $k >= $j; $k --) {
+                        for ($k = $stacksize - 1; $k >= $j; $k--) {
                             $tagqueue .= '</' . array_pop($tagstack) . '>';
-                            $stacksize --;
+                            $stacksize--;
                         }
                         break;
                     }
@@ -1911,39 +1912,39 @@ function force_balance_tags($text = '')
             }
         } else { // Begin Tag
             $tag = strtolower($regex[1]);
-            
+
             // Tag Cleaning
-            
+
             // If it's an empty tag "< >", do nothing
             if ('' == $tag) {
                 // do nothing
             }            // ElseIf it presents itself as a self-closing tag...
-            elseif (substr($regex[2], - 1) == '/') {
+            elseif (substr($regex[2], -1) == '/') {
                 // ...but it isn't a known single-entity self-closing tag, then don't let it be treated as such and
                 // immediately close it with a closing tag (the tag will encapsulate no text as a result)
-                if (! in_array($tag, $single_tags))
-                    $regex[2] = trim(substr($regex[2], 0, - 1)) . "></$tag";
+                if (!in_array($tag, $single_tags))
+                    $regex[2] = trim(substr($regex[2], 0, -1)) . "></$tag";
             }            // ElseIf it's a known single-entity tag but it doesn't close itself, do so
             elseif (in_array($tag, $single_tags)) {
                 $regex[2] .= '/';
             }             // Else it's not a single-entity tag
             else {
                 // If the top of the stack is the same as the tag we want to push, close previous tag
-                if ($stacksize > 0 && ! in_array($tag, $nestable_tags) && $tagstack[$stacksize - 1] == $tag) {
+                if ($stacksize > 0 && !in_array($tag, $nestable_tags) && $tagstack[$stacksize - 1] == $tag) {
                     $tagqueue = '</' . array_pop($tagstack) . '>';
-                    $stacksize --;
+                    $stacksize--;
                 }
                 $stacksize = array_push($tagstack, $tag);
             }
-            
+
             // Attributes
             $attributes = $regex[2];
-            if (! empty($attributes) && $attributes[0] != '>')
+            if (!empty($attributes) && $attributes[0] != '>')
                 $attributes = ' ' . $attributes;
-            
+
             $tag = '<' . $tag . $attributes . '>';
             // If already queuing a close tag, then put this tag on, too
-            if (! empty($tagqueue)) {
+            if (!empty($tagqueue)) {
                 $tagqueue .= $tag;
                 $tag = '';
             }
@@ -1951,13 +1952,13 @@ function force_balance_tags($text = '')
         $newtext .= substr($text, 0, $i) . $tag;
         $text = substr($text, $i + $l);
     }
-    
+
     // Clear Tag Queue
     $newtext .= $tagqueue;
-    
+
     // Add Remaining text
     $newtext .= $text;
-    
+
     // Empty Stack
     while ($x = array_pop($tagstack)) {
         $newtext .= '</' . $x . '>'; // Add remaining tags to close
@@ -1965,13 +1966,13 @@ function force_balance_tags($text = '')
     // WP fix for the bug with HTML comments
     $newtext = str_replace("< !--", "<!--", $newtext);
     $newtext = str_replace("<    !--", "< !--", $newtext);
-    
+
     return $newtext;
 }
 
 /**
  * seo功能
- * 
+ *
  * @param string $title
  *            title
  * @param string $keywords
@@ -1992,7 +1993,7 @@ function seo_edit($title, $keywords, $description)
 
 /**
  * 封装curl,get方式
- * 
+ *
  * @param string $url
  *            地址
  * @return string 结果
@@ -2015,7 +2016,7 @@ function curl_get($url)
 
 /**
  * 封装curl,post方式
- * 
+ *
  * @param string $url
  *            地址
  * @param array $data
@@ -2037,13 +2038,13 @@ function curl_post($url, $data)
 
 /**
  * 获取当前客户端类型
- * 
+ *
  * @return string 客户端类型
  */
 function get_agent()
 {
     $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-    switch(true){
+    switch (true) {
         case stristr($agent, 'micromessenger'):
             return 'weixin';
         case stristr($agent, 'android'):
@@ -2066,11 +2067,11 @@ function get_agent()
 
 /**
  * 判断远程文件图片是否存在
- * 
+ *
  * @param string $url
  *            服务地址
  * @return bool 判断结果 CURL有缓存效果
- *         @time 2015-09-16
+ * @time 2015-09-16
  * @author 陆龙飞 <747060156@qq.com>
  *         URL ：'http://'.$_SERVER['SERVER_NAME'].'/'.__ROOT__.'/''Uploads/ImgTemp/xxx.jpg'
  */
@@ -2091,13 +2092,13 @@ function check_remote_file_exists($url)
         }
     }
     curl_close($curl);
-    
+
     return $found;
 }
 
 /**
  * 注册发送短信接口，文档http://sdk2.entinfo.cn:8060/webservice.asmx
- * 
+ *
  * @param string $mobile
  *            手机号
  * @param string $content
@@ -2109,7 +2110,7 @@ function send_mobile_code($mobile, $content = '')
     $code = rand(1000, 9999);
     session('mobile_code', $code);
     session('mobile', $mobile);
-    if (! $content) {
+    if (!$content) {
         $content = str_replace('#code#', $code, $config['MESSAGE_CONTENT']);
     }
     $sn = $config['MESSAGE_NAME'];
@@ -2124,7 +2125,7 @@ function send_mobile_code($mobile, $content = '')
 
 /**
  * 短信发送（基于阿里大于）
- * 
+ *
  * @param string $mobile
  *            手机号
  * @param string $code
@@ -2150,7 +2151,7 @@ function send_sms($mobile = '13800000000', $code = '999999', $key = '', $member_
     /* 调用发送类 */
     vendor('dayu.TopSdk');
     $c = new TopClient();
-    $c->appkey = C('SMS_KEY'); 
+    $c->appkey = C('SMS_KEY');
     $c->secretKey = C('SMS_SECRET');
     $c->format = 'json';
     $req = new AlibabaAliqinFcSmsNumSendRequest();
@@ -2172,8 +2173,7 @@ function send_sms($mobile = '13800000000', $code = '999999', $key = '', $member_
     $data['result'] = json_encode($resp);
     if ($resp->result) {
         $data['state'] = 1;
-    }
-    ;
+    };
     update_data('sms_record', array(), array(), $data);
     $result = json_decode($resp);
     return 1 && $resp->result;
@@ -2181,18 +2181,18 @@ function send_sms($mobile = '13800000000', $code = '999999', $key = '', $member_
 
 /**
  * 系统邮件发送函数
- * 
- * @param $to 接收邮件者邮箱            
- * @param $name 接收邮件者名称            
- * @param $subject 邮件主题            
- * @param $body 邮件内容            
- * @param $attachment 附件列表            
+ *
+ * @param $to 接收邮件者邮箱
+ * @param $name 接收邮件者名称
+ * @param $subject 邮件主题
+ * @param $body 邮件内容
+ * @param $attachment 附件列表
  * @return boolean
  */
 function send_mail($to, $name, $subject = '', $body = '')
 {
     vendor('PHPMailer.class#phpmailer'); // 从PHPMailer目录导class.phpmailer.php类文件
-    
+
     $mail = new PHPMailer(); // PHPMailer对象
     $mail->CharSet = 'UTF-8'; // 设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
     $mail->IsSMTP(); // 设定使用SMTP服务
@@ -2207,29 +2207,29 @@ function send_mail($to, $name, $subject = '', $body = '')
     $mail->Port = C('SMTP_PORT'); // SMTP服务器的端口号
     $mail->Username = C('SMTP_USER'); // SMTP服务器用户名
     $mail->Password = C('SMTP_PASS'); // SMTP服务器密码
-    
+
     $mail->SetFrom(C('FROM_EMAIL'), C('FROM_NAME'));
-    
+
     $mail->FromName = C('FROM_NAME');
     $mail->From = C('FROM_EMAIL');
-    
+
     $mail->Subject = $subject;
     $mail->MsgHTML($body);
-    
+
     $mail->AddAddress($to, $name);
-    
+
     $return_info = $mail->Send() ? true : $mail->ErrorInfo;
-    
+
     return $return_info;
 }
 
 /**
  * 订单号生成方法
- * 
+ *
  * @return string 16位订单号
- *        
+ *
  * @author 李东<947714443@qq.com>
- *         @date 2016-03-21
+ * @date 2016-03-21
  */
 function build_order_no()
 {
@@ -2239,7 +2239,7 @@ function build_order_no()
 /**
  * 创建数据缓存
  * @time 2014-01-16
- * 
+ *
  * @author 郭文龙 <2824682114@qq.com>
  * @param
  *            $result
@@ -2251,7 +2251,7 @@ function build_order_no()
 function get_cache_data($result, $cache_name, $by_filed)
 {
     if ($cache_name != '') {
-        if (! F($cache_name)) {
+        if (!F($cache_name)) {
             $cache_data = array();
             foreach ($result as $row) {
                 if ($by_filed == '') {
@@ -2268,7 +2268,7 @@ function get_cache_data($result, $cache_name, $by_filed)
 
 /**
  * 字节格式化 把字节数格式为 B K M G T 描述的大小
- * 
+ *
  * @param string $size
  *            文件大小
  * @param string $dec
@@ -2288,9 +2288,18 @@ function byte_format($size, $dec = 2)
     $pos = 0;
     while ($size >= 1024) {
         $size /= 1024;
-        $pos ++;
+        $pos++;
     }
     return round($size, $dec) . " " . $a[$pos];
+}
+
+/**
+ * 毫秒时间
+ * @return float
+ */
+function millisecond()
+{
+    return ceil(microtime(true) * 1000).'';
 }
 
 /**
@@ -2299,34 +2308,48 @@ function byte_format($size, $dec = 2)
  * @param string $msg
  * @param int $status
  */
-function SUCCESS($info=null,$msg='请求成功',$status=1){
+function SUCCESS($info = null, $msg = '请求成功', $status = 1)
+{
     // 返回JSON数据格式到客户端 包含状态信息
-    header ( 'Content-Type:application/json; charset=utf-8' );
-    $result=array('status'=>$status,'info'=>$info,'msg'=>$msg);
-    if( session('page_info')){//判断存在页码信息缓存时,在结果中追加页码信息
-        $result=array_merge($result,session('page_info'));
-        session('page_info',null);//销毁页码信息
+    header('Content-Type:application/json; charset=utf-8');
+    $result = array('status' => $status, 'info' => $info, 'msg' => $msg);
+    if (session('page_info')) {//判断存在页码信息缓存时,在结果中追加页码信息
+        $result = array_merge($result, session('page_info'));
+        session('page_info', null);//销毁页码信息
     }
     removeNullKey($result);//移除无效字段
-    exit ( json_encode ( $result,JSON_NUMERIC_CHECK) );
+    exit (json_encode($result, JSON_NUMERIC_CHECK));
 }
+
 /**
  * 请求失败返回
  * @param null $info
  * @param string $msg
  * @param int $status
  */
-function ERROR($info=null,$msg='请求失败',$status=0){
+function ERROR($msg = '请求失败', $info = null, $status = 0)
+{
     // 返回JSON数据格式到客户端 包含状态信息
-    header ( 'Content-Type:application/json; charset=utf-8' );
-    $result=array('status'=>$status,'info'=>$info,'msg'=>$msg);
+    header('Content-Type:application/json; charset=utf-8');
+    $result = array('status' => $status, 'info' => $info, 'msg' => $msg);
     removeNullKey($result);
-    exit ( json_encode ( $result) );
+    exit (json_encode($result));
 }
+
+function AUTORETURN($info = null)
+{
+    if ($info) {
+        SUCCESS($info);
+    } else {
+        ERROR($info);
+    }
+}
+
 //删除数组空值
-function removeNullKey(&$data=array()){
-    foreach($data as $key=>$val){
-        if($val===null){
+function removeNullKey(&$data = array())
+{
+    foreach ($data as $key => $val) {
+        if ($val === null) {
             unset($data[$key]);
         }
     }

@@ -46,6 +46,7 @@ class IndexController extends BaseController
                 array('id', 'require', '请输入内容'),
             );
             if (!$post['addtime']) $post['addtime'] = millisecond();
+            if (!$post['updatetime']) $post['updatetime'] = millisecond();
             $res = update_data($this->table, $rule, [], $post);
             if (is_numeric($res)) {
                 SUCCESS($res, '修改成功');
@@ -67,12 +68,21 @@ class IndexController extends BaseController
 
     /**
      * 添加笔记
+     * uid 用户id
+     * content 笔记内容 Y
+     * id 笔记id
+     * type 笔记类型
+     * addtime 笔记时间
+     * updatetime 更新时间
      */
     public function add()
     {
         $member_info = $this->get_memberinfo(false);
         //echo ''.millisecond();
         $post = I('post.');
+        if($post['id']){//存在id则直接调取编辑
+            $this->edit();
+        }
         $rule = array(
             array('content', 'require', '请输入内容'),
         );

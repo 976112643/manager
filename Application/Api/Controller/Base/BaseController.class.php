@@ -305,6 +305,7 @@ class BaseController extends ApiController
 //            $field = 'id,article_title,article_headimg,article_author,article_content,article_publish_time,article_img';
             $map = array('uid' => $member_id);
             $res = get_info('member_info', $map, true);
+
             if(!$res&&!$onlyReturn)ERROR( '用户信息错误');
             F($cache_key, $res);
             return $res;

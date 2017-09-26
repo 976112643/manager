@@ -19,19 +19,50 @@ class IndexController extends BaseController
     public function index()
     {
 
-        /** 读取缓存*/
-        $cache = $this->table . '_page_' . I('p', 1) . I('r', 10);
-       // if (F($cache)) {
-      //      $res = F($cache);
-     //   } else {
-            //$field = 'id,article_title,article_headimg,article_author,article_content,article_publish_time,article_img';
-            $map = array(
-                'uid'=>I('uid'),
-            );
-            $res = $this->page($this->table, $map, 'updatetime asc', true);
-            F($cache, $res);
-     //   }
+        /** 查询指定用户的笔记*/
+        $map = array(
+            'uid' => I('uid'),
+        );
+        $res = $this->page($this->table, $map, 'updatetime asc', true);
         SUCCESS($res);
+    }
+    /**
+     * 获取新的笔记列表
+     */
+    public function get_new_notes()
+    {
+
+        /** 查询指定用户及指定版本的数据*/
+        $map = array(
+            'uid' => I('uid'),
+            'version'=>array('GT'=>I('version'))
+        );
+        $res = $this->page($this->table, $map, 'updatetime asc', true);
+        SUCCESS($res);
+    }
+
+    public function update_all(){
+        if (IS_POST) {
+            $this->write_api_log();
+            $post = I('post.');
+            $rule = array(
+                array('content', 'require', '请输入内容'),
+                array('id', 'require', '请输入内容'),
+            );
+            $map = array(
+                'id' => I('id'),
+                'uid' => I('uid'),
+            );
+            $info = get_info($this->table, $map, true);
+            if (!$post['addtime']) $post['addtime'] = millisecond();
+            if (!$post['updatetime']) $post['updatetime'] = millisecond();
+            $post['version']=intval($info['version']+1);//版本+1
+            $res = update_data($this->table, $rule, [], $post);
+            if (is_numeric($res)) {
+                SUCCESS($post['version'], '修改成功');
+            }
+            ERROR($res);
+        }
     }
 
     /**
@@ -45,22 +76,28 @@ class IndexController extends BaseController
                 array('content', 'require', '请输入内容'),
                 array('id', 'require', '请输入内容'),
             );
+            $map = array(
+                'id' => I('id'),
+                'uid' => I('uid'),
+            );
+            $info = get_info($this->table, $map, true);
             if (!$post['addtime']) $post['addtime'] = millisecond();
             if (!$post['updatetime']) $post['updatetime'] = millisecond();
+            $post['version']=$info['version']+1;//版本+1
             $res = update_data($this->table, $rule, [], $post);
             if (is_numeric($res)) {
-                SUCCESS($res, '修改成功');
+                SUCCESS($post['version'], '修改成功');
             }
             ERROR($res);
         } else {
             $map = array(
                 'id' => I('id'),
-                'uid'=>I('uid'),
-                );
+                'uid' => I('uid'),
+            );
             $info = get_info($this->table, $map, true);
-            if($info){
+            if ($info) {
                 SUCCESS($info);
-            }else{
+            } else {
                 ERROR('笔记获取失败');
             }
         }
@@ -80,7 +117,7 @@ class IndexController extends BaseController
         $member_info = $this->get_memberinfo(false);
         //echo ''.millisecond();
         $post = I('post.');
-        if($post['id']){//存在id则直接调取编辑
+        if ($post['id']) {//存在id则直接调取编辑
             $this->edit();
         }
         $rule = array(
@@ -99,11 +136,12 @@ class IndexController extends BaseController
     /**
      * 删除笔记
      */
-    public function del(){
+    public function del()
+    {
         $post = I('post.');
-        $rst=delete_data($this->table,array('id'=>$post['id']));
-        if($rst){
-            SUCCESS($rst,'删除成功');
+        $rst = delete_data($this->table, array('id' => $post['id']));
+        if ($rst) {
+            SUCCESS($rst, '删除成功');
         }
         ERROR('操作失败');
     }

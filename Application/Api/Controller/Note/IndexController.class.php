@@ -61,7 +61,7 @@ class IndexController extends BaseController
                 if(!$info)$map=[];
                 if (!$note['addtime']) $note['addtime'] = millisecond();
                 if (!$note['updatetime']) $note['updatetime'] = millisecond();
-                //$post['version']=$info['version']+1;//版本+1
+                $note['version']=$info['version']+1;//版本+1
                 $res = update_data($this->table, [], $map, $note);
                 $ids=$ids.$res.',';
                 if (!is_numeric($res)) {

@@ -45,24 +45,26 @@ class IndexController extends BaseController
         if (IS_POST) {
             $this->write_api_log();
             $post = I('post.');
-            $rule = array(
-                array('content', 'require', '请输入内容'),
-                array('id', 'require', '请输入内容'),
-            );
-            $map = array(
-                'id' => I('id'),
+			$notes=json_decode($post['notes']);
+			SUCCESS($post['notes']);
+			foreach($notes as $note){
+			 $map = array(
+                'id' => $note['id'],
                 'uid' => I('uid'),
             );
-            $info = get_info($this->table, $map, true);
-            if (!$post['addtime']) $post['addtime'] = millisecond();
-            if (!$post['updatetime']) $post['updatetime'] = millisecond();
-            $post['version']=intval($info['version']+1);//版本+1
-            $res = update_data($this->table, $rule, [], $post);
-            if (is_numeric($res)) {
-                SUCCESS($post['version'], '修改成功');
-            }
-            ERROR($res);
-        }
+            //$info = get_info($this->table, $map, true);
+            if (!$note['addtime']) $note['addtime'] = millisecond();
+            if (!$note['updatetime']) $note['updatetime'] = millisecond();
+            //$post['version']=$info['version']+1;//版本+1
+            $res = update_data($this->table, [], [], $note);
+			if (!is_numeric($res)) {
+			 ERROR($res);
+			}
+			}
+          
+                SUCCESS(null, '修改成功');     
+			}
+
     }
 
     /**

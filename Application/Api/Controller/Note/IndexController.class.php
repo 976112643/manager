@@ -26,6 +26,7 @@ class IndexController extends BaseController
         $res = $this->page($this->table, $map, 'updatetime asc', true);
         SUCCESS($res);
     }
+
     /**
      * 获取新的笔记列表
      */
@@ -35,35 +36,41 @@ class IndexController extends BaseController
         /** 查询指定用户及指定版本的数据*/
         $map = array(
             'uid' => I('uid'),
-            'version'=>array('GT'=>I('version'))
+            'version' => array('GT' => I('version'))
         );
         $res = $this->page($this->table, $map, 'updatetime asc', true);
         SUCCESS($res);
     }
 
-    public function update_all(){
+    public function update_all()
+    {
         if (IS_POST) {
             $this->write_api_log();
-            $post = I('post.');
-			$notes=json_decode($post['notes']);
-			SUCCESS($post['notes']);
-			foreach($notes as $note){
-			 $map = array(
-                'id' => $note['id'],
-                'uid' => I('uid'),
-            );
-            //$info = get_info($this->table, $map, true);
-            if (!$note['addtime']) $note['addtime'] = millisecond();
-            if (!$note['updatetime']) $note['updatetime'] = millisecond();
-            //$post['version']=$info['version']+1;//版本+1
-            $res = update_data($this->table, [], [], $note);
-			if (!is_numeric($res)) {
-			 ERROR($res);
-			}
-			}
-          
-                SUCCESS(null, '修改成功');     
-			}
+            $post = $_POST;
+            $notes = json_decode($post['notes'], true);
+            //SUCCESS($notes);
+            $ids="";
+            foreach ($notes as $note) {
+                $map = array(
+                    'note_id' => $note['note_id'],
+                    'uid' => I('uid'),
+                );
+                $info = get_info($this->table, $map, true);
+                //SUCCESS($info);
+                $note['uid']=I('uid');
+                if(!$info)$map=[];
+                if (!$note['addtime']) $note['addtime'] = millisecond();
+                if (!$note['updatetime']) $note['updatetime'] = millisecond();
+                //$post['version']=$info['version']+1;//版本+1
+                $res = update_data($this->table, [], $map, $note);
+                $ids=$ids.$res.',';
+                if (!is_numeric($res)) {
+                    ERROR($res);
+                }
+            }
+            $ids=substr($ids,0,strlen($ids)-1);
+            SUCCESS($ids, '修改成功');
+        }
 
     }
 
@@ -85,7 +92,7 @@ class IndexController extends BaseController
             $info = get_info($this->table, $map, true);
             if (!$post['addtime']) $post['addtime'] = millisecond();
             if (!$post['updatetime']) $post['updatetime'] = millisecond();
-            $post['version']=$info['version']+1;//版本+1
+            $post['version'] = $info['version'] + 1;//版本+1
             $res = update_data($this->table, $rule, [], $post);
             if (is_numeric($res)) {
                 SUCCESS($post['version'], '修改成功');

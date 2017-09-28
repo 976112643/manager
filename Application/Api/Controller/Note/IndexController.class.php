@@ -36,8 +36,10 @@ class IndexController extends BaseController
         /** 查询指定用户及指定版本的数据*/
         $map = array(
             'uid' => I('uid'),
-            'version' => array('GT' => I('version'))
+            'version' => array('GT', I('version'))
         );
+//        unset($map);
+//        SUCCESS($map);
         $res = $this->page($this->table, $map, 'updatetime asc', true);
         SUCCESS($res);
     }
@@ -48,13 +50,13 @@ class IndexController extends BaseController
             $this->write_api_log();
             $post = $_POST;
             $notes = json_decode($post['notes'], true);
-            //SUCCESS($notes);
             $ids="";
             foreach ($notes as $note) {
                 $map = array(
                     'note_id' => $note['note_id'],
                     'uid' => I('uid'),
                 );
+                if($note['id']==0)unset($note['id']);
                 $info = get_info($this->table, $map, true);
                 //SUCCESS($info);
                 $note['uid']=I('uid');

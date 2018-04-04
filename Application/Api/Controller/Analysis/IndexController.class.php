@@ -54,18 +54,12 @@ class IndexController extends BaseController
 		
 	}
 	
-    /**
-     * 笔记列表
-     */
+ 
     public function index()
     {
 
-        /** 查询指定用户的笔记*/
-        $map = array(
-            'uid' => I('uid'),
-        );
-        $res = $this->page($this->table, $map, 'updatetime asc', true);
-        SUCCESS($res);
+      
+      ERROR("呃....你想干嘛");
     }
 
     /**

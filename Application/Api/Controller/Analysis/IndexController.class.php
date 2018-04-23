@@ -19,6 +19,8 @@ class IndexController extends BaseController
 	 * type 类型 int 默认0 1是url
 	 * title 统计标题
 	 * desc 描述
+      * url 地址 统计页面的话可以带着
+      *
      */
 	public function accum_analysis(){
 			$map = I('get.');

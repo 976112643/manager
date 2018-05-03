@@ -27,6 +27,7 @@ class RegisterController extends BaseController
         $map = array('device' => I('device'));
         $info = get_info($this->info_table, $map, true);
         if ($info) {
+            $this->update_device_info($info['uid']);//更新设备
             SUCCESS($info);
         }
         $model = M($this->table);
@@ -56,10 +57,14 @@ class RegisterController extends BaseController
             );
             $count = count_data($this->info_table, $map);
 
+
             $_data = array(
                 'uid' => $res,
                 'head_img' => $posts['head_img'],
-                'device' => I('device')
+                'device' => I('device'),
+                'device_brand' => I('device_brand'),
+                 'device_model' => I('device_model'),
+                'device_man' => I('device_man')
             );
             if($posts['nickname']){
                 $_data['nickname'] = $count ? $posts['nickname'] . $count : $posts['nickname'];
@@ -72,6 +77,17 @@ class RegisterController extends BaseController
         }
         $model->rollback();
         $this->set_error('获取用户信息失败');
+    }
+
+    protected function update_device_info($res){
+        $_data = array(
+            'uid' => $res,
+            'device' => I('device'),
+            'device_brand' => I('device_brand'),
+            'device_model' => I('device_model'),
+            'device_man' => I('device_man')
+        );
+        $_res = update_data($this->info_table, null, [], $_data);
     }
 }
 

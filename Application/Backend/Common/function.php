@@ -1,5 +1,7 @@
 <?php
-
+function date_str($long_time){
+    return date('Y-m-d H:i:s', $long_time/1000);
+}
 /**
  * 获取后台管理菜单
  * 康利民 2015-06-12
@@ -219,6 +221,30 @@ function search_time( $field = 'add_time',$type = true){
     if($type){
         $start_time = strtotime($start_time);
         $end_time   = strtotime($end_time);
+    }
+    if(!empty($start_time)){
+        $map[$field][] = array('egt',$start_time);
+    }
+    if(!empty($end_time)){
+        $map[$field][] = array('elt',$end_time);
+    }
+    if(isset($map[$field])) return $map[$field];
+}
+/**
+ * 搜索时间设置
+ * @param string $field 需要查询的时间字段
+ * @param string $type 处理的时间格式 true为int类型,false为date类型
+ * @time 2016-8-04
+ * @author 陶君行<Silentlytao@outlook.com>
+ */
+function search_time_mil( $field = 'add_time',$type = true){
+    $map = [];
+    $start_time = str_replace('+',' ',I('start_time'));
+    $end_time   = str_replace('+',' ',I('end_time'));
+
+    if($type){
+        $start_time = strtotime($start_time)*1000;
+        $end_time   = strtotime($end_time)*1000;
     }
     if(!empty($start_time)){
         $map[$field][] = array('egt',$start_time);

@@ -1,0 +1,65 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table table-bordered js_table">
+	<thead>
+		<tr>
+			<th colspan="20" class="clearfix">
+				<form action="<?=U('index');?>"
+					class="form-inline pull-left clearfix" method="get">
+					<input type="search" class="form-control input-sm"
+						placeholder="标题关键字" name="keywords" value="<?=$keywords?>">
+					<?=search_time_html()?>
+					<input type="submit" class="btn btn-default btn-sm" value="搜索" />
+				</form>
+				<div class="pull-right">
+					<?=get_top_btn($menu_info['id'],I('pid'))?>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr role="row">
+			<th width="12%" class="text-center">分组</th>
+			<th>说明</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td class="text-center">
+				<?=$row['group']?>
+			</td>
+			<td class="width_auto">
+				<?php
+					echo '访问URL：'.$row['url']. '<br>';
+					echo '访问方式：'.$row['method']. '<br>';
+					echo '请求参数：';
+					echo '<pre style="display: block;padding: 9.5px;margin: 44px 0 0 0;
+                    font-size: 13px;line-height: 1.42857;color: #333;
+                    word-break: break-all;word-wrap: break-word;background-color: #F5F5F5;
+                    border: 1px solid #CCC;border-radius: 4px;">';
+                    
+					echo print_r(json_decode($row['param'],true),true);
+					echo '</pre>';
+					?>
+					访问时间：<?=$row['add_time']?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

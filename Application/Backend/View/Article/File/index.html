@@ -1,0 +1,43 @@
+<extend name="Public/body" />
+<block name="body">
+<table class="table table-bordered js_table">
+	<tbody>
+		<tr role="row">
+			<th width="12%" class="text-center">名称</th>
+			<th>说明</th>
+			<th width="60" class="text-center">操作</th>
+		</tr>
+		<?php
+				if(!$list){
+			?>
+		<tr>
+			<td colspan="80"><include file="Public/nodata" text="没有数据" /></td>
+		</tr>
+		<?php
+				}
+			?>
+		<?php
+				foreach($list as $row){
+			?>
+		<tr>
+			<td class="text-center">
+				<?=$row['item']?>
+			</td>
+			<td>
+				<?=\Help::show(json_decode($row['content'],true))?>
+			</td>
+			<td class="text-center">
+				<?php
+						get_list_btn($menu_info['id'],$row);
+					?>
+			</td>
+		</tr>
+		<?php
+				}
+			?>
+	</tbody>
+</table>
+<div class="pages">
+	<?=$page?>
+</div>
+</block>

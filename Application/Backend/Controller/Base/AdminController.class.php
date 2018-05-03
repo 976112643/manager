@@ -284,7 +284,7 @@ class AdminController extends CommonController
      * @time 2016-10-21
      * @author 陶君行<Silentlytao@outlook.com>
      */
-    public function default_map($filed = '')
+    public function default_map($filed = '',$addtime='add_time',$type = false,$is_mil=false)
     {
         /**关键词*/
         $map = [];
@@ -300,8 +300,8 @@ class AdminController extends CommonController
             $map['is_hid'] = intval($is_hid);
         }
         /** 时间 */
-        $time = search_time('add_time',false);
-        if($time)   $map['add_time'] = $time;
+        $time = $is_mil?search_time_mil($addtime,$type):search_time($addtime,$type);
+        if($time)   $map[$addtime] = $time;
         return $map;
     }
     /**
@@ -383,78 +383,78 @@ class AdminController extends CommonController
     }
     
     
-    // /**
-     // * 统计数据
-     // * @author 鲍海
-     // * @param $table_name 表名  $table_name
-     // * @param $field 统计字段  $field
-     // * @param $map 筛选条件 $map
-     // * @param $date 输出的模板变量名称 （列表）
-     // * @param $list_name 输出的模板变量名称 （总数）
-     // * @param $date_field 时间筛选字段
-     // * @param $count_name 输出的模板变量名称 （总数）
-     // */
-    // protected function count_data($table_name,$field,$map,$date,$list_name='member',$time_field='add_time',$time_field_type='',$count_name=''){  
-        // switch ($time_field_type) {
-            // case 'int':
-                // $map[$time_field]=array('between',strtotime(reset($date).' 00:00:00').','.strtotime(end($date).' 23:59:59'));
-                // break;
-            // case 'datetime':
-                // $map[$time_field]=array('between',reset($date).' 00:00:00'.','.end($date).' 23:59:59');
-                // break;
-            // case 'date':
-                // $map[$time_field]=array('between',reset($date).','.end($date));
-                // break;
-            // default:
-                // $map[$time_field]=array('between',reset($date).','.end($date));
-                // break;
-        // }
-        // if($field){
-            // $res=M($table_name)->field($time_field.','.$field)->where($map)->select();
-        // }else{
-            // $res=M($table_name)->field($time_field)->where($map)->select();
-        // }
-        // dump($res);
-        // $num = count($date);
-        // for ($i=0;$i<$num;$i++) {
-            // $_start = strtotime($date[$i]);
-            // if($i==$num-1){
-                // /*要向时间后移一个单位，但不知道具体单位，所以设置较大的值*/
-                // $_end=strtotime($date[$i+1]."+1 ".$this->step);
-            // }else{
-                // $_end=strtotime($date[$i+1]);
-            // }
-            // $_member[$i]=array();
-            // if($res){
-                // foreach ($res as $k => $v) {
-                    // if($time_field_type=='int'){
-                        // if($_start <= $v[$time_field] &&  $v[$time_field] <$_end){
-                            // $_member[$i][]=$v;
-                        // }
-                    // }else{
-                        // if($_start <= strtotime($v[$time_field]) && strtotime( $v[$time_field] )<$_end){
-                            // $_member[$i][]=$v;
-                        // }
-                    // }
-                // }
-            // }
-            // if($field){
-                // $user_list['member'][] = array_sum(array_column($_member[$i],$field));
-            // }else{
-                // $user_list['member'][]=count($_member[$i]);
-            // }
-        // }
-        // if($count_name){
-            // if($field){
-                // $count = array_sum(array_column($res,$field));
-                // $data[$count_name]  = $count ? $count : 0;
-            // }else{
-                // $data[$count_name]  = count($res) ? count($res) : 0;
-            // }
-        // }
-        // $data[$list_name]=json_encode($user_list['member']);
-        // return $data;
-    // }
+     /**
+      * 统计数据
+      * @author 鲍海
+      * @param $table_name 表名  $table_name
+      * @param $field 统计字段  $field
+      * @param $map 筛选条件 $map
+      * @param $date 输出的模板变量名称 （列表）
+      * @param $list_name 输出的模板变量名称 （总数）
+      * @param $date_field 时间筛选字段
+      * @param $count_name 输出的模板变量名称 （总数）
+      */
+     protected function count_data($table_name,$field,$map,$date,$list_name='member',$time_field='add_time',$time_field_type='',$count_name=''){
+         switch ($time_field_type) {
+             case 'int':
+                 $map[$time_field]=array('between',strtotime(reset($date).' 00:00:00').','.strtotime(end($date).' 23:59:59'));
+                 break;
+             case 'datetime':
+                 $map[$time_field]=array('between',reset($date).' 00:00:00'.','.end($date).' 23:59:59');
+                 break;
+             case 'date':
+                 $map[$time_field]=array('between',reset($date).','.end($date));
+                 break;
+             default:
+                 $map[$time_field]=array('between',reset($date).','.end($date));
+                 break;
+         }
+         if($field){
+             $res=M($table_name)->field($time_field.','.$field)->where($map)->select();
+         }else{
+             $res=M($table_name)->field($time_field)->where($map)->select();
+         }
+         dump($res);
+         $num = count($date);
+         for ($i=0;$i<$num;$i++) {
+             $_start = strtotime($date[$i]);
+             if($i==$num-1){
+                 /*要向时间后移一个单位，但不知道具体单位，所以设置较大的值*/
+                 $_end=strtotime($date[$i+1]."+1 ".$this->step);
+             }else{
+                 $_end=strtotime($date[$i+1]);
+             }
+             $_member[$i]=array();
+             if($res){
+                 foreach ($res as $k => $v) {
+                     if($time_field_type=='int'){
+                         if($_start <= $v[$time_field] &&  $v[$time_field] <$_end){
+                             $_member[$i][]=$v;
+                         }
+                     }else{
+                         if($_start <= strtotime($v[$time_field]) && strtotime( $v[$time_field] )<$_end){
+                             $_member[$i][]=$v;
+                         }
+                     }
+                 }
+             }
+             if($field){
+                 $user_list['member'][] = array_sum(array_column($_member[$i],$field));
+             }else{
+                 $user_list['member'][]=count($_member[$i]);
+             }
+         }
+         if($count_name){
+             if($field){
+                 $count = array_sum(array_column($res,$field));
+                 $data[$count_name]  = $count ? $count : 0;
+             }else{
+                 $data[$count_name]  = count($res) ? count($res) : 0;
+             }
+         }
+         $data[$list_name]=json_encode($user_list['member']);
+         return $data;
+     }
     
     
 }

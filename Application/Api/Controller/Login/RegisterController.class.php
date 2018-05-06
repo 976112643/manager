@@ -27,7 +27,7 @@ class RegisterController extends BaseController
         $map = array('device' => I('device'));
         $info = get_info($this->info_table, $map, true);
         if ($info) {
-            $this->update_device_info($info['uid']);//更新设备
+            $this->update_device_info($info['uid'],$info['id']);//更新设备
             SUCCESS($info);
         }
         $model = M($this->table);
@@ -79,8 +79,9 @@ class RegisterController extends BaseController
         $this->set_error('获取用户信息失败');
     }
 
-    protected function update_device_info($res){
+    protected function update_device_info($res,$id){
         $_data = array(
+            'id'=>$id,
             'uid' => $res,
             'device' => I('device'),
             'device_brand' => I('device_brand'),

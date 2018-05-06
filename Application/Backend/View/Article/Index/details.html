@@ -1,0 +1,32 @@
+<extend name="Public/body"/>
+<block name="body">
+    <div class="box box-body">
+        <!-- form start -->
+        <form action="" method="post" class="js_form">
+            <input type='hidden' name='id' value='<?=$info["id"]?>'/>
+            <label class="form-group col-xs-12">
+                内容
+            </label>
+            <label class="form-group col-xs-12">
+                <div class="form-group">
+                    <p>
+                    <pre class="text-left" style="background-color:#F5F5F5"><?= $info['content']?></pre>
+                    </p>
+                </div>
+            </label>
+            <label class="form-group col-xs-12">
+                添加时间
+            </label>
+            <label class="form-group col-xs-12">
+                <?=date_str( $info['addtime']) ?>
+            </label>
+
+            <div class="form-btn clearfix">
+                <a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
+                <div class="js_validTips pull-left" style="height: 34px; line-height: 34px;">
+                    <span class="js_tipContent Validform_checktip"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>

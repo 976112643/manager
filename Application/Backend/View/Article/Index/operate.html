@@ -4,14 +4,33 @@
         <!-- form start -->
         <form action="" method="post" class="js_form">
             <input type='hidden' name='id' value='<?=$info["id"]?>'/>
+            <input type='hidden' name='uid' value='<?=$info["uid"]?>'/>
             <label class="form-group col-xs-12">
                 内容
             </label>
             <label class="form-group col-xs-12">
                 <div class="form-group">
-                    <p>
-                    <pre class="text-left" style="background-color:#F5F5F5"><?= $info['content']?></pre>
-                    </p>
+                    <div>
+                        <include file="Common@Plugins/editor" />
+                        <!-- 百度编辑器 S -->
+                        <?php $time=time(); ?>
+                        <script id="<?='editor_'.$time?>" type="text/plain" name="content"><?=$info['content']?></script>
+                        <script type="text/javascript">
+                            var config_2={
+                                initialFrameWidth:"100%",
+                                initialFrameHeight:300,
+                                pasteplain:true,
+                                toolbars: [[
+                                    'fullscreen','bold', 'italic', 'underline', 'removeformat','indent','forecolor','justifyleft', 'justifycenter', 'justifyright', 'justifyjustify','link','insertcode', 'unlink','insertimage','attachment','preview'
+                                ]]
+                            };
+                            //toolbars配置编辑器具体有哪些功能
+                            //合并配置文件，config为默认配置，config_2为自定义的配置，更多相关编辑器功能配置与含义见项目目录下的/Public/Plugins/ueditor/ueditor.config.js文件
+                            var new_config=array_merge({},[config,config_2]);
+                            var editor_<?=$time?>=UE.getEditor('editor_<?=$time?>',new_config);
+                        </script>
+                        <!-- 百度编辑器 E -->
+                    </div>
                 </div>
             </label>
             <label class="form-group col-xs-12">
@@ -22,6 +41,7 @@
             </label>
 
             <div class="form-btn clearfix">
+                <input type="submit" class="pull-left btn btn-primary" value="提交" />
                 <a href="<?=U('index')?>" class="pull-left btn btn-default">取消并返回</a>
                 <div class="js_validTips pull-left" style="height: 34px; line-height: 34px;">
                     <span class="js_tipContent Validform_checktip"></span>

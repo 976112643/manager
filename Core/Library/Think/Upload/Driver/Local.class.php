@@ -43,6 +43,7 @@ class Local
      */
     public function checkRootPath($rootpath)
     {
+
         if (! (is_dir($rootpath) && is_writable($rootpath))) {
             $this->error = '上传根目录不存在！请尝试手动创建:' . $rootpath;
             return false;

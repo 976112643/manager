@@ -157,7 +157,7 @@ class Upload
             $this->error = '没有上传的文件！';
             return false;
         }
-        
+        write_debug($files,'文件上传配置['. is_writable($this->rootPath).']');
         /* 检测上传根目录 */
         if (! $this->uploader->checkRootPath($this->rootPath)) {
             $this->error = $this->uploader->getError();

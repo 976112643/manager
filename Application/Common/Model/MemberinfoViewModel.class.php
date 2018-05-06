@@ -29,11 +29,6 @@ class MemberinfoViewModel extends ViewModel{
 			'integral',
 			'skill',
 			'hobbies',
-			'title_id',
-			'sum_task_num',
-			'sum_money_num',
-			'start_rating',
-			'birthday',
 			'_on' => 'member_info.uid = member.id' ,
 		),
 	);

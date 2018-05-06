@@ -19,8 +19,9 @@
         </thead>
         <tbody>
         <tr role="row">
-            <th  class="text-center">内容</th>
-            <th  class="text-center">添加时间</th>
+            <th class="text-center">内容</th>
+            <th class="text-center">添加时间</th>
+            <th width="38" class="text-center">操作</th>
         </tr>
         <?php
         if (!$list) {
@@ -38,13 +39,21 @@
             ?>
             <tr>
                 <td class=" width_auto">
-                    <a href="<?=U('details',array('ids'=>$row['id']))?>">
-                    <?= msubstr_tag($row['content']) ?>
+                    <a href="<?= U('details', array('ids' => $row['id'])) ?>">
+                        <?= msubstr_tag($row['content']) ?>
                     </a>
                 </td>
-                <td class="text-center width_auto" >
-
-                    <?= date_str( $row['addtime']) ?>
+                <td class="text-center width_auto">
+                    <?= $row['nickname']? $row['nickname'].'<br />':''?>
+                    <?= $row['device_man'] . '-' . $row['device_brand'] . '-' . $row['device_model'] ?>
+                    <br/>
+                    <?= date_str($row['addtime']) ?>
+                </td>
+                <td class="text-center">
+                    <?php
+                    $remove['type'] = array('10' => U('edit'));
+                    get_list_btn($menu_info['id'],$row,$remove);
+                    ?>
                 </td>
             </tr>
             <?php

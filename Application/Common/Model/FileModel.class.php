@@ -72,6 +72,7 @@ class FileModel extends Model
         $info = $Upload->upload($files);
         
         /* 设置文件保存位置 */
+//        write_debug($driver,'文件上传配置');
         $this->_auto[] = array(
             'location',
             'ftp' === strtolower($driver) ? 1 : 0,

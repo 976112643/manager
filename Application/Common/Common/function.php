@@ -307,6 +307,7 @@ function delete_data($Model, $map = array())
     if (is_string($Model)) {
         $Model = M($Model);
     }
+
     $Model->where($map)->delete();
     /* 执行更新后的回调函数 */
     $trace = debug_backtrace();

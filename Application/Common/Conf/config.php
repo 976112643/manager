@@ -1,7 +1,7 @@
 <?php
 /**
  * 前后台配置
- * @package 
+ * @package
  */
 
 return array(
@@ -33,7 +33,7 @@ return array(
     'SESSION_PREFIX' => 'sc_',
     // '配置项'=>'配置值'
     
-    'SHOW_PAGE_TRACE' => false,
+    'SHOW_PAGE_TRACE' => true,
 	
 	/* 数据缓存设置 */
 	'DATA_CACHE_PREFIX' => 'sr_', // 缓存前缀
@@ -66,7 +66,7 @@ return array(
         'exts' => 'jpg,gif,png,jpeg,bmp', // 允许上传的文件后缀
         'autoSub' => true, // 自动子目录保存文件
         'subName' => '', // 子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-        'rootPath' => './Uploads/ImgTemp/', // 保存根路径
+        'rootPath' => './Runtime/Uploads/ImgTemp/', // 保存根路径
         'savePath' => '', // 保存路径
         'saveName' => array(
             'uniqid',
@@ -84,7 +84,7 @@ return array(
         'exts' => 'jpg,jpeg,bmp,png,rar,zip,7z,doc,docx,rtf,txt,xls,xlsx,ppt,pptx,pdf,apk', // 允许上传的文件后缀
         'autoSub' => true, // 自动子目录保存文件
         'subName' => '', // 子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-        'rootPath' => './Uploads/FileTemp/', // 保存根路径
+        'rootPath' => './Runtime/Uploads/FileTemp/', // 保存根路径
         'savePath' => '', // 保存路径
         'saveName' => array(
             'uniqid',
@@ -102,7 +102,7 @@ return array(
         'exts' => 'apk', // 允许上传的文件后缀
         'autoSub' => true, // 自动子目录保存文件
         'subName' => '', // 子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-        'rootPath' => './Uploads/FileTemp/', // 保存根路径
+        'rootPath' => './Runtime/Uploads/FileTemp/', // 保存根路径
         'savePath' => '', // 保存路径
         'saveName' => array(
             'uniqid',

@@ -50,27 +50,27 @@ class IndexController extends BaseController
             $this->write_api_log();
             $post = $_POST;
             $notes = json_decode($post['notes'], true);
-            $ids="";
+            $ids = "";
             foreach ($notes as $note) {
                 $map = array(
                     'note_id' => $note['note_id'],
                     'uid' => I('uid'),
                 );
-                if($note['id']==0)unset($note['id']);
+                if ($note['id'] == 0) unset($note['id']);
                 $info = get_info($this->table, $map, true);
                 //SUCCESS($info);
-                $note['uid']=I('uid');
-                if(!$info)$map=[];
+                $note['uid'] = I('uid');
+                if (!$info) $map = [];
                 if (!$note['addtime']) $note['addtime'] = millisecond();
                 if (!$note['updatetime']) $note['updatetime'] = millisecond();
-                $note['version']=$info['version']+1;//版本+1
+                $note['version'] = $info['version'] + 1;//版本+1
                 $res = update_data($this->table, [], $map, $note);
-                $ids=$ids.$res.',';
+                $ids = $ids . $res . ',';
                 if (!is_numeric($res)) {
                     ERROR($res);
                 }
             }
-            $ids=substr($ids,0,strlen($ids)-1);
+            $ids = substr($ids, 0, strlen($ids) - 1);
             SUCCESS($ids, '修改成功');
         }
 
@@ -145,12 +145,37 @@ class IndexController extends BaseController
     }
 
     /**
+     * 获取新的笔记列表
+     */
+    public function test_notes()
+    {
+
+        /** 查询指定用户及指定版本的数据*/
+        $ids=I('ids');
+        $map = array('id' => array(
+            'in',
+            $ids
+        ));
+//        unset($map);
+//        SUCCESS($map);
+        $res = $this->page($this->table, $map, 'updatetime asc', true);
+        SUCCESS($res);
+    }
+
+    /**
      * 删除笔记
      */
     public function del()
     {
         $post = I('post.');
-        $rst = delete_data($this->table, array('id' => $post['id']));
+        $ids=$post['ids'];
+        $map = array(
+            'uid' => I('uid'),
+            'id' => array(
+            'in',
+            $ids
+        ));
+        $rst = delete_data($this->table, $map);
         if ($rst) {
             SUCCESS($rst, '删除成功');
         }

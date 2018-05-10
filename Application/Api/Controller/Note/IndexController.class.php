@@ -11,6 +11,7 @@ class IndexController extends BaseController
 {
     /** 内容表*/
     protected $table = 'note';
+    protected $note_model='NoteDetailsView';
     protected $note_type = array('TEXT');
 
     /**
@@ -38,10 +39,41 @@ class IndexController extends BaseController
             'uid' => I('uid'),
             'version' => array('GT', I('version'))
         );
-//        unset($map);
-//        SUCCESS($map);
         $res = $this->page($this->table, $map, 'updatetime asc', true);
         SUCCESS($res);
+    }
+
+    /**
+     * 获取id及对应版本号小于服务器的数据
+     * http://localhost/Api/Note/Index/get_diff_notes?uid=15&ids[0]=97&ids[1]=98&versions[0]=5&versions[1]=10
+     * ids id数组 versions版本数组 ,长度和顺序需要对应
+     */
+    public function get_diff_notes()
+    {
+
+        /** 查询指定用户及指定版本的数据*/
+        $versions=I('versions');
+        $ids=I('ids');
+        if(!$versions||!$ids||count($versions)!=count($ids)){
+            ERROR('参数错误');
+        }
+        $map = array(
+            'uid' => I('uid'),
+            array('id' => array(
+                'in',
+                I('ids')
+            ))
+        );
+
+        $res = $this->page($this->table, $map, 'updatetime asc', true);
+
+        $result=array();
+        for ($x=0; $x< count($res); $x++) {
+            if($res[$x]['version']>$versions[$x]){
+                array_push($result,$res[$x]);
+            }
+        }
+        SUCCESS($result);
     }
 
     public function update_all()
@@ -151,14 +183,8 @@ class IndexController extends BaseController
     {
 
         /** 查询指定用户及指定版本的数据*/
-        $ids=I('ids');
-        $map = array('id' => array(
-            'in',
-            $ids
-        ));
-//        unset($map);
-//        SUCCESS($map);
-        $res = $this->page($this->table, $map, 'updatetime asc', true);
+        $map = array('uid' => 15);
+        $res = $this->page(D($this->note_model), $map, 'updatetime asc', true);
         SUCCESS($res);
     }
 

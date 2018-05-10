@@ -14,7 +14,9 @@ use Think\Model\ViewModel;
             'note'=>array(
                 '*',
                 '_as'=>'a',
-                '_type'=>'LEFT'
+                '_type'=>'LEFT',
+
+
             ),
             'member_info'=>array(
                 'nickname',

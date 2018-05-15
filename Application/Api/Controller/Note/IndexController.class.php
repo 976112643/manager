@@ -65,10 +65,12 @@ class IndexController extends BaseController
             ))
         );
 
-        $res = $this->page($this->table, $map, 'updatetime asc', true);
+		
+        $res = $this->page($this->table, $map, 'id asc ', true);
 
         $result=array();
         for ($x=0; $x< count($res); $x++) {
+			//echo '[  '.$res[$x]['version'].'   '.$res[$x]['id'].'  ]';
             if($res[$x]['version']>$versions[$x]){
                 array_push($result,$res[$x]);
             }

@@ -54,7 +54,7 @@ class IndexController extends BaseController
         /** 查询指定用户及指定版本的数据*/
         $versions=I('versions');
         $ids=I('ids');
-        if(!$versions||!$ids||count($versions)!=count($ids)){
+        if(count($versions)!=count($ids)){
             ERROR('参数错误');
         }
         $map = array(
@@ -75,6 +75,19 @@ class IndexController extends BaseController
                 array_push($result,$res[$x]);
             }
         }
+
+        /**
+         * 查询不再id列表中的元素
+         */
+        $map = array(
+            'uid' => I('uid'),
+            array('id' => array(
+                'not in',
+                I('ids')
+            ))
+        );
+        $res = $this->page($this->table, $map, 'id asc ', true);
+        array_push($result,$res);
         SUCCESS($result);
     }
 

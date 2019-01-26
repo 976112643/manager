@@ -9,7 +9,7 @@ return array(
    // 'DB_DEBUG' => TRUE, // 数据库调试模式 开启后可以记录SQL日志 3.2.3新增
 
 //   'DB_HOST' => 'localhost', // 服务器地址
-  'DB_HOST' => '104.225.146.195', // 服务器地址
+  'DB_HOST' => '120.27.229.168', // 服务器地址
    'DB_USER' => 'manager', // 用户名
    'DB_PWD' => 'GRf7naiEe4', // 密码
      // 'DB_TYPE' => 'mysqli', // 数据库类型
